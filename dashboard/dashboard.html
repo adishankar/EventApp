@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="dash">
+    <head>
+        <title>Event App</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+        <link rel="styleshet" type="text/css" href="style.css" >
+        <!--<script src="angular.js"></script>-->
+        <script type="text/javascript" src="dashboard.js"></script>
+    </head>
+    <body>
+        <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
+            <a href="#home">Home</a>
+            <a href="#create">Create</a>
+            <a href="#search">Search</a>
+            <a href="#about">About</a>
+            <br>
+            Database Event Website
+            <br>
+            <br>
+            <div class="create">
+                Create an Event
+                <form>
+                    <label>Name: <input type="text" ng-model="event.name" /></label><br />
+                    <label>Location: <input type="text" ng-model="event.location" /></label><br />
+                    <label>Description: <input type="text" ng-model="event.description" /></label><br />
+                    <label>Contact Email: <input type="text" ng-model="event.contactEmail" /></label><br />
+                    <input type="button" ng-click="reset()" value="Reset" />
+                    <input type="submit" ng-click="save(event)" value="Save" />
+                </form>
+            </div>
+        </div>
+        <br><br>
+        <div ng-controller="DashCtrl">
+            <div ng-repeat="org in orgs">
+                <a ng-click="selectOrg(org)">
+                    <div>
+                        {{org.name}}
+                        <br>
+                        {{org.description}}
+                    </div>   
+                </a>
+                <br><br>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div ng-controller="NavCtrl">
+            
+        </div>
+        
+    </body>
+
+    
+</html>
