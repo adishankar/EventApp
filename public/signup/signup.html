@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="signup">
+    <head>
+        <title>Event App</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+        <script type="text/javascript" src="signup.js"></script>
+    </head>
+    <body>
+        <div ng-controller="SignUpCtrl">
+            {{hello}}
+            <label>First Name: <input type="text" ng-model="user.fName" /></label><br />
+            <label>Last Name: <input type="text" ng-model="user.lName" /></label><br />
+            
+            <label>Username: <input type="text" ng-model="user.username" /></label><br />
+            <label>Password: <input type="password" ng-model="event.location" /></label><br />
+        </div>
+        
+    </body>
+
+    
+</html>
