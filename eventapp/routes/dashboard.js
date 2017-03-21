@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.sendFile('/home/adi/nodestuff/databases/EventApp/eventapp/views/index.html');
+  res.sendFile(path.resolve(__dirname + '/../views/dashboard.html'));
 });
 
 module.exports = router;
