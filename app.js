@@ -1,12 +1,10 @@
 var express = require('express');
 var app = express();
-var dataFile = require('./data/data.json');
 
 
 //set port to listen on
 app.set('port', process.env.PORT || 3000);
 //allow routes to have access to appData
-app.set('appData', dataFile);
 
 
 //make public folder available
