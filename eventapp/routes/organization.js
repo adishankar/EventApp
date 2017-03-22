@@ -3,8 +3,13 @@ var router = express.Router();
 var path = require('path');
 
 /* GET home page */
-router.get('/', function(req, res, next) {
-  res.sendFile(path.resolve(__dirname + '/../views/organization.html'));
+router.get('/:orgname', function(req, res, next) {
+
+  var orgname = req.params.orgname;
+  console.log(orgname);
+
+  res.sendFile(path.resolve(__dirname + '/../views/organization.html/'));
+  //res.send(orgname);
 });
 
 module.exports = router;

@@ -9,7 +9,7 @@ angular.module('org', [])
 
         $scope.init = function(){
             var url = $location.url().toString();
-            var org = url.split('=');
+            var org = url.split('organization/');
             $scope.orgname = org[1];
             console.log(org[1]);
         }

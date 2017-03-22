@@ -19,7 +19,7 @@ angular.module('dash', [])
         $scope.orgs = orgs;
         
         $scope.selectOrg = function(org){
-            var url = '../organization/organization.html?' + 'orgname=' + org.name.toString();
+            var url = '../organization/' + org.name.toString();
             //var url = '../organization/organization.html'
             $window.open(url);
         }
