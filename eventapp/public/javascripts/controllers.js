@@ -1,33 +1,20 @@
-angular.module('app', [])
+angular.module('app', ['userService'])
     .config(function($locationProvider){
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
         });
     })
-    .service('userService', ['$http', '$q', function userService($http, $q){
-        
-        var deferred = $q.defer();
-        $http.get('people.json').then(function (data){
-            deferred.resolve(data);
-        });
-
-        this.getPeople = function(){
-            console.log("service test");
-            return deferred.promise;
-        }
-
-    }])
     //Login Controller
-    .controller('LoginCtrl', ['$scope', 'userService', function LoginCtrl($scope, userService) {
+    .controller('LoginCtrl', ['$scope', 'userService', '$http', function LoginCtrl($scope, userService, $http) {
          
-         var promise = userService.getPeople();
-         promise.then(function (data){
-             $scope.team = data;
-             console.log($scope.team);
-         });
-
          $scope.login = function(user){
+
+             var promise = userService.login(user);
+             promise.then(function (data){
+                 console.log(data);//this should be returned user data
+             });
+             
              console.log(user.username);
              console.log(user.password);
              //call service here

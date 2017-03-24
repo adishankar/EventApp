@@ -31,6 +31,23 @@ app.use('/signup', signup);
 app.use('/organization', organization);
 app.use('/event', event);
 
+var username = 'user';
+var password = 'pass';
+var user = {username: "user",
+            password: 'pass',
+            userID: 123};
+
+app.post('/', function(req, res){
+  console.log(req.body);
+
+  if ((req.body.username == username) && (req.body.password == password)){
+    console.log('verified user');
+  }
+
+  res.send(user);
+  res.end('login response');
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
