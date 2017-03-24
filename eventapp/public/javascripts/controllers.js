@@ -1,4 +1,4 @@
-angular.module('app', ['userService'])
+angular.module('app', ['services'])
     .config(function($locationProvider){
         $locationProvider.html5Mode({
             enabled: true,
@@ -6,13 +6,18 @@ angular.module('app', ['userService'])
         });
     })
     //Login Controller
-    .controller('LoginCtrl', ['$scope', 'userService', '$http', function LoginCtrl($scope, userService, $http) {
+    .controller('LoginCtrl', ['$scope', 'userService', '$http', '$window', function LoginCtrl($scope, userService, $http, $window) {
          
          $scope.login = function(user){
 
              var promise = userService.login(user);
              promise.then(function (data){
                  console.log(data);//this should be returned user data
+                 if (data.data.userID == 123){
+                     console.log("verified user");
+                     var url = '../dashboard/';
+                     $window.open(url);
+                 }
              });
              
              console.log(user.username);
