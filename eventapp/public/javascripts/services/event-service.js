@@ -2,8 +2,8 @@ angular.module('eventService',[])
     .service('eventService', ['$http', '$q', '$window', function eventService($http, $q, $window){
         
         var deferred = $q.defer();
-        this.createEvent = function(event, orgname){
-            $http.post('http://localhost:3000/organization/' + orgname, {
+        this.createEvent = function(event){
+            $http.post('http://localhost:3000/dashboard', {
                 eventName: event.name.toString(),
                 eventLocation: event.location.toString(), 
                 eventDesc: event.description.toString(),

@@ -1,4 +1,4 @@
-angular.module('app', ['eventService'])
+angular.module('OrgCtrl', ['eventService'])
     .config(function($locationProvider){
             $locationProvider.html5Mode({
                 enabled: true,
@@ -15,23 +15,6 @@ angular.module('app', ['eventService'])
                 $scope.orgname = org[1];
                 console.log(org[1]);
             }
-
-            //event creation stuff
-            $scope.master = {};
-            $scope.save = function(event) {
-                //createdEvents.push(angular.copy(event));
-                console.log(event);
-                eventService.createEvent(event, $scope.orgname);
-
-
-                $scope.reset();
-            };
-
-            $scope.reset = function() {
-                $scope.event = angular.copy($scope.master);
-            };
-
-            $scope.reset();
 
             $scope.events = events;
         }]);

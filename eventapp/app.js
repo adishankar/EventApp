@@ -49,13 +49,13 @@ app.post('/', function(req, res){
   res.end('login response');
 })
 
-//create organization POST
+//create event or organization POST
 app.post('/dashboard', function(req, res){
   console.log(req.body);
 
   //logic here to place created object
 
-  res.end('org creation response');
+  res.end('event or org creation response');
 })
 
 //user creation POST

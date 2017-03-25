@@ -1,6 +1,6 @@
-angular.module('app', ['userService', 'orgService'])
-    .controller('DashCtrl', ['$scope', '$window', 'userService', 'orgService',
-        function DashCtrl($scope, $window, userService, orgService) {
+angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
+    .controller('DashCtrl', ['$scope', '$window', 'userService', 'orgService', 'eventService', 
+        function DashCtrl($scope, $window, userService, orgService, eventService) {
         
         $scope.init = function(){
             var user = userService.getUserData();
@@ -11,28 +11,8 @@ angular.module('app', ['userService', 'orgService'])
         
         $scope.selectOrg = function(org){
             var url = '../organization/' + org.name.toString();
-            //var url = '../organization/organization.html'
             $window.location.href = url;
         }
-
-        
-        //organization creation stuff
-        $scope.master = {};
-        $scope.save = function(rso) {
-            //createdEvents.push(angular.copy(event));
-            console.log(rso);
-            orgService.createOrg(rso);
-
-            $scope.reset();
-        };
-
-        $scope.reset = function() {
-            $scope.rso = angular.copy($scope.master);
-        };
-
-
-        $scope.reset();
-
     }]);
 
     var orgs = [{name: "org1", description: "org1 description"},{name: "org2", description: "org2 description"},

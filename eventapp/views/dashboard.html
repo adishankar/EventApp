@@ -7,25 +7,26 @@
         <!--<script src="angular.js"></script>-->
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/nav-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/create-controller.js"></script>
         <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
+        <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
-
     </head>
+
     <body>
-        <!--
         <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
             <a href="#home">Home</a>
-            <a href="#create">Create</a>
             <a href="#search">Search</a>
             <a href="#about">About</a>
             <br>
             Database Event Website
             <br>
             <br>
-        </div>-->
-        
-        <div ng-controller="DashCtrl" ng-init="init()">
-            <div class="create">
+        </div>
+        <div ng-controller="CreateCtrl">
+            <div class="createOrg">
                 Create an Organization
                 <form>
                     <label>Name: <input type="text" ng-model="rso.name" /></label><br />
@@ -36,12 +37,26 @@
                     <label>Student Email: <input type="text" ng-model="rso.studentEmail4" /></label><br />
                     <label>Student Email: <input type="text" ng-model="rso.studentEmail5" /></label><br />
 
-                    <input type="button" ng-click="reset()" value="Reset" />
-                    <input type="submit" ng-click="save(rso)" value="Save" />
+                    <input type="button" ng-click="resetOrg()" value="Reset" />
+                    <input type="submit" ng-click="saveOrg(rso)" value="Save" />
                 </form>
             </div>
             <br><br>
-
+            <div class="createEvent">
+                Create an Event
+                <form>
+                    <label>Name: <input type="text" ng-model="event.name" /></label><br />
+                    <label>Location: <input type="text" ng-model="event.location" /></label><br />
+                    <label>Description: <input type="text" ng-model="event.description" /></label><br />
+                    <label>Contact Email: <input type="text" ng-model="event.contactEmail" /></label><br />
+                    <input type="button" ng-click="resetEvent()" value="Reset" />
+                    <input type="submit" ng-click="saveEvent(event)" value="Save" />
+                </form>
+            </div>         
+        </div>
+        <br>
+        <div ng-controller="DashCtrl" ng-init="init()">
+            <br><br>
             Hi, {{name}}
             <br><br>
             <div ng-repeat="org in orgs">
@@ -55,8 +70,6 @@
                 <br><br>
             </div>
         </div>
-        <br>        
+        <br>
     </body>
-
-    
 </html>
