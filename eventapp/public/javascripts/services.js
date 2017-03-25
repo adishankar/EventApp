@@ -1,7 +1,8 @@
 angular.module('services',[])
-    .service('userService', ['$http', '$q', function userService($http, $q){
+    .service('userService', ['$http', '$q', '$window', function userService($http, $q, $window){
         
         var deferred = $q.defer();
+        var userData;
 
         this.login = function(user){
 
@@ -11,11 +12,15 @@ angular.module('services',[])
             })
 
             return deferred.promise;
-        }
+        };
 
-        this.getPeople = function(){
-            console.log("service test");
-            return deferred.promise;
-        }
+        this.setUserData = function(user){
+            console.log("setting user in service");
+            $window.localStorage['user'] = JSON.stringify(user);
+        };
+
+        this.getUserData = function(){
+            return JSON.parse($window.localStorage['user']);
+        };
 
     }]);

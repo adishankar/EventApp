@@ -31,7 +31,9 @@
             </div>
         </div>
         <br><br>
-        <div ng-controller="DashCtrl">
+        <div ng-controller="DashCtrl" ng-init="init()">
+            Hi, {{name}}
+            <br><br>
             <div ng-repeat="org in orgs">
                 <a ng-click="selectOrg(org)">
                     <div>
