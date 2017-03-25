@@ -1,4 +1,4 @@
-angular.module('app', ['userService', 'eventService'])
+angular.module('app', ['userService', 'eventService', 'orgService'])
     .config(function($locationProvider){
         $locationProvider.html5Mode({
             enabled: true,

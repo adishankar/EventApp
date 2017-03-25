@@ -1,11 +1,13 @@
-angular.module('app', [])
+angular.module('app', ['eventService'])
     .config(function($locationProvider){
             $locationProvider.html5Mode({
                 enabled: true,
                 requireBase: false
             });
     })
-    .controller('OrgCtrl', ['$scope', '$location', function OrgCtrl($scope, $location) {
+    .controller('OrgCtrl', ['$scope', '$location', 'eventService', function OrgCtrl($scope, $location, eventService) {
+
+            $scope.orgname = "";
 
             $scope.init = function(){
                 var url = $location.url().toString();
@@ -14,7 +16,23 @@ angular.module('app', [])
                 console.log(org[1]);
             }
 
-            
+            //event creation stuff
+            $scope.master = {};
+            $scope.save = function(event) {
+                //createdEvents.push(angular.copy(event));
+                console.log(event);
+                eventService.createEvent(event, $scope.orgname);
+
+
+                $scope.reset();
+            };
+
+            $scope.reset = function() {
+                $scope.event = angular.copy($scope.master);
+            };
+
+            $scope.reset();
+
             $scope.events = events;
         }]);
 

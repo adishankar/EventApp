@@ -9,6 +9,7 @@
         <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>
         <!--<script type="text/javascript" src="/javascripts/nav-controller.js"></script>-->
         <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
+        <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
     </head>
     <body>
         <!--
@@ -22,6 +23,18 @@
                 {{orgname}}
             </div>
             <br>
+            <div class="createEvent">
+                Create an Event
+                <form>
+                    <label>Name: <input type="text" ng-model="event.name" /></label><br />
+                    <label>Location: <input type="text" ng-model="event.location" /></label><br />
+                    <label>Description: <input type="text" ng-model="event.description" /></label><br />
+                    <label>Contact Email: <input type="text" ng-model="event.contactEmail" /></label><br />
+                    <input type="button" ng-click="reset()" value="Reset" />
+                    <input type="submit" ng-click="save(event)" value="Save" />
+                </form>
+            </div>
+            <br><br>
             <div ng-repeat="event in events">
                 <a href="about:blank">
                     <div>

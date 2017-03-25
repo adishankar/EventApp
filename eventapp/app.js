@@ -37,6 +37,7 @@ var user = {username: "user",
             password: 'pass',
             userID: 123};
 
+//login POST
 app.post('/', function(req, res){
   console.log(req.body);
 
@@ -46,6 +47,22 @@ app.post('/', function(req, res){
 
   res.send(user);
   res.end('login response');
+})
+
+//create organization POST
+app.post('/dashboard', function(req, res){
+  console.log(req.body);
+
+  //logic here to place created object
+
+  res.end('org creation response');
+})
+
+//user creation POST
+app.post('/signup', function(req, res){
+  console.log(req.body);
+
+  res.end('user creation response');
 })
 
 // catch 404 and forward to error handler
