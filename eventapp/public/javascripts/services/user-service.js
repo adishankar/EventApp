@@ -1,4 +1,4 @@
-angular.module('services',[])
+angular.module('userService',[])
     .service('userService', ['$http', '$q', '$window', function userService($http, $q, $window){
         
         var deferred = $q.defer();

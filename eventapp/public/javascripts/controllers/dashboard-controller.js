@@ -1,16 +1,19 @@
-angular.module('app', ['services'])
-    .controller('DashCtrl', ['$scope', '$window', 'userService', 
-        function DashCtrl($scope, $window, userService) {
+angular.module('app', ['userService', 'eventService'])
+    .controller('DashCtrl', ['$scope', '$window', 'userService', 'eventService',
+        function DashCtrl($scope, $window, userService, eventService) {
         
         $scope.orgs = orgs;
         
         $scope.selectOrg = function(org){
             var url = '../organization/' + org.name.toString();
             //var url = '../organization/organization.html'
-            $window.open(url);
+            $window.location.href = url;
         }
 
         $scope.init = function(){
+
+            eventService.testEvent();
+
             var user = userService.getUserData();
             console.log(user);
             $scope.name = user.username;
