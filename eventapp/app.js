@@ -37,6 +37,14 @@ var user = {username: "user",
             password: 'pass',
             userID: 123};
 
+var orgs = {org1: {name: "org1", description: "org1 description"}, org2: {name: "org2", description: "org2 description"},
+        org3: {name: "org3", description: "org3 description"},org4: {name: "org4", description: "org4 description"}};
+
+var events = {event1: {name: "event1", description: "event1 description"},event2: {name: "event2", description: "event2 description"},
+        event3: {name: "event3", description: "event3 description"},event4: {name: "event4", description: "event4 description"},
+        event5: {name: "event5", description: "event5 description"},event6: {name: "event6", description: "event6 description"},
+        event7: {name: "event7", description: "event7 description"}};
+
 //login POST
 app.post('/', function(req, res){
   console.log(req.body);
@@ -49,13 +57,22 @@ app.post('/', function(req, res){
   res.end('login response');
 })
 
-//create event or organization POST
+//create event or organization POST also using this to get joined orgs
 app.post('/dashboard', function(req, res){
   console.log(req.body);
+
+  if (req.body.type == "orgRequest"){
+    res.send(orgs);
+  }
 
   //logic here to place created object
 
   res.end('event or org creation response');
+})
+
+app.post('/organization/:orgname', function(req, res){
+
+  res.send(events);
 })
 
 //user creation POST

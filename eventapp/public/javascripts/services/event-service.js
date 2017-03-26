@@ -4,6 +4,7 @@ angular.module('eventService',[])
         var deferred = $q.defer();
         this.createEvent = function(event){
             $http.post('http://localhost:3000/dashboard', {
+                type: "event",
                 eventName: event.name.toString(),
                 eventLocation: event.location.toString(), 
                 eventDesc: event.description.toString(),
@@ -14,5 +15,16 @@ angular.module('eventService',[])
 
             return deferred.promise;
         };
+
+        this.getOrgEvents = function(orgName){
+            var url = 'http://localhost:3000/organization/' + orgName.toString();
+            $http.post(url, {
+                orgName: orgName.toString()
+            }).then( function(data){
+                deferred.resolve(data);
+            })
+
+            return deferred.promise;
+        }
 
     }]);

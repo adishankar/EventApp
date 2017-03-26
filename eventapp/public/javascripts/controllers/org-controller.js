@@ -14,12 +14,11 @@ angular.module('OrgCtrl', ['eventService'])
                 var org = url.split('organization/');
                 $scope.orgname = org[1];
                 console.log(org[1]);
-            }
+                
+                var promise = eventService.getOrgEvents(org[1]);
+                promise.then(function (data){
+                    $scope.events = data.data;
+                });
+            };
 
-            $scope.events = events;
         }]);
-
-    var events = [{name: "event1", description: "event1 description"},{name: "event2", description: "event2 description"},
-        {name: "event3", description: "event3 description"},{name: "event4", description: "event4 description"},
-        {name: "event5", description: "event5 description"},{name: "event6", description: "event6 description"},
-        {name: "event7", description: "event7 description"}];

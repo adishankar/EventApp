@@ -4,6 +4,7 @@ angular.module('orgService',[])
         var deferred = $q.defer();
         this.createOrg = function(rso){
             $http.post('http://localhost:3000/dashboard', {
+                type: "org",
                 orgName: rso.name.toString(),
                 adminEmail: rso.adminEmail.toString(),
                 studentEmail1: rso.studentEmail1.toString(),
@@ -11,6 +12,19 @@ angular.module('orgService',[])
                 studentEmail3: rso.studentEmail3.toString(),
                 studentEmail4: rso.studentEmail4.toString(),
                 studentEmail5: rso.studentEmail5.toString(),
+            }).then( function(data){
+                deferred.resolve(data);
+            })
+
+            return deferred.promise;
+        };
+
+        this.getJoinedOrgs = function(){
+
+            var orgData;
+
+            $http.post('http://localhost:3000/dashboard', {
+                type: "orgRequest"
             }).then( function(data){
                 deferred.resolve(data);
             })
