@@ -5,7 +5,7 @@ angular.module('OrgCtrl', ['eventService'])
                 requireBase: false
             });
     })
-    .controller('OrgCtrl', ['$scope', '$location', 'eventService', function OrgCtrl($scope, $location, eventService) {
+    .controller('OrgCtrl', ['$scope', '$location', '$window','eventService', function OrgCtrl($scope, $location, $window, eventService) {
 
             $scope.orgname = "";
 
@@ -20,5 +20,10 @@ angular.module('OrgCtrl', ['eventService'])
                     $scope.events = data.data;
                 });
             };
+
+            $scope.selectEvent = function(event){
+            var url = '../event/' + event.name.toString();
+            $window.location.href = url;
+        };
 
         }]);

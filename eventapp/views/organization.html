@@ -10,6 +10,7 @@
         <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/create-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/event-controller.js"></script>
         <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
@@ -26,7 +27,7 @@
             </div>
             <br><br>
             <div ng-repeat="event in events">
-                <a href="about:blank">
+                <a ng-click="selectEvent(event)">
                     <div>
                         {{event.name}}
                         <br>

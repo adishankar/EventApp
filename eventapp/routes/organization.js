@@ -9,7 +9,6 @@ router.get('/:orgname', function(req, res, next) {
   console.log(orgname);
 
   res.sendFile(path.resolve(__dirname + '/../views/organization.html/'));
-  //res.send(orgname);
 });
 
 module.exports = router;
