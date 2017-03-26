@@ -27,8 +27,15 @@ angular.module('eventService',[])
             return deferred.promise;
         };
 
-        this.getEvent = function(eventname){
-            
+        this.getEvent = function(eventName){
+            var url = 'http://localhost:3000/event/' + eventName.toString();
+            $http.post(url, {
+                eventName: eventName.toString()
+            }).then( function(data){
+                deferred.resolve(data);
+            })
+
+            return deferred.promise;
         };
 
     }]);

@@ -41,10 +41,12 @@ var users = [{username: "user",
 var orgs = {org1: {name: "org1", description: "org1 description"}, org2: {name: "org2", description: "org2 description"},
         org3: {name: "org3", description: "org3 description"},org4: {name: "org4", description: "org4 description"}};
 
-var events = {event1: {name: "event1", description: "event1 description"},event2: {name: "event2", description: "event2 description"},
-        event3: {name: "event3", description: "event3 description"},event4: {name: "event4", description: "event4 description"},
-        event5: {name: "event5", description: "event5 description"},event6: {name: "event6", description: "event6 description"},
-        event7: {name: "event7", description: "event7 description"}};
+var events = {};
+
+var events = [{name: "event1", description: "event1 description"},{name: "event2", description: "event2 description"},
+        {name: "event3", description: "event3 description"},{name: "event4", description: "event4 description"},
+        {name: "event5", description: "event5 description"},{name: "event6", description: "event6 description"},
+        {name: "event7", description: "event7 description"}];
 
 
 //login POST
@@ -72,10 +74,23 @@ app.post('/dashboard', function(req, res){
   res.end('event or org creation response');
 })
 
+//get events for an organization
 app.post('/organization/:orgname', function(req, res){
 
   res.send(events);
 })
+
+//get event details for singe event
+app.post('/event/:eventname', function(req, res){
+
+  var eventName = req.body.eventName;
+  console.log(eventName);
+  //console.log(events.event1);
+  var event = findEvent(req.body);
+
+  res.send(event);
+})
+
 
 //user creation POST
 app.post('/signup', function(req, res){
@@ -135,6 +150,17 @@ function verifyUser(user){
     }
       
   });*/
+}
+
+function findEvent(event){
+
+  for (var i=0; i<events.length; i++){
+    if (event.eventName == events[i].name){
+      console.log("found event");
+      return events[i];
+    }
+  }
+
 }
 
 module.exports = app;

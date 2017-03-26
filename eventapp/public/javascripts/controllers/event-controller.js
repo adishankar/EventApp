@@ -9,6 +9,7 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
         function EventCtrl($scope, $window, $location, userService, orgService, eventService) {
         
         $scope.eventname = "";
+        var thisEvent;
 
         $scope.init = function(){
 
@@ -16,10 +17,17 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
                 var event = url.split('event/');
                 $scope.eventname = event[1];
                 console.log(event[1]);
+            
 
-            var user = userService.getUserData();
-            console.log(user);
-            $scope.name = user.username;
+            var promise = eventService.getEvent(event[1]);
+                promise.then(function (data){
+                    thisEvent = data.data;
+                    console.log(thisEvent);
+
+                    $scope.eventdescription = thisEvent.description;
+                });
+
+            
         };
         
     }]);
