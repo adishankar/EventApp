@@ -15,6 +15,7 @@ angular.module('userService',[])
         };
 
         this.setUserData = function(user){
+            $window.localStorage.removeItem('user');
             console.log("setting user in service");
             $window.localStorage['user'] = JSON.stringify(user);
         };

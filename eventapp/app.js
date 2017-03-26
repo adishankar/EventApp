@@ -46,11 +46,14 @@ var events = {event1: {name: "event1", description: "event1 description"},event2
         event5: {name: "event5", description: "event5 description"},event6: {name: "event6", description: "event6 description"},
         event7: {name: "event7", description: "event7 description"}};
 
+
 //login POST
 app.post('/', function(req, res){
   console.log(req.body);
   
   var currentUser = verifyUser(req.body);
+  console.log('current user');
+  console.log(currentUser);
 
   res.send(currentUser);
   res.end('login response');
@@ -114,10 +117,24 @@ app.use(function(err, req, res, next) {
 
 
 function verifyUser(user){
-  users.forEach(function(joined){
-    if ((user.username == joined.username) && (user.password == joined.password))
+  
+  for (var i=0; i<users.length; i++){
+    if ((user.username == users[i].username) && (user.password == users[i].password)){
+      console.log('logging in user:');
+      console.log(users[i]);
+      return users[i];
+    }
+  }
+
+
+  /*users.forEach(function(joined){
+    if ((user.username == joined.username) && (user.password == joined.password)){
+      console.log('logging in user:');
+      console.log(joined);
       return joined;
-  });
+    }
+      
+  });*/
 }
 
 module.exports = app;

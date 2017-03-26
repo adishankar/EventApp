@@ -6,9 +6,9 @@ angular.module('app', ['userService'])
 
              var promise = userService.login(user);
              promise.then(function (data){
-                 console.log(data);
+                console.log(data);
 
-                 userService.setUserData(data.data);
+                userService.setUserData(data.data);
                 $window.location.href = '/dashboard';
 
              });

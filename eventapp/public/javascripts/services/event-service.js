@@ -25,6 +25,10 @@ angular.module('eventService',[])
             })
 
             return deferred.promise;
-        }
+        };
+
+        this.getEvent = function(eventname){
+            
+        };
 
     }]);
