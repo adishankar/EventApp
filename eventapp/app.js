@@ -31,11 +31,12 @@ app.use('/signup', signup);
 app.use('/organization', organization);
 app.use('/event', event);
 
+var userCount = 0;
 var username = 'user';
 var password = 'pass';
-var user = {username: "user",
+var users = [{username: "user",
             password: 'pass',
-            userID: 123};
+            userID: 0}];
 
 var orgs = {org1: {name: "org1", description: "org1 description"}, org2: {name: "org2", description: "org2 description"},
         org3: {name: "org3", description: "org3 description"},org4: {name: "org4", description: "org4 description"}};
@@ -48,12 +49,10 @@ var events = {event1: {name: "event1", description: "event1 description"},event2
 //login POST
 app.post('/', function(req, res){
   console.log(req.body);
+  
+  var currentUser = verifyUser(req.body);
 
-  if ((req.body.username == username) && (req.body.password == password)){
-    console.log('verified user');
-  }
-
-  res.send(user);
+  res.send(currentUser);
   res.end('login response');
 })
 
@@ -78,6 +77,19 @@ app.post('/organization/:orgname', function(req, res){
 //user creation POST
 app.post('/signup', function(req, res){
   console.log(req.body);
+  userCount++;
+  var newUser = {username: req.body.username,
+              password: req.body.password,
+              userID:userCount};
+
+  
+
+  users.push(newUser);
+  
+  res.send(newUser);
+
+  console.log("new user created");
+  console.log(users);
 
   res.end('user creation response');
 })
@@ -99,5 +111,13 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+function verifyUser(user){
+  users.forEach(function(joined){
+    if ((user.username == joined.username) && (user.password == joined.password))
+      return joined;
+  });
+}
 
 module.exports = app;

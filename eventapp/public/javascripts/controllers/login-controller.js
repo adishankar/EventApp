@@ -6,15 +6,22 @@ angular.module('app', ['userService'])
 
              var promise = userService.login(user);
              promise.then(function (data){
-                 console.log(data);//this should be returned user data
+                 console.log(data);
 
                  userService.setUserData(data.data);
+                $window.location.href = '/dashboard';
 
-                 if (data.data.userID == 123){
-                     console.log("verified user");
-                     $window.location.href = '/dashboard';
-                 }
              });
-             
          };
+
+         $scope.createUser = function(user){
+             var promise = userService.createUser(user);
+             promise.then(function (data){
+                 console.log(data.data);
+
+                 $scope.login(data.data);
+
+             });
+         };
+
      }]);

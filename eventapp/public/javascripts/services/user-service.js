@@ -23,4 +23,15 @@ angular.module('userService',[])
             return JSON.parse($window.localStorage['user']);
         };
 
+        this.createUser = function(user){
+            $http.post('http://localhost:3000/signup', {username: user.username.toString(),
+            password: user.password.toString(),
+            firstname: user.fName.toString(),
+            lastname: user.lName.toString()}).then( function(data){
+                deferred.resolve(data);
+            })
+
+            return deferred.promise;
+        };
+
     }]);
