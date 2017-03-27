@@ -24,4 +24,8 @@ angular.module('app', ['userService'])
              });
          };
 
+         $scope.signUp = function(){
+             $window.location.href = '/signup';
+         };
+
      }]);
