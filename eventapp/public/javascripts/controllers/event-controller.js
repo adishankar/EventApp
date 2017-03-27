@@ -22,12 +22,27 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
             var promise = eventService.getEvent(event[1]);
                 promise.then(function (data){
                     thisEvent = data.data;
-                    console.log(thisEvent);
+                    //console.log(thisEvent);
 
                     $scope.eventdescription = thisEvent.description;
+                    $scope.comments = thisEvent.comments;
                 });
+        };
 
-            
+        $scope.makeComment = function(comment){
+
+            console.log(thisEvent);
+
+            var user = userService.getUserData();
+
+            comment.author = user.username;
+            var promise = eventService.makeComment(thisEvent, comment);
+            promise.then(function (data){
+                 console.log(data.data.comments);
+
+                 $scope.comments = data.data.comments;
+                 $window.location.reload();
+             });
         };
         
     }]);

@@ -30,7 +30,26 @@ angular.module('eventService',[])
         this.getEvent = function(eventName){
             var url = 'http://localhost:3000/event/' + eventName.toString();
             $http.post(url, {
+                type: 'getEvent',
                 eventName: eventName.toString()
+            }).then( function(data){
+                deferred.resolve(data);
+            })
+
+            return deferred.promise;
+        };
+
+        this.makeComment = function(event, comment){
+
+            //console.log(comment);
+            //console.log(event);
+
+            var url = 'http://localhost:3000/event/' + event.name.toString();
+            $http.post(url, {
+                type: 'comment',
+                eventName: event.name.toString(),
+                author: comment.author,
+                comment: comment.comment
             }).then( function(data){
                 deferred.resolve(data);
             })

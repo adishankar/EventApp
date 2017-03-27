@@ -29,6 +29,20 @@
             {{eventname}}
             <br>
             {{eventdescription}}
+            <br><br><br>
+            Comments:
+            <div ng-repeat="comment in comments">
+                <div>
+                    {{comment.author}}
+                    <br>
+                    {{comment.comment}}
+                </div>   
+                <br><br>
+            </div>
+            <br>
+            Make a comment <br>
+            <textarea ng-model="comment.comment" name="comment">Enter text here...</textarea> <br>
+            <input type="submit" ng-click="makeComment(comment)">
         </div>
     </body>
 </html>

@@ -43,10 +43,14 @@ var orgs = {org1: {name: "org1", description: "org1 description"}, org2: {name: 
 
 var events = {};
 
-var events = [{name: "event1", description: "event1 description"},{name: "event2", description: "event2 description"},
-        {name: "event3", description: "event3 description"},{name: "event4", description: "event4 description"},
-        {name: "event5", description: "event5 description"},{name: "event6", description: "event6 description"},
-        {name: "event7", description: "event7 description"}];
+var events = [{name: "event1", description: "event1 description", comments: [{author: "user1", comment:"user1 comment"}, {author: "user2", comment:"user2 comment"}]},
+        {name: "event2", description: "event2 description", comments: []},
+        {name: "event3", description: "event3 description", comments: []},
+        {name: "event4", description: "event4 description", comments: []},
+        {name: "event5", description: "event5 description", comments: []},
+        {name: "event6", description: "event6 description", comments: []},
+        {name: "event7", description: "event7 description", comments: []}
+    ];
 
 
 //login POST
@@ -83,12 +87,24 @@ app.post('/organization/:orgname', function(req, res){
 //get event details for singe event
 app.post('/event/:eventname', function(req, res){
 
-  var eventName = req.body.eventName;
-  console.log(eventName);
-  //console.log(events.event1);
-  var event = findEvent(req.body);
+  if (req.body.type == 'getEvent'){
+    var eventName = req.body.eventName;
+    console.log(eventName);
+    //console.log(events.event1);
+    var index = findEvent(req.body);
 
-  res.send(event);
+    res.send(events[index]);
+  }
+
+  if (req.body.type == 'comment'){
+    console.log('commenting');
+    var index = findEvent(req.body);
+    events[index].comments.push({author:req.body.author, comment:req.body.comment});
+
+    res.send(events[index].comments);
+  }
+
+  
 })
 
 
@@ -141,15 +157,6 @@ function verifyUser(user){
     }
   }
 
-
-  /*users.forEach(function(joined){
-    if ((user.username == joined.username) && (user.password == joined.password)){
-      console.log('logging in user:');
-      console.log(joined);
-      return joined;
-    }
-      
-  });*/
 }
 
 function findEvent(event){
@@ -157,10 +164,11 @@ function findEvent(event){
   for (var i=0; i<events.length; i++){
     if (event.eventName == events[i].name){
       console.log("found event");
-      return events[i];
+      return i;
     }
   }
 
 }
+
 
 module.exports = app;
