@@ -1,5 +1,5 @@
 angular.module('CreateCtrl', [])
-    .controller('CreateCtrl', ['$scope', 'eventService', 'orgService', function CreateCtrl($scope, eventService, orgService) {
+    .controller('CreateCtrl', ['$scope', 'eventService', 'orgService', 'uniService', function CreateCtrl($scope, eventService, orgService, uniService) {
             
             //event creation stuff
             $scope.master = {};
@@ -25,4 +25,17 @@ angular.module('CreateCtrl', [])
                 $scope.rso = angular.copy($scope.master);
             };
             $scope.resetOrg();
+
+            //university creation stuff
+            $scope.saveUni = function(uni) {
+                //createdEvents.push(angular.copy(event));
+                console.log(uni);
+                uniService.createUni(uni);
+                $scope.resetUni();
+            };
+            $scope.resetUni = function() {
+                $scope.uni = angular.copy($scope.master);
+            };
+            $scope.resetUni();
+
     }]);

@@ -14,6 +14,7 @@
         <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
+        <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
     </head>
 
     <body>
@@ -52,6 +53,18 @@
                     <label>Contact Email: <input type="text" ng-model="event.contactEmail" /></label><br />
                     <input type="button" ng-click="resetEvent()" value="Reset" />
                     <input type="submit" ng-click="saveEvent(event)" value="Save" />
+                </form>
+            </div>
+            <br><br>
+            <div class="createUni">
+                Create a University Profile
+                <form>
+                    <label>Name: <input type="text" ng-model="uni.name" /></label><br />
+                    <label>Location: <input type="text" ng-model="uni.location" /></label><br />
+                    <label>Description: <input type="text" ng-model="uni.description" /></label><br />
+                    <label>Number of Students: <input type="text" ng-model="uni.numStudents" /></label><br />
+                    <input type="button" ng-click="resetUni()" value="Reset" />
+                    <input type="submit" ng-click="saveUni(uni)" value="Save" />
                 </form>
             </div>         
         </div>

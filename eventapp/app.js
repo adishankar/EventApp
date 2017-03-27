@@ -104,6 +104,11 @@ app.post('/event/:eventname', function(req, res){
     res.send(events[index].comments);
   }
 
+  if (req.body.type == 'uni'){
+    console.log('creating university');
+
+    res.send('creating university');
+  }
   
 })
 
