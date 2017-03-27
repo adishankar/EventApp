@@ -19,12 +19,24 @@ angular.module('orgService',[])
             return deferred.promise;
         };
 
+        //this needs to be fixed
         this.getJoinedOrgs = function(){
 
             var orgData;
 
             $http.post('http://localhost:3000/dashboard', {
                 type: "orgRequest"
+            }).then( function(data){
+                deferred.resolve(data);
+            })
+
+            return deferred.promise;
+        };
+
+        this.getAllOrgs = function(){
+            var url = 'http://localhost:3000/search/';
+            $http.post(url, {
+                type: 'org'
             }).then( function(data){
                 deferred.resolve(data);
             })

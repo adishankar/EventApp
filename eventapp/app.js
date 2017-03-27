@@ -41,9 +41,8 @@ var users = [{username: "user",
             userID: 0,
             uni:'testUni'}];
 
-var orgs = {org1: {name: "org1", description: "org1 description"}, org2: {name: "org2", description: "org2 description"},
-        org3: {name: "org3", description: "org3 description"},org4: {name: "org4", description: "org4 description"}};
-
+var orgs = [{name: "org1", description: "org1 description"}, {name: "org2", description: "org2 description"},
+        {name: "org3", description: "org3 description"},{name: "org4", description: "org4 description"}];
 
 
 var events = [{name: "event1", description: "event1 description", comments: [{author: "user1", comment:"user1 comment"}, {author: "user2", comment:"user2 comment"}]},
@@ -143,6 +142,19 @@ app.post('/signup', function(req, res){
   console.log(users);
 
   res.end('user creation response');
+})
+
+//search page POST
+app.post('/search', function(req, res){
+  
+  if (req.body.type == 'event'){
+    console.log('sending event search');
+    res.send(events);
+  }
+  if (req.body.type == 'org'){
+    console.log('sending org search');
+    res.send(orgs);
+  }
 })
 
 // catch 404 and forward to error handler
