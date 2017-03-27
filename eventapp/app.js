@@ -10,6 +10,7 @@ var dashboard = require('./routes/dashboard');
 var signup = require('./routes/signup');
 var organization = require('./routes/organization');
 var event = require('./routes/event');
+var seach = require('./routes/search');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use('/dashboard', dashboard);
 app.use('/signup', signup);
 app.use('/organization', organization);
 app.use('/event', event);
+app.use('/search', seach);
 
 var userCount = 0;
 var username = 'user';

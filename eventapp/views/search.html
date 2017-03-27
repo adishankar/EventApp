@@ -1,32 +1,23 @@
 <!DOCTYPE html>
 <html ng-app="app">
     <head>
-        <title>Event App</title>
+        <title>Organization Page</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+        <link rel="styleshet" type="text/css" href="style.css" >
+        <!--<script src="angular.js"></script>-->
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/nav-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/create-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/event-controller.js"></script>
-        <script type="text/javascript" src="/javascripts/controllers/login-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/search-controller.js"></script>
         <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
-    </head>
     <body>
-        <div ng-controller="LoginCtrl">
-            <label>First Name: <input type="text" ng-model="user.fName" /></label><br />
-            <label>Last Name: <input type="text" ng-model="user.lName" /></label><br />
-            <label>University: <input type="text" ng-model="user.uni" /></label><br />
-            <label>Username: <input type="text" ng-model="user.username" /></label><br />
-            <label>Password: <input type="password" ng-model="user.password" /></label><br />
-            <input type="submit" ng-click="createUser(user)" value="Save" />
+        <div ng-controller="SearchCtrl" class="search">
+            {{hello}}
         </div>
-        
     </body>
-
-    
-</html>
