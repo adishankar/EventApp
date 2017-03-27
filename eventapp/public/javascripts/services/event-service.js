@@ -27,10 +27,11 @@ angular.module('eventService',[])
             return deferred.promise;
         };
 
-        this.getAllEvents = function(){
+        this.searchEvents = function(query){
             var url = 'http://localhost:3000/search/';
             $http.post(url, {
-                type: 'event'
+                type: 'event',
+                query: query
             }).then( function(data){
                 deferred.resolve(data);
             })

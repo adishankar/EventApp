@@ -17,10 +17,20 @@
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
     <body>
-        <div ng-controller="SearchCtrl" class="search">
-            <button ng-click="searchAllEvents()">event</button>
+        <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
+            <a href="#home">Home</a>
+            <a href="#search">Search</a>
+            <a href="#about">About</a>
             <br>
-            <button ng-click="searchAllOrgs()">organization</button>
+            Database Event Website
+            <br>
+            <br>
+        </div>
+        <div ng-controller="SearchCtrl" class="search" ng-init="init()">
+            <input type="radio" name="type" ng-model="search.type" value="org"/>Organization
+            <input type="radio" name="type" ng-model="search.type" value="event"/>Event
+            <label><input type="text" ng-model="search.query"/></label>
+            <button ng-click="querySearch(search)">Search</button>
         </div>
         
     </body>

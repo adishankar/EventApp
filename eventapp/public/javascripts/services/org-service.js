@@ -33,10 +33,11 @@ angular.module('orgService',[])
             return deferred.promise;
         };
 
-        this.getAllOrgs = function(){
+        this.searchOrgs = function(query){
             var url = 'http://localhost:3000/search/';
             $http.post(url, {
-                type: 'org'
+                type: 'org',
+                query: query
             }).then( function(data){
                 deferred.resolve(data);
             })
