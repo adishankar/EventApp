@@ -154,7 +154,8 @@ app.post('/search', function(req, res){
   }
   if (req.body.type == 'org'){
     console.log('sending org search');
-    res.send(orgs);
+    var results = searchOrg(req.body.query);
+    res.send(results);
   }
 })
 
@@ -200,19 +201,30 @@ function findEvent(event){
 
 }
 
+//lol temporary search function
 function searchEvent(query){
   
   var eventResults = [];
 
-  var expr = "/" + query.toString() + "/";
-
   for (var i=0; i<events.length; i++){
-    if (events[i].name == query.toString() || expr.test(events[i].description))
+    if (events[i].name == query.toString())
       eventResults.push(events[i]);
   }
 
   return eventResults;
 }
 
+//lol temporary search function part 2
+function searchOrg(query){
+  
+  var orgResults = [];
+
+  for (var i=0; i<orgs.length; i++){
+    if (orgs[i].name == query.toString())
+      orgResults.push(orgs[i]);
+  }
+
+  return orgResults;
+}
 
 module.exports = app;

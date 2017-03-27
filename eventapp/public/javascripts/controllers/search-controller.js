@@ -26,7 +26,7 @@ angular.module('SearchCtrl', [])
             if (search.type == 'org')
                 $scope.searchOrgs(search.query);
             else if (search.type == 'event'){
-                $scope.searchevents(search.query);
+                $scope.searchEvents(search.query);
             }
         };
 
