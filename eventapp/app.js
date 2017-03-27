@@ -36,12 +36,13 @@ var username = 'user';
 var password = 'pass';
 var users = [{username: "user",
             password: 'pass',
-            userID: 0}];
+            userID: 0,
+            uni:'testUni'}];
 
 var orgs = {org1: {name: "org1", description: "org1 description"}, org2: {name: "org2", description: "org2 description"},
         org3: {name: "org3", description: "org3 description"},org4: {name: "org4", description: "org4 description"}};
 
-var events = {};
+
 
 var events = [{name: "event1", description: "event1 description", comments: [{author: "user1", comment:"user1 comment"}, {author: "user2", comment:"user2 comment"}]},
         {name: "event2", description: "event2 description", comments: []},
@@ -50,6 +51,15 @@ var events = [{name: "event1", description: "event1 description", comments: [{au
         {name: "event5", description: "event5 description", comments: []},
         {name: "event6", description: "event6 description", comments: []},
         {name: "event7", description: "event7 description", comments: []}
+    ];
+
+var universities = [
+        {
+          name:"testUni",
+          location: "test",
+          description: "test",
+          numStudents: 1
+        }
     ];
 
 
