@@ -99,6 +99,7 @@ app.post('/organization/:orgname', function(req, res){
   else if (req.body.type == 'joinOrg'){
     for (var i=0; i<users.length; i++){
       if (users[i].username == req.body.user.toString()){
+        console.log('adding ' + req.body.org + ' to user ' + users[i].username);
         users[i].orgs.push(req.body.org);
         res.send(users[i].orgs);
         return;

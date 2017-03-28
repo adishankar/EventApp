@@ -9,7 +9,7 @@ angular.module('OrgCtrl', ['eventService'])
          function OrgCtrl($scope, $location, $window, eventService, userService, orgService) {
 
             $scope.orgname = "";
-
+            
             //initializes page with organization name taken from url and creates list of events held by an organization
             $scope.init = function(){
                 var url = $location.url().toString();
@@ -34,8 +34,9 @@ angular.module('OrgCtrl', ['eventService'])
                 console.log($scope.orgname);
                 var user = userService.getUserData();
                 console.log(user);
+                var thisOrg = $scope.orgname;
 
-                var promise = orgService.joinOrg(user.username, $scope.orgname.toString());
+                var promise = orgService.joinOrg(user.username, thisOrg);
                 promise.then(function( data){
                     console.log(data.data);
                 });

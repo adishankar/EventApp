@@ -54,7 +54,7 @@ angular.module('orgService',[])
             $http.post(url, {
                 type: 'joinOrg',
                 user: user.toString(),
-                org: org.toString
+                org: org.toString()
             }).then( function(data){
                 deferred.resolve(data);
             })
