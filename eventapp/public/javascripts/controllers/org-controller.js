@@ -5,10 +5,12 @@ angular.module('OrgCtrl', ['eventService'])
                 requireBase: false
             });
     })
-    .controller('OrgCtrl', ['$scope', '$location', '$window','eventService', function OrgCtrl($scope, $location, $window, eventService) {
+    .controller('OrgCtrl', ['$scope', '$location', '$window','eventService', 'userService', 'orgService',
+         function OrgCtrl($scope, $location, $window, eventService, userService, orgService) {
 
             $scope.orgname = "";
 
+            //initializes page with organization name taken from url and creates list of events held by an organization
             $scope.init = function(){
                 var url = $location.url().toString();
                 var org = url.split('organization/');
@@ -21,9 +23,22 @@ angular.module('OrgCtrl', ['eventService'])
                 });
             };
 
+            //select an event from an organization 
             $scope.selectEvent = function(event){
-            var url = '../event/' + event.name.toString();
-            $window.location.href = url;
-        };
+                var url = '../event/' + event.name.toString();
+                $window.location.href = url;
+            };
+
+            //allow a user to join an organization
+            $scope.joinOrg = function(){
+                console.log($scope.orgname);
+                var user = userService.getUserData();
+                console.log(user);
+
+                var promise = orgService.joinOrg(user.username, $scope.orgname.toString());
+                promise.then(function( data){
+                    console.log(data.data);
+                });
+            }
 
         }]);

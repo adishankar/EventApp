@@ -19,6 +19,7 @@ angular.module('eventService',[])
         this.getOrgEvents = function(orgName){
             var url = 'http://localhost:3000/organization/' + orgName.toString();
             $http.post(url, {
+                type:'events',
                 orgName: orgName.toString()
             }).then( function(data){
                 deferred.resolve(data);

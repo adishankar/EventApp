@@ -26,6 +26,7 @@
         <div ng-controller="OrgCtrl" class="events">
             <div ng-init="init()">
                 {{orgname}}
+                <button ng-click="joinOrg()">Join {{orgname}}</button>
             </div>
             <br><br>
             <div ng-repeat="event in events">

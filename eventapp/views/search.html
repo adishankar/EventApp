@@ -31,6 +31,16 @@
             <input type="radio" name="type" ng-model="search.type" value="event"/>Event
             <label><input type="text" ng-model="search.query"/></label>
             <button ng-click="querySearch(search)">Search</button>
+            <br><br>
+            <div ng-repeat="sr in searchResults">
+                <a ng-click="goTo(sr)">
+                    <div>
+                        {{sr.name}}
+                        <br>
+                        {{sr.description}}
+                    </div>   
+                </a>
+            </div>
         </div>
         
     </body>

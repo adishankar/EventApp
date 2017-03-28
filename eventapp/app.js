@@ -39,7 +39,8 @@ var password = 'pass';
 var users = [{username: "user",
             password: 'pass',
             userID: 0,
-            uni:'testUni'}];
+            uni:'testUni',
+            orgs:['org2', 'org3']}];
 
 var orgs = [{name: "org1", description: "org1 description"}, {name: "org2", description: "org2 description"},
         {name: "org3", description: "org3 description"},{name: "org4", description: "org4 description"}];
@@ -92,7 +93,18 @@ app.post('/dashboard', function(req, res){
 //get events for an organization
 app.post('/organization/:orgname', function(req, res){
 
-  res.send(events);
+  if (req.body.type == 'events')
+    res.send(events);
+
+  else if (req.body.type == 'joinOrg'){
+    for (var i=0; i<users.length; i++){
+      if (users[i].username == req.body.user.toString()){
+        users[i].orgs.push(req.body.org);
+        res.send(users[i].orgs);
+        return;
+      }
+    }
+  }
 })
 
 //get event details for singe event
