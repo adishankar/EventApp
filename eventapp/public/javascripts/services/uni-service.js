@@ -16,4 +16,14 @@ angular.module('uniService',[])
             return deferred.promise;
         };
 
+        this.getAllUniIds = function(){
+            $http.post('http://localhost:3000/api/university')
+                .then(function (data){
+                    deferred.resolve(data);
+                    console.log('got data');
+                    console.log(data);
+                });
+                return deferred.promise;
+        }
+
     }]);

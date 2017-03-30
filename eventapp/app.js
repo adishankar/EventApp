@@ -12,6 +12,11 @@ var organization = require('./routes/organization');
 var event = require('./routes/event');
 var seach = require('./routes/search');
 
+var mysql = require('mysql');
+var db = require('./config');
+
+var api = require('./api/api');
+
 var app = express();
 
 // view engine setup
@@ -32,6 +37,8 @@ app.use('/signup', signup);
 app.use('/organization', organization);
 app.use('/event', event);
 app.use('/search', seach);
+
+var sqlLastId = 'SELECT LAST_INSERT_ID();';
 
 var userCount = 0;
 var username = 'user';
@@ -136,8 +143,15 @@ app.post('/event/:eventname', function(req, res){
   
 })
 
-
+//SQL Command to insert new user
+// let signupQuery = `INSERT INTO user (firstName, lastName, emailAddress, password, userTypeID) Values
+// (?,?,?,?,?);`;
 //user creation POST
+//TODO: loginApi
+//app.post('/api/login', api.loginApi.login);
+
+app.post('/api/signup', api.signupApi.signup);
+
 app.post('/signup', function(req, res){
   console.log(req.body);
   userCount++;
@@ -145,9 +159,24 @@ app.post('/signup', function(req, res){
               password: req.body.password,
               userID:userCount};
 
-  
+  var sql = mysql.createConnection({
+    host: db.db.host,
+    user: db.db.user,
+    password: db.db.password,
+    database: db.db.database
+  });
 
-  users.push(newUser);
+  sql.connect(function(err) {
+    if(err){
+      console.log('error connecting to bd',err.stack);
+      return;
+    }
+    console.log('connected as id: ' + sql.threadId);
+  });
+
+  sql.end();
+
+  //users.push(newUser);
   
   res.send(newUser);
 
@@ -172,6 +201,11 @@ app.post('/search', function(req, res){
   }
 })
 
+app.use('/api/university', api.universityApi.getAllUniversitiesId);
+
+
+/** All API endpoints must appear before this line!! */
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -190,9 +224,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
 function verifyUser(user){
-  
+  console.log('verifying user');
   for (var i=0; i<users.length; i++){
     if ((user.username == users[i].username) && (user.password == users[i].password)){
       console.log('logging in user:');
@@ -239,5 +272,6 @@ function searchOrg(query){
 
   return orgResults;
 }
+
 
 module.exports = app;

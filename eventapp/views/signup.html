@@ -15,18 +15,24 @@
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     </head>
     <body>
+        <!--<script type="text/javscript">
+            user.type = 3;
+        </script>-->
         <div ng-controller="LoginCtrl">
             <label>First Name: <input type="text" ng-model="user.fName" /></label><br />
             <label>Last Name: <input type="text" ng-model="user.lName" /></label><br />
-            <label>University: <input type="text" ng-model="user.uni" /></label><br />
+            <!--<label>University: <input type="text" ng-model="user.uni" /></label><br />-->
             <label>Username: <input type="text" ng-model="user.username" /></label><br />
             <label>Password: <input type="password" ng-model="user.password" /></label><br />
-            <input type="submit" ng-click="createUser(user)" value="Save" />
+            <select ng-model="user.university" ng>
+                <option ng-repeat="uni in universities" ng-value="uni.universityID">{{uni.universityName}}</option>
+            </select>
+            <input type="submit" ng-click="createUser(user)" value="Sign up" />
         </div>
         
     </body>
 
-    
 </html>

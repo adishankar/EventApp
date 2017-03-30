@@ -5,7 +5,7 @@ angular.module('userService',[])
         var userData;
 
         this.login = function(user){
-
+            console.log(user);
             $http.post('http://localhost:3000/', {username: user.username.toString(),
             password: user.password.toString()}).then( function(data){
                 deferred.resolve(data);
@@ -25,13 +25,18 @@ angular.module('userService',[])
         };
 
         this.createUser = function(user){
-            $http.post('http://localhost:3000/signup', {username: user.username.toString(),
-            password: user.password.toString(),
-            firstname: user.fName.toString(),
-            lastname: user.lName.toString()}).then( function(data){
-                deferred.resolve(data);
-            })
-
+            console.log(JSON.stringify(user));
+            //$http.post('http://localhost:3000/signup', {username: user.username.toString(),
+            $http.post('http://localhost:3000/api/signup', {firstName:user.fName.toString(),
+                lastName:user.lName.toString(),
+                emailAddress: user.username.toString(),
+                password: user.password.toString(),
+                //usertypeID is 1 for SA, 2 for Admin, and 3 for student
+                userTypeID: user.type,
+                universityID: user.university})
+                .then( function(data){
+                    deferred.resolve(data);
+                });
             return deferred.promise;
         };
 
