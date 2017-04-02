@@ -6,7 +6,7 @@ angular.module('userService',[])
 
         this.login = function(user){
             console.log(user);
-            $http.post('http://localhost:3000/', {username: user.username.toString(),
+            $http.post('http://localhost:3000/api/login', {username: user.username.toString(),
             password: user.password.toString()}).then( function(data){
                 deferred.resolve(data);
             })

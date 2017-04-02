@@ -9,8 +9,8 @@ angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
 
         $scope.init = function(){
                 var user = userService.getUserData();
-                console.log(user);
-                $scope.name = user.username;
+                console.log(JSON.stringify(user));
+                $scope.name = user.firstName + ' ' + user.lastName;
                 var promise = orgService.getJoinedOrgs();
                 promise.then(function (data){
                     console.log(data.data);

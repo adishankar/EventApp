@@ -20,12 +20,19 @@ function login(req, res){
                 database: db.db.database
             });
 
-            var query = mysql.format(checkUserPass, [req.body.emailAddress,req.body.password], function(error, results, fields){
+            var query = mysql.format(checkUserPass, [req.body.username,req.body.password]);
+            console.log(query);
+
+            sql.query(query, function(error, results, fields){
                 if(error) throw error;
-                if(results.count > 0){
+                console.log(results);
+                if(results.length > 0){
                     //user exists, return user object.
+                    console.log(results[0]);
+                    res.send(results[0]);
                 }
             });
+
         }catch(exception){
 
         }
