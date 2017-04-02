@@ -2,6 +2,9 @@
 <html ng-app="app">
     <head>
         <title>Event App</title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css" >
+        <link rel="stylesheet" type="text/css" href="style.css" >
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
         <!--<script src="angular.js"></script>-->
         <script type="text/javascript" src="/javascripts/app.js"></script>
@@ -9,12 +12,20 @@
         <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
     </head>
     <body>
-        <div ng-controller="LoginCtrl">
-            <label>Username: <input type="text" ng-model="user.username" /></label><br />
-            <label>Password: <input type="password" ng-model="user.password" /></label><br />
-            <br>
-            <input type="button" ng-click="signUp()" value="Sign up" />
-            <input type="button" ng-click="login(user)" value="Log in" />
+        <div class="panel panel-primary" ng-controller="LoginCtrl">
+            <div class="panel-heading">Database Event Website</div>
+            <div class="list-group-item">
+                <br>
+                <label>Username: <input type="text" ng-model="user.username" /></label>
+                <br>
+                <label>Password: <input type="password" ng-model="user.password" /></label><br />
+            </div>
+           
+         
+            <div class="panel-footer" style="text-align: center">
+                <input type="button" ng-click="signUp()" value="Sign up" />
+                <input type="button" ng-click="login(user)" value="Log in" />
+            </div>
         </div>
         
     </body>

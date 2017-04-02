@@ -2,10 +2,12 @@
 <html ng-app="app">
     <head>
         <title>Event App</title>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
     async defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
-        <link rel="styleshet" type="text/css" href="../stylesheets/style.css" >
+        <link rel="stylesheet" href="/css/bootstrap.min.css" >
+        <link rel="stylesheet" type="text/css" href="style.css" >
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
         <!--<script src="angular.js"></script>-->
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
@@ -18,7 +20,7 @@
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
-        <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
+	 <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
         <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
         <style>
             #map{
@@ -51,77 +53,85 @@
     </head>
 
     <body>
-        <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
-            <a href="/dashboard">Home</a>
-            <a href="/search">Search</a>
-            <a href="#about">About</a>
-            <br>
-            Database Event Website
-            <br>
-            <br>
-        </div>
+        <nav class="navbar navbar-default">
+            <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
+                 <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
+                 <button style="float: right" type="button" class="btn btn-primary">CREATE</button>         
+                 <ul class="nav nav-pills" style="float: right">
+                    <li><a  href="/dashboard">Home</a></li>
+                    <li><a  href="/search">Search</a></li>
+                    <li><a  href="#about">About</a></li>  
+                 </ul>          
+            </div>
+        </nav>
+        
+
         <div ng-controller="CreateCtrl">
-            <!--<input id="pac-input" type="text" ng-submit="getLocation(pacInput)" class="controls" ng-model="pacInput" placeholder="search here">-->
             <input type="text" g-places-autocomplete ng-model="place" /><button type="button" ng-click="updateMap()">Set Location</button>
             <div id="map"></div>
-
             <div class="createOrg">
-                Create an Organization
+                <div class="card-header">Create an Organization</div>
+               
                 <form>
-                    <label>Name: <input type="text" ng-model="rso.name" /></label><br />
-                    <label>Admin Email: <input type="text" ng-model="rso.adminEmail" /></label><br />
-                    <label>Student Email: <input type="text" ng-model="rso.studentEmail1" /></label><br />
-                    <label>Student Email: <input type="text" ng-model="rso.studentEmail2" /></label><br />
-                    <label>Student Email: <input type="text" ng-model="rso.studentEmail3" /></label><br />
-                    <label>Student Email: <input type="text" ng-model="rso.studentEmail4" /></label><br />
-                    <label>Student Email: <input type="text" ng-model="rso.studentEmail5" /></label><br />
+                    <label style="padding-left: 80px;" class="list-group-item">Name: <input type="text" ng-model="rso.name" /></label>
+                    <label style="padding-left: 30px;" class="list-group-item">Admin Email: <input type="text" ng-model="rso.adminEmail" /></label>
+                    <label class="list-group-item">Student Email: <input type="text" ng-model="rso.studentEmail1" /></label>
+                    <label class="list-group-item">Student Email: <input type="text" ng-model="rso.studentEmail2" /></label>
+                    <label class="list-group-item">Student Email: <input type="text" ng-model="rso.studentEmail3" /></label>
+                    <label class="list-group-item">Student Email: <input type="text" ng-model="rso.studentEmail4" /></label>
+                    <label class="list-group-item">Student Email: <input type="text" ng-model="rso.studentEmail5" /></label>
+                    <div class="card-footer" style="text-align: center">
+                        <input type="button" ng-click="resetOrg()" value="Reset" />
+                        <input type="submit" ng-click="saveOrg(rso)" value="Save" />
+                    </div>   
+                </form>
+            </div>
+            <br>
+            <br>
 
-                    <input type="button" ng-click="resetOrg()" value="Reset" />
-                    <input type="submit" ng-click="saveOrg(rso)" value="Save" />
-                </form>
-            </div>
-            <br><br>
             <div class="createEvent">
-                Create an Event
+                <div class="card-header">Create an Event</div>
                 <form>
-                    <label>Name: <input type="text" ng-model="event.name" /></label><br />
-                    <label>Location: <input type="text" ng-model="place.name" /></label><br />
-                    <label>Description: <input type="text" ng-model="event.description" /></label><br />
-                    <label>Contact Email: <input type="text" ng-model="event.contactEmail" /></label><br />
-                    <input type="button" ng-click="resetEvent()" value="Reset" />
-                    <input type="submit" ng-click="saveEvent(event)" value="Save" />
+                    <label class="list-group-item">Name: <input type="text" ng-model="event.name" /></label>
+                    <label class="list-group-item">Location: <input type="text" ng-model="event.location" /></label>
+                    <label class="list-group-item">Description: <input type="text" ng-model="event.description" /></label>
+                    <label class="list-group-item">Contact Email: <input type="text" ng-model="event.contactEmail" /></label>
+                    <div class="card-footer" style="text-align: center">
+                        <input type="button" ng-click="resetEvent()" value="Reset" />
+                        <input type="submit" ng-click="saveEvent(event)" value="Save" />
+                   </div>
                 </form>
             </div>
-            <br><br>
+            
+            <br>
+            <br>
+
             <div class="createUni">
-                Create a University Profile
+                <div class="card-header">Create a University Profile</div>
+                
                 <form>
-                    <label>Name: <input type="text" ng-model="uni.name" /></label><br />
-                    <label>Location: <input type="text" ng-model="place.name" /></label><br />
-                    <label>Description: <input type="text" ng-model="uni.description" /></label><br />
-                    <label>Number of Students: <input type="text" ng-model="uni.numStudents" /></label><br />
-                    <input type="button" ng-click="resetUni()" value="Reset" />
-                    <input type="submit" ng-click="saveUni(uni)" value="Save" />
+                    <label class="list-group-item">Name: <input type="text" ng-model="uni.name" /></label>
+                    <label class="list-group-item">Location: <input type="text" ng-model="uni.location" /></label>
+                    <label class="list-group-item">Description: <input type="text" ng-model="uni.description" /></label>     
+                    <label class="list-group-item">Number of Students: <input type="text" ng-model="uni.numStudents" /></label>
+                    <div class="card-footer" style="text-align: center">
+                        <input type="button" ng-click="resetUni()" value="Reset" />
+                        <input type="submit" ng-click="saveUni(uni)" value="Save" />
+                    </div>
                 </form>
             </div>         
         </div>
+        
         <br>
-        <div ng-controller="DashCtrl" ng-init="init()">
-            <br><br>
-            Hi, {{name}}
-            <br><br>
-            <div ng-repeat="org in orgs">
-                <a ng-click="selectOrg(org)">
-                    <div>
-                        {{org.name}}
-                        <br>
-                        {{org.description}}
-                    </div>   
-                </a>
-                <br><br>
+        <br>
+
+        <div class="card" ng-controller="DashCtrl" ng-init="init()">
+            <div class="card-header"><h2>Hi, {{name}}</h2></div> 
+            <div class="list-group-item" ng-repeat="org in orgs">  
+                    <h4 class="card-title"><p ng-click="selectOrg(org)">{{org.name}}</p></h4>
+                    <div class="card-text"><p>{{org.description}}</p></div>   
             </div>
         </div>
         <br>
     </body>
 </html>
-
