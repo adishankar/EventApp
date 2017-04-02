@@ -2,8 +2,10 @@
 <html ng-app="app">
     <head>
         <title>Event App</title>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
+    async defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
-        <link rel="styleshet" type="text/css" href="style.css" >
+        <link rel="styleshet" type="text/css" href="../stylesheets/style.css" >
         <!--<script src="angular.js"></script>-->
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
@@ -16,6 +18,36 @@
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
+        <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
+        <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
+        <style>
+            #map{
+                height:500px;
+                width: 100%;
+            }
+             #infowindow-content .title {
+                font-weight: bold;
+            }
+
+            #infowindow-content {
+                display: none;
+            }
+            
+            #map #infowindow-content {
+                display: inline;
+            }
+
+            #title {
+                color: #fff;
+                background-color: #4d90fe;
+                font-size: 25px;
+                font-weight: 500;
+                padding: 6px 12px;
+            }
+            #target {
+                width: 345px;
+            }
+        </style>
     </head>
 
     <body>
@@ -29,6 +61,10 @@
             <br>
         </div>
         <div ng-controller="CreateCtrl">
+            <!--<input id="pac-input" type="text" ng-submit="getLocation(pacInput)" class="controls" ng-model="pacInput" placeholder="search here">-->
+            <input type="text" g-places-autocomplete ng-model="place" /><button type="button" ng-click="updateMap()">Set Location</button>
+            <div id="map"></div>
+
             <div class="createOrg">
                 Create an Organization
                 <form>
@@ -49,7 +85,7 @@
                 Create an Event
                 <form>
                     <label>Name: <input type="text" ng-model="event.name" /></label><br />
-                    <label>Location: <input type="text" ng-model="event.location" /></label><br />
+                    <label>Location: <input type="text" ng-model="place.name" /></label><br />
                     <label>Description: <input type="text" ng-model="event.description" /></label><br />
                     <label>Contact Email: <input type="text" ng-model="event.contactEmail" /></label><br />
                     <input type="button" ng-click="resetEvent()" value="Reset" />
@@ -61,7 +97,7 @@
                 Create a University Profile
                 <form>
                     <label>Name: <input type="text" ng-model="uni.name" /></label><br />
-                    <label>Location: <input type="text" ng-model="uni.location" /></label><br />
+                    <label>Location: <input type="text" ng-model="place.name" /></label><br />
                     <label>Description: <input type="text" ng-model="uni.description" /></label><br />
                     <label>Number of Students: <input type="text" ng-model="uni.numStudents" /></label><br />
                     <input type="button" ng-click="resetUni()" value="Reset" />
@@ -88,5 +124,4 @@
         <br>
     </body>
 </html>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0"
-    async defer></script>
+

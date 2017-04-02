@@ -2,6 +2,8 @@
 <html ng-app="app">
     <head>
         <title>Organization Page</title>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
+    async defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
         <link rel="styleshet" type="text/css" href="style.css" >
         <!--<script src="angular.js"></script>-->
@@ -16,6 +18,36 @@
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
+        <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
+        <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
+        <style>
+            #map{
+                height:500px;
+                width: 100%;
+            }
+             #infowindow-content .title {
+                font-weight: bold;
+            }
+
+            #infowindow-content {
+                display: none;
+            }
+            
+            #map #infowindow-content {
+                display: inline;
+            }
+            
+            #title {
+                color: #fff;
+                background-color: #4d90fe;
+                font-size: 25px;
+                font-weight: 500;
+                padding: 6px 12px;
+            }
+            #target {
+                width: 345px;
+            }
+        </style>
     </head>
     <body>
         <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
@@ -28,6 +60,7 @@
             <br>
         </div>
         <div ng-controller="EventCtrl" ng-init="init()">
+            <div id="map"></div>
             {{eventname}}
             <br>
             {{eventdescription}}
@@ -42,7 +75,7 @@
                 <br><br>
             </div>
             <br>
-            Make a comment <br>
+            leave a comment <br>
             <textarea ng-model="comment.comment" name="comment">Enter text here...</textarea> <br>
             <input type="submit" ng-click="makeComment(comment)">
         </div>

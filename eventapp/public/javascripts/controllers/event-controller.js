@@ -8,6 +8,13 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
     .controller('EventCtrl', ['$scope', '$window', '$location', 'userService', 'orgService', 'eventService', 
         function EventCtrl($scope, $window, $location, userService, orgService, eventService) {
         
+        var mapOptions = {
+                zoom: 16,
+                center: new google.maps.LatLng(28.600659, -81.197546)
+            }
+
+            $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
         $scope.eventname = "";
         var thisEvent;
 
