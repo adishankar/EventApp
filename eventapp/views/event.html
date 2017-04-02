@@ -2,10 +2,12 @@
 <html ng-app="app">
     <head>
         <title>Organization Page</title>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
     async defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
-        <link rel="styleshet" type="text/css" href="style.css" >
+         <link rel="stylesheet" href="/css/bootstrap.min.css" >
+        <link rel="stylesheet" type="text/css" href="style.css" >
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
         <!--<script src="angular.js"></script>-->
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
@@ -18,9 +20,9 @@
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
-        <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
+	<script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
         <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
-        <style>
+	<style>
             #map{
                 height:500px;
                 width: 100%;
@@ -50,21 +52,26 @@
         </style>
     </head>
     <body>
-        <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
-            <a href="/dashboard">Home</a>
-            <a href="/search">Search</a>
-            <a href="#about">About</a>
-            <br>
-            Database Event Website
-            <br>
-            <br>
-        </div>
-        <div ng-controller="EventCtrl" ng-init="init()">
-            <div id="map"></div>
-            {{eventname}}
-            <br>
-            {{eventdescription}}
-            <br><br><br>
+        <nav style="margin-bottom: 0; padding-bottom: 0;" class="navbar navbar-default">
+            <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
+                 <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
+                 <ul class="nav nav-pills" style="float: right">
+                    <li><a  href="/dashboard">Home</a></li>
+                    <li><a  href="/search">Search</a></li>
+                    <li><a  href="#about">About</a></li>  
+                 </ul>          
+            </div>
+        </nav>
+
+        <div class="card" ng-controller="EventCtrl" ng-init="init()">
+	    <div id="map"></div>
+            <div >
+                <h4 class="card-header">{{eventname}}</h4>
+                <div class="card-content">{{eventdescription}}</div>
+            </div> 
+            
+           
+          
             Comments:
             <div ng-repeat="comment in comments">
                 <div>
@@ -75,7 +82,7 @@
                 <br><br>
             </div>
             <br>
-            leave a comment <br>
+            Make a comment <br>
             <textarea ng-model="comment.comment" name="comment">Enter text here...</textarea> <br>
             <input type="submit" ng-click="makeComment(comment)">
         </div>

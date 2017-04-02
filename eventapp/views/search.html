@@ -3,7 +3,9 @@
     <head>
         <title>Organization Page</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
-        <link rel="styleshet" type="text/css" href="style.css" >
+        <link rel="stylesheet" href="/css/bootstrap.min.css" >
+        <link rel="stylesheet" type="text/css" href="style.css" >
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
         <!--<script src="angular.js"></script>-->
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
@@ -16,23 +18,25 @@
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
-        <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
+	<script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
         <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
     <body>
-        <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
-            <a href="/dashboard">Home</a>
-            <a href="/search">Search</a>
-            <a href="#about">About</a>
-            <br>
-            Database Event Website
-            <br>
-            <br>
-        </div>
+        <nav class="navbar navbar-default">
+            <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
+                 <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
+                 <ul class="nav nav-pills" style="float: right">
+                    <li><a  href="/dashboard">Home</a></li>
+                    <li><a  href="/search">Search</a></li>
+                    <li><a  href="#about">About</a></li>  
+                 </ul>          
+            </div>
+        </nav>
         <div ng-controller="SearchCtrl" class="search" ng-init="init()">
-            <input type="radio" name="type" ng-model="search.type" value="org"/>Organization
-            <input type="radio" name="type" ng-model="search.type" value="event"/>Event
-            <label><input type="text" ng-model="search.query"/></label>
-            <button ng-click="querySearch(search)">Search</button>
+            <input style="margin-left: 50px;" type="radio" name="type" ng-model="search.type" value="org"/>Organization
+            <input style="margin-left: 50px;" type="radio" name="type" ng-model="search.type" value="event"/>Event
+            <br>
+            <label><input  style="width:500px; margin-left: 50px;" class="form-control" placeholder="Search" type="text" ng-model="search.query"/></label>
+            <button class="btn btn-primary" ng-click="querySearch(search)">Search</button>
             <br><br>
             <div ng-repeat="sr in searchResults">
                 <a ng-click="goTo(sr)">
