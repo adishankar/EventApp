@@ -1,6 +1,28 @@
-angular.module('CreateCtrl', [])
-    .controller('CreateCtrl', ['$scope', 'eventService', 'orgService', 'uniService', function CreateCtrl($scope, eventService, orgService, uniService) {
+angular.module('CreateCtrl', ['google.places'])
+    .controller('CreateCtrl', ['$scope', 'eventService', 'orgService', 'uniService', 
+        function CreateCtrl($scope, eventService, orgService, uniService) {
             
+            var mapOptions = {
+                zoom: 16,
+                center: new google.maps.LatLng(28.600659, -81.197546)
+            }
+
+            $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            $scope.place = null;
+
+            $scope.updateMap = function(){
+                console.log($scope.place);
+
+                var marker = new google.maps.Marker({
+                    map: $scope.map,
+                    position: $scope.place.geometry.location,
+                    animation: google.maps.Animation.DROP
+                });
+
+                $scope.map.setCenter(marker.getPosition());
+
+            }
+
             //event creation stuff
             $scope.master = {};
             $scope.saveEvent = function(event) {
