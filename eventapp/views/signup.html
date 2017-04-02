@@ -22,6 +22,8 @@
             user.type = 3;
         </script>-->
         <div ng-controller="LoginCtrl">
+            <div ng-if="errorMessage">{{errorMessage}}</div>
+            <div ng-if="errorMessage"><input type="submit" ng-click="loginPage()" value="Back to Login Page"/></div>
             <label>First Name: <input type="text" ng-model="user.fName" /></label><br />
             <label>Last Name: <input type="text" ng-model="user.lName" /></label><br />
             <!--<label>University: <input type="text" ng-model="user.uni" /></label><br />-->

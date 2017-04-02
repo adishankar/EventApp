@@ -21,6 +21,11 @@ angular.module('app', ['userService','uniService'])
              console.log(JSON.stringify(user));
              var promise = userService.createUser(user);
              promise.then(function (data){
+                 if(data.data == 'existing'){
+                     console.log(data.data);
+                     //user already exists, re route to login page, with error message;
+                     $scope.errorMessage = 'Username: ' + user.username + ' already exists. Try a different email Address, or try to login if you already have an account.';
+                 }
                  console.log(data.data);
 
                  $scope.login(data.data);

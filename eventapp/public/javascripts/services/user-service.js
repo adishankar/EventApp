@@ -35,7 +35,12 @@ angular.module('userService',[])
                 userTypeID: user.type,
                 universityID: user.university})
                 .then( function(data){
-                    deferred.resolve(data);
+                    if(data == 'existing'){
+                        console.log("show message user already exists")
+
+                    }else{
+                        deferred.resolve(data);
+                    }
                 });
             return deferred.promise;
         };

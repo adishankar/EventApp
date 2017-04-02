@@ -26,4 +26,11 @@ angular.module('uniService',[])
                 return deferred.promise;
         }
 
+        // this.getUniversityAdmin = function(id){
+        //     $http.post('http://localhost:3000/api/university/admin/' + id)
+        //         .then(function(data){
+        //             console.log(data);
+        //         })
+        // }
+
     }]);

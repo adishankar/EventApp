@@ -149,6 +149,7 @@ app.post('/event/:eventname', function(req, res){
 //user creation POST
 //TODO: loginApi
 //app.post('/api/login', api.loginApi.login);
+app.get('/api/university/admin/:id',api.universityApi.getUniversityAdmin);
 
 app.post('/api/signup', api.signupApi.signup);
 

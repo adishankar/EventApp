@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var db = require('../config');
 
 let selectIdAndName = "SELECT universityID,universityName FROM university";
+let selectAdminId = "SELECT superAdmin_superAdminID FROM university WHERE universityID = ?";
 
 //GET /api/university
 function getAllUniversitiesId(req, res) {
@@ -44,8 +45,88 @@ function getAllUniversitiesId(req, res) {
     });
 
     sql.end();
+}
 
-    
+function getUniversityAdmin(req, res){
+    if(req && req.params)
+        console.log(req.params);
+        
+    var sql = mysql.createConnection({
+        host: db.db.host,
+        user: db.db.user,
+        password: db.db.password,
+        database: db.db.database
+    });
+
+    try{
+        var query = mysql.format(selectAdminId, [req.params.id]);
+
+        sql.query(query, function(error, results, fields){
+            // console.log("error:");
+            // console.log(error);
+            // console.log("results:");            
+            // console.log(results);
+            // console.log("fields:");
+            // console.log(fields);
+            console.log(results[0]);
+            res.send(results[0]);
+            if(res)
+                res.end();
+
+            return(results[0]);
+        })
+
+        //sql.destroy();
+        //res.send()
+        //return university id
+
+    } catch(exception) {
+
+    }
+}
+
+function getUniversityLocation(req, res){
+    var deferred = $q.defer();
+
+    if(req && req.params)
+        console.log(req.params);
+        
+    var sql = mysql.createConnection({
+        host: db.db.host,
+        user: db.db.user,
+        password: db.db.password,
+        database: db.db.database
+    });
+
+    try{
+        var query = mysql.format(selectLocationId, [req.params.id]);
+
+        sql.query(query, function(error, results, fields){
+            // console.log("error:");
+            // console.log(error);
+            // console.log("results:");            
+            // console.log(results);
+            // console.log("fields:");
+            // console.log(fields);
+            res.send(results[0]);
+            if(res)
+                res.end();
+            
+            deferred.resolve(results[0]);
+            //return(results[0]);
+        })
+
+        return deferred.promise;
+
+        //sql.destroy();
+        //res.send()
+        //return university id
+
+    } catch(exception) {
+        sql.destroy();
+    }
 }
 
 exports.getAllUniversitiesId = getAllUniversitiesId;
+exports.getUniversityAdmin = getUniversityAdmin;
+exports.getUniversityLocation = getUniversityLocation;
