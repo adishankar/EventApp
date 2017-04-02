@@ -8,6 +8,8 @@ angular.module('userService',[])
             console.log(user);
             $http.post('http://localhost:3000/api/login', {username: user.username.toString(),
             password: user.password.toString()}).then( function(data){
+                console.log("userservice");
+                console.log(data);
                 deferred.resolve(data);
             })
 

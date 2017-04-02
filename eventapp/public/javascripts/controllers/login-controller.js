@@ -4,14 +4,42 @@ angular.module('app', ['userService','uniService'])
          
          $scope.login = function(user){
             console.log(user);
-             var promise = userService.login(user);
-             promise.then(function (data){
+            if(typeof user == 'undefined' || (user.username.toString() == "" || user.password.toString() == "")){
+                console.log("Hello");
+                $scope.errorMessage = 'Please input both an Email Address and Password';
+                return;
+            }
+            userService.login(user).then(function (data){
+                 //console.log(data.data);
+                 console.log("promise came back");
                 console.log(data.data);
-
-                userService.setUserData(data.data);
-                $window.location.href = '/dashboard';
-
+                console.log(typeof data.data);
+                if(typeof data.data == 'string'){
+                    $window.location.href = '';
+                    //$scope.errorMessage = 'Username or Password is incorrect. NOTE: username and password are case sensitive';
+                    alert('Username or Password is incorrect. Please Double check your password. Passwords are case-sensitive');
+                    return;
+                }
+                else{
+                    userService.setUserData(data.data);
+                    $window.location.href = '/dashboard';
+                }
              });
+            //  var promise = userService.login(user);
+            //  promise.then(function (data){
+            //      //console.log(data.data);
+            //      console.log("promise came back");
+            //     console.log(data.data);
+            //     if(data.data == "none"){
+            //         $scope.errorMessage = 'Username or Password is incorrect. NOTE: username and password are case sensitive';
+            //         return;
+            //     }
+            //     else{
+            //         userService.setUserData(data.data);
+            //         $window.location.href = '/dashboard';
+            //     }
+            //  });
+             
          };
 
          $scope.createUser = function(user){
