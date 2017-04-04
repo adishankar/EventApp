@@ -4,7 +4,9 @@
         <title>Organization Page</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js"></script>
-        <link rel="styleshet" type="text/css" href="style.css" >
+        <link rel="stylesheet" href="/css/bootstrap.min.css" >
+        <link rel="stylesheet" type="text/css" href="style.css" >
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/nav-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>
@@ -16,30 +18,36 @@
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
-        <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
+	<script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
         <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
     </head>
     <body>
-        <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
-            <a href="/dashboard">Home</a>
-            <a href="/search">Search</a>
-            <a href="#about">About</a>
-        </div>
-        <div ng-controller="OrgCtrl" class="events">
-            <div ng-init="init()">
-                {{orgname}}
-                <button ng-click="joinOrg()">Join {{orgname}}</button>
+        <nav style="margin-bottom: 0; padding-bottom: 0;" class="navbar navbar-default">
+            <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
+                 <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
+                 <ul class="nav nav-pills" style="float: right">
+                    <li><a  href="/dashboard">Home</a></li>
+                    <li><a  href="/search">Search</a></li>
+                    <li><a  href="#about">About</a></li>  
+                 </ul>          
             </div>
-            <br><br>
+        </nav>
+        <br>
+        <br>
+        <div style="margin-top: 0; padding-top: 0;"  class="card" ng-controller="OrgCtrl">
+            <div style="height: 60px" class="card-header" ng-init="init()">
+                <h4 style="display: inline" class="card-title">{{orgname}}</h4>
+                <button style="float:right" class="btn btn-primary" ng-click="joinOrg()">Join {{orgname}}</button>
+            </div>
+         
             <div ng-repeat="event in events">
-                <a ng-click="selectEvent(event)">
-                    <div>
-                        {{event.name}}
-                        <br>
-                        {{event.description}}
+                <div ng-click="selectEvent(event)">
+                    <div class="list-group-item">
+                        <h4 class="card-title"><p>{{event.name}}</p></h4>
+                        <div class="card-text"><p>{{event.description}}</p></div>
                     </div>   
-                </a>
-                <br><br>
+                </div>
+             
             </div>
         </div>
     </body>

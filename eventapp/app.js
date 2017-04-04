@@ -38,14 +38,28 @@ app.use('/organization', organization);
 app.use('/event', event);
 app.use('/search', seach);
 
-var sqlLastId = 'SELECT LAST_INSERT_ID();';
+//var sqlLastId = 'SELECT LAST_INSERT_ID();';
 
-var userCount = 0;
+// var userCount = 0;
+var userCount = 2;
 var username = 'user';
 var password = 'pass';
 var users = [{username: "user",
             password: 'pass',
             userID: 0,
+            level: 1,
+            uni:'testUni',
+            orgs:['org2', 'org3']}, 
+            {username: "admin",
+            password: 'pass',
+            userID: 1,
+            level: 2,
+            uni:'testUni',
+            orgs:['org2', 'org3']},
+            {username: "superadmin",
+            password: 'pass',
+            userID: 2,
+            level: 3,
             uni:'testUni',
             orgs:['org2', 'org3']}];
 
