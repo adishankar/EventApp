@@ -2,8 +2,14 @@ var sqlqs = require('../sqlqueries');
 var mysql = require('mysql');
 var db = require('../config');
 
+//Get name and ID of all universities in DB (for signup page)
 let selectIdAndName = "SELECT universityID,universityName FROM university";
-let selectAdminId = "SELECT superAdmin_superAdminID FROM university WHERE universityID = ?";
+//let selectAdminId = "SELECT superAdmin_superAdminID FROM university WHERE universityID = ?";
+let selectAdminID = `SELECT userID FROM users WHERE universityID = ? AND userTypeId =
+    (SELECT typeID 
+    FROM useTypes 
+    WHERE typeName = 'superAdmin')`
+//Get Super Admin ID
 
 //GET /api/university
 function getAllUniversitiesId(req, res) {
