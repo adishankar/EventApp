@@ -3,6 +3,21 @@ INSERT INTO userTypes (typeName) Values ('superAdmin'),('admin'),('student');
 
 SELECT * FROM userTypes;
 
+INSERT INTO location (locationName, locationLongitude, locationLatitude)
+Values 
+('Orlando, FL', 28.6024, 81.2001),
+('CENATOWN, USA',0.00000,0.00000);
+
+SELECT * FROM location;
+
+INSERT INTO university (universityName, 
+	universityDescription, universityNumStudents, location_locationID)
+Values
+('University of Central Florida','Home of the UCF Knights!',64000,1),
+('Cena U','Should i say more',1000,2);
+
+SELECT * FROM university;
+
 INSERT INTO user (firstName, lastName, emailAddress, password, userTypeID, universityID) Values
 ('Joseph','Landry','joelandry@knights.ucf.edu','password',2,1),#admin
 ('super','admin','sa','roottoor',1,1),#Superadmin
@@ -28,21 +43,6 @@ SELECT * FROM user;
 #Values (3, 1, 2),(4,2,13);
 
 #SELECT * FROM admin;
-
-INSERT INTO location (locationName, locationLongitude, locationLatitude)
-Values 
-('Orlando, FL', 28.6024, 81.2001),
-('CENATOWN, USA',0.00000,0.00000);
-
-SELECT * FROM location;
-
-INSERT INTO university (universityName, 
-	universityDescription, universityNumStudents, location_locationID)
-Values
-('University of Central Florida','Home of the UCF Knights!',64000,1),
-('Cena U','Should i say more',1000,2);
-
-SELECT * FROM university;
 
 INSERT INTO RSO (RSOname, universityID)
 Values 
