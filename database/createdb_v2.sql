@@ -22,8 +22,8 @@ DROP TABLE IF EXISTS `eventWebsiteDatabase`.`location` ;
 CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`location` (
   `locationID` INT NOT NULL AUTO_INCREMENT,
   `locationName` VARCHAR(100) NULL,
-  `locationLongitude` DECIMAL NULL,
-  `locationLatitude` DECIMAL NULL,
+  `locationLongitude` DECIMAL(12,8) NULL,
+  `locationLatitude` DECIMAL(12,8) NULL,
   PRIMARY KEY (`locationID`),
   UNIQUE INDEX `locationID_UNIQUE` (`locationID` ASC))
 ENGINE = InnoDB;
@@ -39,15 +39,14 @@ CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`university` (
   `universityName` VARCHAR(45) NOT NULL,
   `universityDescription` VARCHAR(255) NULL,
   `universityNumStudents` INT NULL,
-  `location_locationID` INT NOT NULL,
-  PRIMARY KEY (`universityID`, `location_locationID`),
-  INDEX `fk_university_location1_idx` (`location_locationID` ASC),
-  UNIQUE INDEX `location_locationID_UNIQUE` (`location_locationID` ASC),
-  CONSTRAINT `fk_university_location1`
-    FOREIGN KEY (`location_locationID`)
+  `locationID` INT NULL,
+  PRIMARY KEY (`universityID`),
+  INDEX `fk_university_location_idx` (`locationID` ASC),
+  CONSTRAINT `fk_university_location`
+    FOREIGN KEY (`locationID`)
     REFERENCES `eventWebsiteDatabase`.`location` (`locationID`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -118,23 +117,18 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `eventWebsiteDatabase`.`event` ;
 
 CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`event` (
-  `eventID` INT NOT NULL,
+  `eventID` INT NOT NULL AUTO_INCREMENT,
   `eventName` VARCHAR(45) NULL,
   `eventDate` DATETIME NULL,
   `eventCategory` VARCHAR(45) NULL,
   `eventDescription` VARCHAR(255) NULL,
-  `location_locationID` INT NOT NULL,
   `rsoID` INT NULL,
   `adminID` INT NULL,
-  PRIMARY KEY (`eventID`, `location_locationID`),
-  INDEX `fk_event_location1_idx` (`location_locationID` ASC),
+  `locationID` INT NULL,
+  PRIMARY KEY (`eventID`),
   INDEX `fk_event_rso_idx` (`rsoID` ASC),
   INDEX `fk_event_admin_idx` (`adminID` ASC),
-  CONSTRAINT `fk_event_location1`
-    FOREIGN KEY (`location_locationID`)
-    REFERENCES `eventWebsiteDatabase`.`location` (`locationID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_event_location_idx` (`locationID` ASC),
   CONSTRAINT `fk_event_rso`
     FOREIGN KEY (`rsoID`)
     REFERENCES `eventWebsiteDatabase`.`RSO` (`RSOid`)
@@ -143,6 +137,11 @@ CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`event` (
   CONSTRAINT `fk_event_admin`
     FOREIGN KEY (`adminID`)
     REFERENCES `eventWebsiteDatabase`.`user` (`userID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_event_location`
+    FOREIGN KEY (`locationID`)
+    REFERENCES `eventWebsiteDatabase`.`location` (`locationID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -157,14 +156,13 @@ CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`comments` (
   `commentID` INT NOT NULL AUTO_INCREMENT,
   `comment` VARCHAR(140) NULL,
   `datePosted` DATETIME NULL,
-  `event_eventID` INT NOT NULL,
-  `event_location_locationID` INT NOT NULL,
+  `eventID` INT NULL,
   PRIMARY KEY (`commentID`),
-  INDEX `fk_comments_event1_idx` (`event_eventID` ASC, `event_location_locationID` ASC),
-  CONSTRAINT `fk_comments_event1`
-    FOREIGN KEY (`event_eventID` , `event_location_locationID`)
-    REFERENCES `eventWebsiteDatabase`.`event` (`eventID` , `location_locationID`)
-    ON DELETE NO ACTION
+  INDEX `fk_comment_event_idx` (`eventID` ASC),
+  CONSTRAINT `fk_comment_event`
+    FOREIGN KEY (`eventID`)
+    REFERENCES `eventWebsiteDatabase`.`event` (`eventID`)
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

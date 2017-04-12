@@ -14,20 +14,27 @@ function createEvent(req,res){
                 password: db.db.password,
                 database: db.db.database
             });
-            var event = req.body;
-            var query = mysql.format(createNewEventQuery, [event.eventName, 
-                event.eventDate,
-                event.eventCategory, 
-                event.eventDescription,
-                event.locationID,
-                event.rsoID,
-                event.adminID])
-
+            var event = {
+                eventName: req.body.eventName,
+                eventDate: req.body.eventDate,
+                eventDescription: req.body.eventDescription,
+                eventCategory: req.body.eventCategory,
+                location_locationID: req.body.location,
+                rsoID: req.body.rsoID,
+                adminID: req.body.adminID
+            };
+            var query = mysql.format(createNewEventQuery, event);
+            console.log(query);
             sql.query(query, function(error, results, fields){
+                if(error) throw error;
                 console.log(results);
+                res.send(results);
+                res.end();
             })
         }catch(ex){
 
         }
     }
 }
+
+exports.createEvent = createEvent;

@@ -65,26 +65,30 @@
 
         <div class="card" ng-controller="EventCtrl" ng-init="init()">
 	    <div id="map"></div>
-            <div >
-                <h4 class="card-header">{{eventname}}</h4>
-                <div class="card-content">{{eventdescription}}</div>
+            <div style="margin-bottom: 0" class="card-header">
+                <h4>{{eventname}}</h4>
+                <div >{{eventdescription}}</div>
             </div> 
             
            
-          
-            Comments:
-            <div ng-repeat="comment in comments">
-                <div>
-                    {{comment.author}}
-                    <br>
-                    {{comment.comment}}
-                </div>   
-                <br><br>
+           <div style="margin-bottom: 0" class="panel panel-primary">
+                <h5 style="margin-bottom: 0" class="panel-heading">Comments:</h5>
+                <div ng-repeat="comment in comments" >
+                    <div class="list-group-item">
+                        {{comment.author}}
+                        <br>
+                        {{comment.comment}}
+                    </div>                     
+               </div>
+           </div>
+            
+        
+            <div style="margin-bottom: 0" class="list-group-item">
+                Make a comment:
+                 <br>
+                <textarea ng-model="comment.comment" name="comment">Enter text here...</textarea> <br>
+                <input type="submit" ng-click="makeComment(comment)">
             </div>
-            <br>
-            Make a comment <br>
-            <textarea ng-model="comment.comment" name="comment">Enter text here...</textarea> <br>
-            <input type="submit" ng-click="makeComment(comment)">
         </div>
     </body>
 </html>

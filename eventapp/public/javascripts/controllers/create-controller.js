@@ -9,6 +9,7 @@ angular.module('CreateCtrl', ['google.places'])
 
             $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
             $scope.place = null;
+            $scope.currentMarker = null;
 
             $scope.updateMap = function(){
                 console.log($scope.place);
@@ -19,11 +20,28 @@ angular.module('CreateCtrl', ['google.places'])
                     animation: google.maps.Animation.DROP
                 });
 
+                $scope.currentMarker = marker;
+                //$scope.updateLocations;
+
                 $scope.map.setCenter(marker.getPosition());
 
             }
 
-            $scope.isUser = false;
+
+
+            // $scope.getCoords = function(){
+            //     var res = {};
+            //     var latlng = $scope.marker.getPosition();
+            //     res = latlng;
+            //     return res;
+            // }
+
+            // $scope.setEventLocation = function(){
+            //     var latlng = $scope.getCoords();
+
+            // }
+
+            $scope.isUser = true;
             $scope.isAdmin = false;
             $scope.isSuperAdmin = false;
             
@@ -31,9 +49,10 @@ angular.module('CreateCtrl', ['google.places'])
             $scope.master = {};
             $scope.saveEvent = function(event) {
                 //createdEvents.push(angular.copy(event));
-                event.location = $scope.place.geometry.location;
+                //event.location = $scope.place.geometry.location;
+                event.location = $scope.place;
                 console.log(event);
-                eventService.createEvent(event, $scope.orgname);
+                eventService.createEvent(event/*, $scope.orgname*/);
                 $scope.resetEvent();
             };
             $scope.resetEvent = function() {
@@ -69,12 +88,27 @@ angular.module('CreateCtrl', ['google.places'])
             $scope.init = function(){
                 var user = userService.getUserData();
                 console.log(user);
-                if (user.level == 1)
-                    $scope.isUser = true;
-                else if (user.level == 2)
-                    $scope.isAdmin = true;
-                else if (user.level == 3)
-                    $scope.isSuperAdmin = true;
+                switch(user.userTypeID){
+                    case 1:
+                        $scope.isSuperAdmin = true;
+                        break;
+                    case 2: 
+                        $scope.isAdmin = true;
+                        break;
+                    case 3:
+                    //default to setting isUser to true. SHOULDN'T HAPPEN THOUGH
+                    default:
+                        $scope.isUser = true;
+                        break;
+                }
+                // if (user.userTypeID == 1)
+                //     $scope.isUser = true;
+                // else if (user.userTypeID == 2)
+                //     $scope.isAdmin = true;
+                // else if (user.userTypeID == 3)
+                //     $scope.isSuperAdmin = true;
             }
+
+            $scope.init();
 
     }]);

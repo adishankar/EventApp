@@ -7,7 +7,7 @@ let selectIdAndName = "SELECT universityID,universityName FROM university";
 //let selectAdminId = "SELECT superAdmin_superAdminID FROM university WHERE universityID = ?";
 let selectAdminID = `SELECT userID FROM users WHERE universityID = ? AND userTypeId =
     (SELECT typeID 
-    FROM useTypes 
+    FROM userTypes 
     WHERE typeName = 'superAdmin')`
 //Get Super Admin ID
 

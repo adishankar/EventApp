@@ -155,15 +155,16 @@ app.post('/event/:eventname', function(req, res){
     res.send('creating university');
   }
   
-})
+});
 
 //SQL Command to insert new user
 // let signupQuery = `INSERT INTO user (firstName, lastName, emailAddress, password, userTypeID) Values
 // (?,?,?,?,?);`;
 //user creation POST
-//TODO: loginApi
 app.post('/api/login', api.loginApi.login);
 app.get('/api/university/admin/:id',api.universityApi.getUniversityAdmin);
+app.post('/api/event', api.eventApi.createEvent);
+app.post('/api/location', api.locationApi.createLocation);
 
 app.post('/api/signup', api.signupApi.signup);
 

@@ -2,7 +2,7 @@ INSERT INTO userTypes (typeName) Values ('superAdmin'),('admin'),('student');
 #DELETE FROM userTypes WHERE typeID in (4,5,6);
 
 SELECT * FROM userTypes;
-
+ 
 INSERT INTO location (locationName, locationLongitude, locationLatitude)
 Values 
 ('Orlando, FL', 28.6024, 81.2001),
@@ -11,7 +11,7 @@ Values
 SELECT * FROM location;
 
 INSERT INTO university (universityName, 
-	universityDescription, universityNumStudents, location_locationID)
+	universityDescription, universityNumStudents, locationID)
 Values
 ('University of Central Florida','Home of the UCF Knights!',64000,1),
 ('Cena U','Should i say more',1000,2);

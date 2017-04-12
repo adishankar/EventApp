@@ -3,14 +3,35 @@ angular.module('eventService',[])
         
         var deferred = $q.defer();
         this.createEvent = function(event){
-            $http.post('http://localhost:3000/dashboard', {
-                type: "event",
-                eventName: event.name.toString(),
-                eventLocation: event.location.toString(), 
-                eventDesc: event.description.toString(),
-                eventContactEmail: event.contactEmail.toString()
+            // $http.post('http://localhost:3000/dashboard', {
+            //     type: "event",
+            //     eventName: event.name.toString(),
+            //     eventLocation: event.location.toString(), 
+            //     eventDesc: event.description.toString(),
+            //     eventContactEmail: event.contactEmail.toString()
+            // }).then( function(data){
+            //     deferred.resolve(data);
+            // })
+            console.log(event);
+            $http.post('http://localhost:3000/api/location', {
+                locationName: event.location.name,
+                locationLatitude: event.location.geometry.location.lat(),
+                locationLongitude: event.location.geometry.location.lng()
             }).then( function(data){
-                deferred.resolve(data);
+                console.log(data.data.insertId);
+                var now = new Date();
+                $http.post('http://localhost:3000/api/event', {
+                    eventName: event.name,
+                    eventDescription: event.description,
+                    eventDate: now.getFullYear() + '/' + now.getMonth()+'/'+now.getDate(),
+                    eventCategory: event.contactEmail,
+                    location: data.data.insertId,
+                    rsoID: 1,
+                    adminID: 1
+                }).then( function(data){
+                    console.log(data);
+                    deferred.resolve(data);
+                })
             })
 
             return deferred.promise;

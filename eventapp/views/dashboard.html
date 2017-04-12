@@ -25,7 +25,7 @@
         <style>
             #map{
                 height:500px;
-                width: 500px;
+                width: 100%;
             }
              #infowindow-content .title {
                 font-weight: bold;
@@ -66,10 +66,10 @@
         </nav>
         
 
-        <div ng-controller="CreateCtrl" ng-init="init()">
+        <div ng-controller="CreateCtrl">
             <input type="text" g-places-autocomplete ng-model="place" /><button type="button" ng-click="updateMap()">Set Location</button>
             <div id="map"></div>
-            <div class="createOrg" ng-show="isUser || isAdmin">
+            <div class="createOrg">
                 <div class="card-header">Create an Organization</div>
                
                 <form>
@@ -89,11 +89,11 @@
             <br>
             <br>
 
-            <div class="createEvent" ng-show="isAdmin">
+            <div class="createEvent">
                 <div class="card-header">Create an Event</div>
                 <form>
                     <label class="list-group-item">Name: <input type="text" ng-model="event.name" /></label>
-                    <label class="list-group-item">Location: <input type="text" ng-model="place.name" /></label>
+                    <label class="list-group-item">Location: <input type="text" ng-model="event.location" /></label>
                     <label class="list-group-item">Description: <input type="text" ng-model="event.description" /></label>
                     <label class="list-group-item">Contact Email: <input type="text" ng-model="event.contactEmail" /></label>
                     <div class="card-footer" style="text-align: center">
@@ -106,12 +106,12 @@
             <br>
             <br>
 
-            <div class="createUni" ng-show="isSuperAdmin">
+            <div class="createUni">
                 <div class="card-header">Create a University Profile</div>
                 
                 <form>
                     <label class="list-group-item">Name: <input type="text" ng-model="uni.name" /></label>
-                    <label class="list-group-item">Location: <input type="text" ng-model="place.formatted_address" /></label>
+                    <label class="list-group-item">Location: <input type="text" ng-model="uni.location" /></label>
                     <label class="list-group-item">Description: <input type="text" ng-model="uni.description" /></label>     
                     <label class="list-group-item">Number of Students: <input type="text" ng-model="uni.numStudents" /></label>
                     <div class="card-footer" style="text-align: center">
