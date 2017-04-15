@@ -36,14 +36,14 @@ function createLocation(req, res){
             })
                 }
             })
-            query = mysql.format(createNewLocationQuery, loc);
-            console.log(query);
-            sql.query(query, function(error, results, fields){
-                if(error) throw error;
-                console.log(results);
-                res.send(results);
-                res.end();
-            })
+            // query = mysql.format(createNewLocationQuery, loc);
+            // console.log(query);
+            // sql.query(query, function(error, results, fields){
+            //     if(error) throw error;
+            //     console.log(results);
+            //     res.send(results);
+            //     res.end();
+            // })
         }catch(ex){
 
         }

@@ -1,7 +1,11 @@
-angular.module('app', ['userService','uniService'])
-    .controller('LoginCtrl', ['$scope', 'userService', 'uniService', '$http', '$window', '$location',
-         function LoginCtrl($scope, userService, uniService, $http, $window, $location) {
+angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
+    .controller('LoginCtrl', ['$scope', 'userService', 'uniService', 'eventService', '$http', '$window', '$location',
+         function LoginCtrl($scope, userService, uniService, eventService, $http, $window, $location) {
          
+         $scope.init = function(){
+             console.log("init");
+         }
+
          $scope.login = function(user){
             console.log(user);
             if(typeof user == 'undefined' || (user.username.toString() == "" || user.password.toString() == "")){
@@ -43,7 +47,16 @@ angular.module('app', ['userService','uniService'])
          };
 
          $scope.createUser = function(user){
+             if(!user || !user.username || !user.fName || !user.lName || !user.university || !user.password){
+                 alert("All fields are required!");
+                 return;
+             }
             //  console.log(JSON.stringify(user));
+            //console.log(user.username.substring(user.username.length - 4, user.username.length));
+             if(user.username.substring(user.username.length - 4, user.username.length).toUpperCase() != ".edu".toUpperCase()){
+                alert("You are required to use a .edu email address. Please try again!");
+                return;
+             }
              user.type = 3;
             //  console.log("HELLO\n");
              console.log(JSON.stringify(user));
@@ -64,6 +77,10 @@ angular.module('app', ['userService','uniService'])
          $scope.signUp = function(){
              $window.location.href = '/signup';
          };
+
+         $scope.createUni = function(){
+             $window.location.href = '/createUni';
+         }
 
          //$scope.universities = getUniversities();
 
@@ -86,5 +103,39 @@ angular.module('app', ['userService','uniService'])
              getUniversities();
          }
          //console.log(this.universities);
+         $scope.getPublicEvents = function(start, end, timezone, cb){
+            //call event service getPublicEvents
+            var res = eventService.getPublicEvents()
+            .then(function(data){
+                console.log("data");
+                console.log(data);
+                cb(data);
+                
+            });
+            //console.log(res);
+         }
 
+         $(document).ready(function() {
+
+            // page is now ready, initialize the calendar...
+        
+            $('#calendar').fullCalendar({
+                // put your options and callbacks here
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listWeek'
+                },
+
+                events: $scope.getPublicEvents,
+                buttonIcons: {
+                    prev: 'left-single-arrow',
+                    next: 'right-single-arrow',
+                    prevYear: 'left-double-arrow',
+                    nextYear: 'right-double-arrow'
+                },
+
+            });
+
+        });
      }]);

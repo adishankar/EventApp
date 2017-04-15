@@ -6,7 +6,7 @@ var http = require('http');
 
 //SQL Command to insert new user
 let signupQuery = `INSERT INTO user SET ?;`;
-let checkExisting = `SELECT * FROM user WHERE firstName like ? AND lastName like ? AND emailAddress like ?;`;
+let checkExisting = `SELECT * FROM user WHERE (firstName like ? AND lastName like ? AND emailAddress like ?) OR (emailAddress like ?);`;
 //user creation POST
 
 //TODO: check that the data exists before pushing it to the db.
@@ -38,7 +38,7 @@ function signup(req, res){
 		});
 
 		//check if user already exists,if so return a message and bring to login page.
-		let query = mysql.format(checkExisting, [req.body.firstName, req.body.lastName, req.body.emailAddress]);
+		let query = mysql.format(checkExisting, [req.body.firstName, req.body.lastName, req.body.emailAddress, req.body.emailAddress]);
 
 		console.log(query);
 		sql.connect(function(err) {
@@ -94,7 +94,8 @@ function sqlCreateUser(req, res, sql, newUser, uid){
 			console.log(results);
 			console.log(fields);
 			uid = results.insertId;
-			console.log(uid);
+			console.log("Uid" + uid);
+			newUser.userId = uid;
 			res.send(newUser);
 			// if(results){
 			// 	setRelation(req, res, sql, newUser, uid)

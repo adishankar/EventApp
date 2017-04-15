@@ -3,7 +3,7 @@ var router = express.Router();
 var path = require('path');
 
 /* GET home page */
-router.get('/:eventname', function(req, res, next) {
+router.get('/:eventid', function(req, res, next) {
 
   var eventname = req.params.eventname;
   console.log(eventname);

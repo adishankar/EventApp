@@ -1,7 +1,8 @@
 angular.module('CreateCtrl', ['google.places'])
-    .controller('CreateCtrl', ['$scope', 'userService','eventService', 'orgService', 'uniService', 
-        function CreateCtrl($scope, userService, eventService, orgService, uniService) {
+    .controller('CreateCtrl', ['$scope', '$window', 'userService','eventService', 'orgService', 'uniService', 
+        function CreateCtrl($scope, $window, userService, eventService, orgService, uniService) {
             
+
             var mapOptions = {
                 zoom: 16,
                 center: new google.maps.LatLng(28.600659, -81.197546)
@@ -51,7 +52,13 @@ angular.module('CreateCtrl', ['google.places'])
                 //createdEvents.push(angular.copy(event));
                 //event.location = $scope.place.geometry.location;
                 event.location = $scope.place;
+                event.datetime = (document.getElementById('datetimepicker').value);
+                event.enddatetime = (document.getElementById('datetimepicker2').value);
                 console.log(event);
+                var user = userService.getUserData();
+                console.log(user);
+                event.userId = user.userId;
+                console.log(user);
                 eventService.createEvent(event/*, $scope.orgname*/);
                 $scope.resetEvent();
             };
@@ -80,6 +87,28 @@ angular.module('CreateCtrl', ['google.places'])
                 uniService.createUni(uni);
                 $scope.resetUni();
             };
+
+            $scope.saveUni = function(uni, user){
+                uni.location = $scope.place;
+                console.log(uni);
+                console.log(user);
+                user.type=1;
+                var prom = userService.createUser(user);
+                prom.then(function(data){
+                    console.log(data);
+                    var uid = userService.getUserData().userID;
+                    console.log(uid);
+                    uni.userID = uid;
+                    var prom2 = uniService.createUni(uni);
+                    prom2.then(function(data2){
+                        console.log("Data2");
+                        console.log(data2);
+                        userService.setUniversity(data2.data.insertId);
+                        $scope.login(userService.getUserData());
+                    });
+                });
+                
+            }
             $scope.resetUni = function() {
                 $scope.uni = angular.copy($scope.master);
             };
@@ -111,4 +140,44 @@ angular.module('CreateCtrl', ['google.places'])
 
             $scope.init();
 
+            $scope.login = function(user){
+                console.log(user);
+                if(typeof user == 'undefined' || (user.emailAddress.toString() == "" || user.password.toString() == "")){
+                    console.log("Hello");
+                    $scope.errorMessage = 'Please input both an Email Address and Password';
+                    return;
+                }
+                user.username = user.emailAddress;
+                userService.login(user).then(function (data){
+                    //console.log(data.data);
+                    console.log("promise came back");
+                    console.log(data.data);
+                    console.log(typeof data.data);
+                    if(typeof data.data == 'string'){
+                        $window.location.href = '';
+                        //$scope.errorMessage = 'Username or Password is incorrect. NOTE: username and password are case sensitive';
+                        alert('Username or Password is incorrect. Please Double check your password. Passwords are case-sensitive');
+                        return;
+                    }
+                    else{
+                        userService.setUserData(data.data);
+                        $window.location.href = '/dashboard';
+                    }
+                });
+                //  var promise = userService.login(user);
+                //  promise.then(function (data){
+                //      //console.log(data.data);
+                //      console.log("promise came back");
+                //     console.log(data.data);
+                //     if(data.data == "none"){
+                //         $scope.errorMessage = 'Username or Password is incorrect. NOTE: username and password are case sensitive';
+                //         return;
+                //     }
+                //     else{
+                //         userService.setUserData(data.data);
+                //         $window.location.href = '/dashboard';
+                //     }
+                //  });
+                
+            };
     }]);

@@ -56,14 +56,12 @@ Values
 
 SELECT * FROM RSO;
 
-#INSERT INTO university_has_RSO (university_universityID,university_superAdmin_superAdminID,RSO_RSOid,RSO_admin_adminID,RSO_admin_university_universityID)
-#Values 
-#(1,2,1,1,1),(1,2,2,1,1),(1,2,3,1,1),(2,13,4,4,2),(2,13,5,4,2),(1,2,6,1,1),(2,13,7,4,2);
+#anyone can view public events. logged in users can view public uni events (for there uni)
+#anyone that is a part of the hosting RSO can view private
+INSERT INTO eventType (eventTypeName)
+Values
+('public'),
+('university'),
+('private');
 
-#SELECT * FROM university_has_RSO;
-
-#INSERT INTO student (studentID, university_universityID,university_superAdmin_superAdminID)
-#Values
-#(3,1,2),(5,1,2),(6,2,13),(7,1,2),(8,2,13),(9,2,13),(10,1,2),(11,1,2),(12,2,13);
-
-#SELECT * FROM student;
+SELECT * FROM eventType;

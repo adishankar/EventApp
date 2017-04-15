@@ -16,7 +16,8 @@ angular.module('userService',[])
             return deferred.promise;
         };
 
-        this.setUserData = function(user){
+        setUd = this.setUserData = function(user){
+            console.log("user: " + user);
             $window.localStorage.removeItem('user');
             console.log("setting user in service");
             $window.localStorage['user'] = JSON.stringify(user);
@@ -25,6 +26,8 @@ angular.module('userService',[])
         this.getUserData = function(){
             return JSON.parse($window.localStorage['user']);
         };
+
+        //TODO: Create new function to create a SuperUser, and university in one transaction (user get last id maybe sqlqueries)
 
         this.createUser = function(user){
             console.log(JSON.stringify(user));
@@ -41,9 +44,25 @@ angular.module('userService',[])
                         console.log("show message user already exists")
 
                     }else{
+                        console.log("results");
+                        
+                        console.log(data.data);
+                        setUd(data.data);
                         deferred.resolve(data);
                     }
                 });
+            return deferred.promise;
+        };
+
+        this.setUniversity = function(universityId){
+            var user = this.getUserData();
+            console.log(user);
+            $http.post('http://localhost:3000/api/user/setUniversity',{
+                universityId: universityId,
+                userId: user.userId
+            }).then(function(data){
+                deferred.resolve(data);
+            });
             return deferred.promise;
         };
 

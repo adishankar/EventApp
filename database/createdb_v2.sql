@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`university` (
   `universityDescription` VARCHAR(255) NULL,
   `universityNumStudents` INT NULL,
   `locationID` INT NULL,
+  `universityPicture` VARCHAR(500) NULL,
   PRIMARY KEY (`universityID`),
   INDEX `fk_university_location_idx` (`locationID` ASC),
   CONSTRAINT `fk_university_location`
@@ -112,6 +113,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `eventWebsiteDatabase`.`eventType`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `eventWebsiteDatabase`.`eventType` ;
+
+CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`eventType` (
+  `eventTypeID` INT NOT NULL AUTO_INCREMENT,
+  `eventTypeName` VARCHAR(50) NULL,
+  PRIMARY KEY (`eventTypeID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `eventWebsiteDatabase`.`event`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `eventWebsiteDatabase`.`event` ;
@@ -119,16 +132,19 @@ DROP TABLE IF EXISTS `eventWebsiteDatabase`.`event` ;
 CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`event` (
   `eventID` INT NOT NULL AUTO_INCREMENT,
   `eventName` VARCHAR(45) NULL,
-  `eventDate` DATETIME NULL,
+  `eventStartDate` DATETIME NULL,
+  `eventEndDate` DATETIME NULL,
   `eventCategory` VARCHAR(45) NULL,
   `eventDescription` VARCHAR(255) NULL,
   `rsoID` INT NULL,
   `adminID` INT NULL,
   `locationID` INT NULL,
+  `eventTypeID` INT NULL,
   PRIMARY KEY (`eventID`),
   INDEX `fk_event_rso_idx` (`rsoID` ASC),
   INDEX `fk_event_admin_idx` (`adminID` ASC),
   INDEX `fk_event_location_idx` (`locationID` ASC),
+  INDEX `fk_event_type_idx` (`eventTypeID` ASC),
   CONSTRAINT `fk_event_rso`
     FOREIGN KEY (`rsoID`)
     REFERENCES `eventWebsiteDatabase`.`RSO` (`RSOid`)
@@ -142,6 +158,11 @@ CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`event` (
   CONSTRAINT `fk_event_location`
     FOREIGN KEY (`locationID`)
     REFERENCES `eventWebsiteDatabase`.`location` (`locationID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_event_type`
+    FOREIGN KEY (`eventTypeID`)
+    REFERENCES `eventWebsiteDatabase`.`eventType` (`eventTypeID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -199,7 +220,7 @@ CREATE USER 'dbuser' IDENTIFIED BY '&z47JGdzgrT*^uG';
 GRANT SELECT, INSERT, TRIGGER ON TABLE `eventWebsiteDatabase`.* TO 'dbuser';
 GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE `eventWebsiteDatabase`.* TO 'dbuser';
 GRANT ALL ON `eventWebsiteDatabase`.* TO 'dbuser';
-GRANT EXECUTE ON ROUTINE `eventWebsiteDatabase`.* TO 'dbuser';
+#GRANT EXECUTE ON ROUTINE `eventWebsiteDatabase`.* TO 'dbuser';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

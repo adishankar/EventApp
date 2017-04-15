@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <title>Event App</title>
+	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
+        async defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+        <link rel="stylesheet" href="/css/bootstrap.min.css" >
+        <!--<link rel="stylesheet" type="text/css" href="style.css" >-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+        <!--<script src="angular.js"></script>-->
+        <script type="text/javascript" src="/javascripts/app.js"></script>
+	    <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script> 
+        <script type="text/javascript" src="/javascripts/controllers/login-controller.js"></script>       
+        <script type="text/javascript" src="/javascripts/controllers/create-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/nav-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/event-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/search-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
+        <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
+        <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
+        <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
+        <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
+        <style>
+            #map{
+                height:500px;
+                width: 35%;
+            }
+             #infowindow-content .title {
+                font-weight: bold;
+            }
+
+            #infowindow-content {
+                display: none;
+            }
+            
+            #map #infowindow-content {
+                display: inline;
+            }
+
+            #title {
+                color: #fff;
+                background-color: #4d90fe;
+                font-size: 25px;
+                font-weight: 500;
+                padding: 6px 12px;
+            }
+            #target {
+                width: 345px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav style="margin-bottom: 0; padding-bottom: 0;" class="navbar navbar-default">
+            <div class="topnav" id="myTopnav">
+                 <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
+                 <ul class="nav nav-pills" style="float: left">
+                    <li><a  href="/">Back</a></li>
+                 </ul>          
+            </div>
+        </nav>
+        <div ng-controller="CreateCtrl">
+            <input type="text" g-places-autocomplete ng-model="place" /><button type="button" ng-click="updateMap()">Set Location</button>
+            <div id="map"></div>
+            <div class="createUni">
+                <div class="card-header">Create a University Profile</div>
+                
+                <form>
+                    <div ng-if="errorMessage">{{errorMessage}}</div>
+                    <!--<div ng-if="errorMessage"><input type="submit" ng-click="loginPage()" value="Back to Login Page"/></div>-->
+                    <!--<br>-->
+                    <label  class="list-group-item">First Name: <input style="width: 350px" type="text" ng-model="user.fName" /></label>
+                    <!--<br>-->
+                    <label class="list-group-item">Last Name: <input style="width: 350px" type="text" ng-model="user.lName" /></label>
+                    <!--<br>-->
+                    <!--<label >University: <input style="width: 350px" type="text" ng-model="user.uni" /></label>-->
+                    <!--<br>-->
+                    <label class="list-group-item">Email Address (.edu): <input style="width: 350px" type="text" ng-model="user.username" /></label>
+                    <!--<br>-->
+                    <label class="list-group-item">Password: <input style="width: 350px" type="password" ng-model="user.password" /></label>
+                    <label class="list-group-item">Name: <input type="text" ng-model="uni.name" /></label>
+                    <label class="list-group-item">Location: Set automatically from map above.<!--<input type="text" ng-model="uni.location" />--></label>
+                    <label class="list-group-item">Description: <input type="text" ng-model="uni.description" /></label>     
+                    <label class="list-group-item">Number of Students: <input type="text" ng-model="uni.numStudents" /></label>
+                    <div class="card-footer" style="text-align: center">
+                        <input type="button" ng-click="resetUni()" value="Reset" />
+                        <input type="submit" ng-click="saveUni(uni, user)" value="Save" />
+                    </div>
+                </form>
+            </div>         
+        </div>
+    </body>
+</html>

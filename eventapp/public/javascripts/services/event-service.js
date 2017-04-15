@@ -18,16 +18,20 @@ angular.module('eventService',[])
                 locationLatitude: event.location.geometry.location.lat(),
                 locationLongitude: event.location.geometry.location.lng()
             }).then( function(data){
-                console.log(data.data.insertId);
-                var now = new Date();
+                //console.log(data.data.insertId);
+                //var now = new Date();
+                console.log(event);
+                // console.log(data);
                 $http.post('http://localhost:3000/api/event', {
                     eventName: event.name,
                     eventDescription: event.description,
-                    eventDate: now.getFullYear() + '/' + now.getMonth()+'/'+now.getDate(),
+                    eventStartDate: (event.datetime),
+                    eventEndDate: (event.enddatetime),
                     eventCategory: event.contactEmail,
                     location: data.data.insertId,
+                    eventTypeId: event.isPublic ? 1 : 3,
                     rsoID: 1,
-                    adminID: 1
+                    adminID: event.userId
                 }).then( function(data){
                     console.log(data);
                     deferred.resolve(data);
@@ -72,6 +76,17 @@ angular.module('eventService',[])
 
             return deferred.promise;
         };
+
+        this.getPublicEvents = function(){
+            var url = 'http://localhost:3000/api/events/public';
+            $http.get(url, {
+                eventTypeId: 1
+            }).then(function (data){
+                console.log(data.data)
+                deferred.resolve(data.data);
+            })
+            return deferred.promise;
+        }
 
         this.makeComment = function(event, comment){
 

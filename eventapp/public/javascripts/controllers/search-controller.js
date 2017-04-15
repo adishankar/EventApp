@@ -19,7 +19,8 @@ angular.module('SearchCtrl', [])
         $scope.searchOrgs = function(org){
             var promise = orgService.searchOrgs(org);
             promise.then(function (data){
-                console.log(data.data);
+                if(data.data.toUpperCase() == "No Results".toUpperCase()) return;
+                console.log(data);
                 $scope.searchResults = data.data;
                 type = 'org';
                 //$window.location.reload();

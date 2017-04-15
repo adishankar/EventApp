@@ -15,7 +15,7 @@ angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
 //                 //console.log(user);
 //                 $scope.name = user.username;
 // >>>>>>> master
-                var promise = orgService.getJoinedOrgs();
+                var promise = orgService.getJoinedOrgs(user.userId);
                 promise.then(function (data){
                     console.log(data.data);
                     $scope.orgs = data.data;

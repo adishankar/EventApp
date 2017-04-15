@@ -8,9 +8,11 @@
         <link rel="stylesheet" href="/css/bootstrap.min.css" >
         <link rel="stylesheet" type="text/css" href="style.css" >
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+	    <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>        
         <!--<script src="angular.js"></script>-->
         <script type="text/javascript" src="/javascripts/app.js"></script>
-        <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script> 
+        <script type="text/javascript" src="/javascripts/controllers/login-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/nav-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/create-controller.js"></script>
@@ -20,12 +22,14 @@
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
-	 <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
         <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
+        <link rel="stylesheet" type="text/css" href="/css/datetimepicker.css"/ >
+        <script src="/javascripts/misc/jquery.min.js"></script>
+        <script src="/javascripts/misc/datetimepicker.min.js"></script>
         <style>
             #map{
                 height:500px;
-                width: 100%;
+                width: 35%;
             }
              #infowindow-content .title {
                 font-weight: bold;
@@ -93,9 +97,12 @@
                 <div class="card-header">Create an Event</div>
                 <form>
                     <label class="list-group-item">Name: <input type="text" ng-model="event.name" /></label>
+                    <label class="list-group-item">Start Date/Time: <input id="datetimepicker" type="datetime" ng-model="event.datetime"/></label>
+                    <label class="list-group-item">End Date/Time: <input id="datetimepicker2" type="datetime" ng-model="event.enddatetime"/></label>
                     <label class="list-group-item">Location: <input type="text" ng-model="event.location" /></label>
                     <label class="list-group-item">Description: <input type="text" ng-model="event.description" /></label>
                     <label class="list-group-item">Contact Email: <input type="text" ng-model="event.contactEmail" /></label>
+                    <label class="list-group-item">This Event is Public (Anyone can see it) <input type="checkbox" ng-model="event.isPublic"/></label>
                     <div class="card-footer" style="text-align: center">
                         <input type="button" ng-click="resetEvent()" value="Reset" />
                         <input type="submit" ng-click="saveEvent(event)" value="Save" />
@@ -111,7 +118,7 @@
                 
                 <form>
                     <label class="list-group-item">Name: <input type="text" ng-model="uni.name" /></label>
-                    <label class="list-group-item">Location: <input type="text" ng-model="uni.location" /></label>
+                    <label class="list-group-item">Location: Set automatically from map above.<!--<input type="text" ng-model="uni.location" />--></label>
                     <label class="list-group-item">Description: <input type="text" ng-model="uni.description" /></label>     
                     <label class="list-group-item">Number of Students: <input type="text" ng-model="uni.numStudents" /></label>
                     <div class="card-footer" style="text-align: center">
@@ -133,5 +140,11 @@
             </div>
         </div>
         <br>
+        <script type="text/javascript">
+            $.datetimepicker.setLocale('en');
+            jQuery('#datetimepicker').datetimepicker();
+            jQuery('#datetimepicker2').datetimepicker();
+        </script>
     </body>
 </html>
+

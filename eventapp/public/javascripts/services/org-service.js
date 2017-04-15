@@ -22,12 +22,12 @@ angular.module('orgService',[])
         };
 
         //this needs to be fixed
-        this.getJoinedOrgs = function(){
+        this.getJoinedOrgs = function(id){
 
             var orgData;
 
-            $http.post('http://localhost:3000/dashboard', {
-                type: "orgRequest"
+            $http.get('http://localhost:3000/api/rsos/getJoined' + id, {
+                // type: "orgRequest"
             }).then( function(data){
                 deferred.resolve(data);
             })
@@ -37,7 +37,7 @@ angular.module('orgService',[])
 
         //search for all the organizations by name
         this.searchOrgs = function(query){
-            var url = 'http://localhost:3000/search/';
+            var url = 'http://localhost:3000/search';
             $http.post(url, {
                 type: 'org',
                 query: query
@@ -49,10 +49,10 @@ angular.module('orgService',[])
         };
 
         //join an organization
+        //takes the id of the organization
         this.joinOrg = function(user, org){
-            var url = 'http://localhost:3000/organization/' + org.toString();
+            var url = 'http://localhost:3000/api/organization/join/:id' + org.toString();
             $http.post(url, {
-                type: 'joinOrg',
                 user: user.toString(),
                 org: org.toString()
             }).then( function(data){
