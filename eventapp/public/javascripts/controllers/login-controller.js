@@ -6,9 +6,16 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
              console.log("init");
          }
 
-         $scope.login = function(user){
+         loginUser = $scope.login = function(user){
+             console.log("login beginning");
             console.log(user);
-            if(typeof user == 'undefined' || (user.username.toString() == "" || user.password.toString() == "")){
+            if(user == "existing")
+            {
+                return;
+            }
+            console.log(user.username);
+            //if(typeof user == 'undefined' || (((typeof user.emailAddress != 'undefined' || user.emailAddress.toString() == "") || (typeof user.username != 'undefined' || user.username.toString() == "")) || user.password.toString() == "")){
+            if(typeof user == 'undefined'){
                 console.log("Hello");
                 $scope.errorMessage = 'Please input both an Email Address and Password';
                 return;
@@ -46,6 +53,11 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
              
          };
 
+        //  setTimeout(function(){
+        //      var user = userService.getUserData();
+        //      console.log(user);
+        //  }, 100);
+
          $scope.createUser = function(user){
              if(!user || !user.username || !user.fName || !user.lName || !user.university || !user.password){
                  alert("All fields are required!");
@@ -61,16 +73,21 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
             //  console.log("HELLO\n");
              console.log(JSON.stringify(user));
              var promise = userService.createUser(user);
-             promise.then(function (data){
-                 if(data.data == 'existing'){
-                     console.log(data.data);
+             promise.then(function (data2){
+                 //while(data2.data == "");
+                 $scope.errorMessage = "";
+                 if(data2.data == 'existing'){
+                     alert('Username: ' + user.username + ' already exists. Try a different email Address, or try to login if you already have an account.');
+                     
+                     $window.location.href="/signup";
+                     //console.log(data2.data);
                      //user already exists, re route to login page, with error message;
-                     $scope.errorMessage = 'Username: ' + user.username + ' already exists. Try a different email Address, or try to login if you already have an account.';
+                     //data2.data = "";
+                     return;
                  }
-                 console.log(data.data);
+                 console.log(data2.data);
 
-                 $scope.login(data.data);
-
+                 loginUser(data2.data);
              });
          };
 
@@ -102,6 +119,10 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
          if($window.location.pathname == '/signup'){
              getUniversities();
          }
+
+         $scope.goBack = function(){
+             $window.history.back();
+         }
          //console.log(this.universities);
          $scope.getPublicEvents = function(start, end, timezone, cb){
             //call event service getPublicEvents
@@ -118,24 +139,27 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
          $(document).ready(function() {
 
             // page is now ready, initialize the calendar...
-        
-            $('#calendar').fullCalendar({
-                // put your options and callbacks here
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay,listWeek'
-                },
-
-                events: $scope.getPublicEvents,
-                buttonIcons: {
-                    prev: 'left-single-arrow',
-                    next: 'right-single-arrow',
-                    prevYear: 'left-double-arrow',
-                    nextYear: 'right-double-arrow'
-                },
-
-            });
+            if($window.location.pathname != "/signup"){
+                $('#calendar').fullCalendar({
+                    // put your options and callbacks here
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay,listWeek'
+                    },
+                    eventClick: function(callback, jsEvent, view){
+                        $window.location.reload();
+                    },
+                    events: $scope.getPublicEvents,
+                    buttonIcons: {
+                        prev: 'left-single-arrow',
+                        next: 'right-single-arrow',
+                        prevYear: 'left-double-arrow',
+                        nextYear: 'right-double-arrow'
+                    },
+                });
+            }
+            
 
         });
      }]);

@@ -178,12 +178,19 @@ CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`comments` (
   `comment` VARCHAR(140) NULL,
   `datePosted` DATETIME NULL,
   `eventID` INT NULL,
+  `userID` INT NULL,
   PRIMARY KEY (`commentID`),
   INDEX `fk_comment_event_idx` (`eventID` ASC),
+  INDEX `fk_comment_user_idx` (`userID` ASC),
   CONSTRAINT `fk_comment_event`
     FOREIGN KEY (`eventID`)
     REFERENCES `eventWebsiteDatabase`.`event` (`eventID`)
     ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_comment_user`
+    FOREIGN KEY (`userID`)
+    REFERENCES `eventWebsiteDatabase`.`user` (`userID`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -194,18 +201,18 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `eventWebsiteDatabase`.`RSO_has_user` ;
 
 CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`RSO_has_user` (
-  `RSO_RSOid` INT NOT NULL,
-  `user_userID` INT NOT NULL,
-  PRIMARY KEY (`RSO_RSOid`, `user_userID`),
-  INDEX `fk_RSO_has_user_user1_idx` (`user_userID` ASC),
-  INDEX `fk_RSO_has_user_RSO1_idx` (`RSO_RSOid` ASC),
+  `RSOid` INT NOT NULL,
+  `userID` INT NOT NULL,
+  PRIMARY KEY (`RSOid`, `userID`),
+  INDEX `fk_RSO_has_user_user1_idx` (`userID` ASC),
+  INDEX `fk_RSO_has_user_RSO1_idx` (`RSOid` ASC),
   CONSTRAINT `fk_RSO_has_user_RSO1`
-    FOREIGN KEY (`RSO_RSOid`)
+    FOREIGN KEY (`RSOid`)
     REFERENCES `eventWebsiteDatabase`.`RSO` (`RSOid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_RSO_has_user_user1`
-    FOREIGN KEY (`user_userID`)
+    FOREIGN KEY (`userID`)
     REFERENCES `eventWebsiteDatabase`.`user` (`userID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

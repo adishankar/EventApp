@@ -5,7 +5,9 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
         async defer></script>
         <link rel="stylesheet" href="/css/bootstrap.min.css" >
-        <link rel="stylesheet" type="text/css" href="style.css" >
+        <!--<link rel="stylesheet" type="text/css" href="style.css" >-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
         <script type="text/javascript" src="/javascripts/app.js"></script>
@@ -22,6 +24,14 @@
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
 	<script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
         <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
+        <style>
+            #link:hover{
+                color:darkgray
+            }
+            #link{
+                color:blue
+            }
+        </style>
     </head>
     <body>
         <!--<nav style="margin-bottom: 0; padding-bottom: 0;" class="navbar navbar-default">
@@ -38,7 +48,7 @@
             <div class="topnav" id="myTopnav">
                  <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
                  <ul class="nav nav-pills" style="float: left">
-                    <li><a  href="/">Back</a></li>
+                    <li><a href="/" target="_self">Back</a></li>
                  </ul>          
             </div>
         </nav>
@@ -62,7 +72,7 @@
                 <br>
                 <label >Password: <input style="width: 350px" type="password" ng-model="user.password" /></label>
                 <br>
-                <label ng-click="createUni()">Are you signing up a University? Click here</label>
+                <label id="link" ng-click="createUni()">Are you signing up a University? Click here</label>
             </div>
             <br>
             <div class="card-footer" style="text-align: center">

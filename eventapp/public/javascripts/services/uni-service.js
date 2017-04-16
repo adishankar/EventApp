@@ -26,7 +26,7 @@ angular.module('uniService',[])
         };
 
         this.getAllUniIds = function(){
-            $http.post('http://localhost:3000/api/university')
+            $http.get('http://localhost:3000/api/university')
                 .then(function (data){
                     deferred.resolve(data);
                     console.log('got data');

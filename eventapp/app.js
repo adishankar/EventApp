@@ -12,6 +12,7 @@ var organization = require('./routes/organization');
 var event = require('./routes/event');
 var seach = require('./routes/search');
 var createUni = require('./routes/createUni');
+var createEvent = require('./routes/createEvent');
 
 var mysql = require('mysql');
 var db = require('./config');
@@ -35,10 +36,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/dashboard', dashboard);
 app.use('/signup', signup);
-app.use('/organization', organization);
+app.use('/rso', organization);
 app.use('/event', event);
 app.use('/search', seach);
 app.use('/createUni', createUni);
+app.use('/createEvent', createEvent);
 
 //var sqlLastId = 'SELECT LAST_INSERT_ID();';
 
@@ -114,31 +116,31 @@ app.post('/dashboard', function(req, res){
 })
 
 //get events for an organization
-app.post('/organization/:orgname', function(req, res){
+app.post('/rso/:id', function(req, res){
 
-  if (req.body.type == 'events')
+  //if (req.body.type == 'events')
     res.send(events);
 
-  else if (req.body.type == 'joinOrg'){
-    for (var i=0; i<users.length; i++){
-      if (users[i].username == req.body.user.toString()){
-        console.log('adding ' + req.body.org + ' to user ' + users[i].username);
-        users[i].orgs.push(req.body.org);
-        res.send(users[i].orgs);
-        return;
-      }
-    }
-  }
-})
+  // else if (req.body.type == 'joinOrg'){
+  //   for (var i=0; i<users.length; i++){
+  //     if (users[i].username == req.body.user.toString()){
+  //       console.log('adding ' + req.body.org + ' to user ' + users[i].username);
+  //       users[i].orgs.push(req.body.org);
+  //       res.send(users[i].orgs);
+  //       return;
+  //     }
+  //   }
+  // }
+});
 
 //get event details for singe event
 app.post('/event/:id', function(req, res){
 
   // if (req.body.type == 'getEvent'){
     var id = req.body.id;
-    console.log(req.body);
+    console.log(id);
     //console.log(events.event1);
-    var index = findEvent(req.body);
+    var index = findEvent(id);
 
     res.send(events[index]);
   // }
@@ -169,10 +171,22 @@ app.post('/api/university', api.universityApi.createUniversity);
 //get university sa id (based on universityID)
 app.get('/api/university/admin/:id',api.universityApi.getUniversityAdmin);
 //get joined RSOs by User ID
-app.get('/api/rsos/getJoined/:id,')
+app.get('/api/rsos/getJoined/:id', api.rsoApi.getRsos);
+
+app.get('/api/rso/getEvents/:id', api.rsoApi.getRsoEvents);
+
+app.get('/api/rso/:rsoid/:uid', api.rsoApi.isInRso);
+
+app.get('/api/rso/:id', api.rsoApi.getRsoDetailts);
+
+app.post('/api/rso/join/:rsoid/:uid', api.rsoApi.joinRso);
+
+app.get('/api/event/:id', api.eventApi.getEvent);
 //create new event
 app.post('/api/event', api.eventApi.createEvent);
 
+app.get('/api/location/:id', api.locationApi.getLocation);
+//Get public all public events
 app.get('/api/events/public', api.eventApi.getPublicEvents);
 //create new location
 app.post('/api/location', api.locationApi.createLocation);
@@ -181,6 +195,9 @@ app.post('/api/signup', api.signupApi.signup);
 //set univesrityID on superadmin
 app.post('/api/user/setUniversity', api.userApi.setUniversity);
 
+app.post('/api/event/comments/:id', api.eventApi.createComment);
+
+app.get('/api/event/comments/:id', api.eventApi.getComments);
 // app.post('/signup', function(req, res){
 //   console.log(req.body);
 //   userCount++;

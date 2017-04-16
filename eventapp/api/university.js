@@ -37,7 +37,7 @@ function getAllUniversitiesId(req, res) {
         sql.query(query, function(error, results, fields){
             //What to do here?
             //maybe nothing
-            //console.log(error);
+            console.log(error);
             var ret = [];
             for(var uni of results)
             {
@@ -56,7 +56,7 @@ function getAllUniversitiesId(req, res) {
     }catch(exception){
 
     }finally{
-        sql.destroy();
+        // sql.destroy();
     }
     
 }
@@ -153,6 +153,11 @@ function createUniversity(req, res){
 			universityNumStudents: req.body.numStudents,
 			locationID: req.body.locationId};
 		//console.log("are we here?");
+        if(!newUni.universityName || !newUni.universityDescription || !newUni.locationID || !newUni.universityNumStudents){
+            res.send("Missing details");
+            res.end();
+            return;
+        }
         try{
             var sql = mysql.createConnection({
                 host: db.db.host,

@@ -2,6 +2,7 @@ angular.module('CreateCtrl', ['google.places'])
     .controller('CreateCtrl', ['$scope', '$window', 'userService','eventService', 'orgService', 'uniService', 
         function CreateCtrl($scope, $window, userService, eventService, orgService, uniService) {
             
+            $scope.RSOs = []
 
             var mapOptions = {
                 zoom: 16,
@@ -82,6 +83,7 @@ angular.module('CreateCtrl', ['google.places'])
             //university creation stuff
             $scope.saveUni = function(uni) {
                 //createdEvents.push(angular.copy(event));
+                console.log($scope.image);
                 uni.location = $scope.place.geometry.location;
                 console.log(uni);
                 uniService.createUni(uni);
@@ -130,6 +132,16 @@ angular.module('CreateCtrl', ['google.places'])
                         $scope.isUser = true;
                         break;
                 }
+                var promise = orgService.getJoinedOrgs(user.userID);
+                promise.then(function (data){
+                    console.log(data.data);
+                    //if(data.data == "no results"){
+                        //$scope.error = "You have not joined any organizations!";
+                    //}else{
+                        $scope.RSOs = data.data;
+                        console.log($scope.RSOs);
+                    //}
+                });
                 // if (user.userTypeID == 1)
                 //     $scope.isUser = true;
                 // else if (user.userTypeID == 2)

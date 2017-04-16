@@ -6,7 +6,9 @@ angular.module('userService',[])
 
         this.login = function(user){
             console.log(user);
-            $http.post('http://localhost:3000/api/login', {username: user.username.toString(),
+            if(user == "")
+                return;
+            $http.post('http://localhost:3000/api/login', {username: typeof user.username != 'undefined' ? user.username.toString() : user.emailAddress.toString(),
             password: user.password.toString()}).then( function(data){
                 console.log("userservice");
                 console.log(data);
@@ -17,14 +19,19 @@ angular.module('userService',[])
         };
 
         setUd = this.setUserData = function(user){
-            console.log("user: " + user);
+            if(user == "existing"){
+                return;
+            }
+            console.log("user: " + JSON.stringify(user));
             $window.localStorage.removeItem('user');
             console.log("setting user in service");
             $window.localStorage['user'] = JSON.stringify(user);
         };
 
         this.getUserData = function(){
-            return JSON.parse($window.localStorage['user']);
+            var ret = JSON.parse($window.localStorage['user']);
+            console.log(ret);
+            return ret;//JSON.parse($window.localStorage['user']);
         };
 
         //TODO: Create new function to create a SuperUser, and university in one transaction (user get last id maybe sqlqueries)

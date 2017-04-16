@@ -3,7 +3,8 @@ angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
         function DashCtrl($scope, $window, userService, orgService, eventService) {
         
         $scope.selectOrg = function(org){
-            var url = '../organization/' + org.name.toString();
+            console.log(org);
+            var url = '../rso/' + org.id.toString();
             $window.location.href = url;
         };
 
@@ -15,10 +16,14 @@ angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
 //                 //console.log(user);
 //                 $scope.name = user.username;
 // >>>>>>> master
-                var promise = orgService.getJoinedOrgs(user.userId);
+                var promise = orgService.getJoinedOrgs(user.userID);
                 promise.then(function (data){
                     console.log(data.data);
-                    $scope.orgs = data.data;
+                    if(data.data == "no results"){
+                        $scope.error = "You have not joined any organizations!";
+                    }else{
+                        $scope.orgs = data.data;
+                    }
                 });
             };
     }]);

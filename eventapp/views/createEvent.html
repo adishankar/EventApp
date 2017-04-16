@@ -25,6 +25,9 @@
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
         <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
+        <link rel="stylesheet" type="text/css" href="/css/datetimepicker.css"/ >
+        <script src="/javascripts/misc/jquery.min.js"></script>
+        <script src="/javascripts/misc/datetimepicker.min.js"></script>
         <style>
             #map{
                 height:500px;
@@ -67,33 +70,30 @@
         <div ng-controller="CreateCtrl">
             <input type="text" g-places-autocomplete ng-model="place" /><button type="button" ng-click="updateMap()">Set Location</button>
             <div id="map"></div>
-            <div class="createUni">
-                <div class="card-header">Create a University Profile</div>
-                
+            <div class="createEvent">
+                <div class="card-header">Create an Event</div>
                 <form>
-                    <div ng-if="errorMessage">{{errorMessage}}</div>
-                    <!--<div ng-if="errorMessage"><input type="submit" ng-click="loginPage()" value="Back to Login Page"/></div>-->
-                    <!--<br>-->
-                    <label  class="list-group-item">First Name: <input style="width: 350px" type="text" ng-model="user.fName" /></label>
-                    <!--<br>-->
-                    <label class="list-group-item">Last Name: <input style="width: 350px" type="text" ng-model="user.lName" /></label>
-                    <!--<br>-->
-                    <!--<label >University: <input style="width: 350px" type="text" ng-model="user.uni" /></label>-->
-                    <!--<br>-->
-                    <label class="list-group-item">Email Address (.edu): <input style="width: 350px" type="text" ng-model="user.username" /></label>
-                    <!--<br>-->
-                    <label class="list-group-item">Password: <input style="width: 350px" type="password" ng-model="user.password" /></label>
-                    <label class="list-group-item">University Name: <input type="text" ng-model="uni.name" /></label>
-                    <label class="list-group-item">Location: Set automatically from map above.<!--<input type="text" ng-model="uni.location" />--></label>
-                    <label class="list-group-item">Description: <input type="text" ng-model="uni.description" /></label>     
-                    <label class="list-group-item">Number of Students: <input type="text" ng-model="uni.numStudents" /></label>
-                    <!--<input type="file"  ng-model="image"></input>-->
+                    <label class="list-group-item">Name: <input type="text" ng-model="event.name" /></label>
+                    <label class="list-group-item">RSO hosting Event: <select ng-model="event.rsoID" ng>
+                        <option ng-repeat="rso in RSOs" ng-value="rso.id">{{rso.name}}</option>
+                    </select></label>
+                    <label class="list-group-item">Start Date/Time: <input id="datetimepicker" type="datetime" ng-model="event.datetime"/></label>
+                    <label class="list-group-item">End Date/Time: <input id="datetimepicker2" type="datetime" ng-model="event.enddatetime"/></label>
+                    <label class="list-group-item">Location: Set automatically from map above.<!--<input type="text" ng-model="event.location" />--></label>
+                    <label class="list-group-item">Description: <textarea type="text" ng-model="event.description" style="width:30%; height:10em" ></textarea></label>
+                    <!--<label class="list-group-item">Contact Email: <input type="text" ng-model="event.contactEmail" /></label>-->
+                    <label class="list-group-item">This Event is Public (Anyone can see it) <input type="checkbox" ng-model="event.isPublic"/></label>
                     <div class="card-footer" style="text-align: center">
-                        <input type="button" ng-click="resetUni()" value="Reset" />
-                        <input type="submit" ng-click="saveUni(uni, user)" value="Save" />
-                    </div>
+                        <input type="button" ng-click="resetEvent()" value="Reset" />
+                        <input type="submit" ng-click="saveEvent(event)" value="Save" />
+                   </div>
                 </form>
-            </div>         
+            </div>     
         </div>
+        <script type="text/javascript">
+            $.datetimepicker.setLocale('en');
+            jQuery('#datetimepicker').datetimepicker();
+            jQuery('#datetimepicker2').datetimepicker();
+        </script>
     </body>
 </html>

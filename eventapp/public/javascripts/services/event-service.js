@@ -2,6 +2,10 @@ angular.module('eventService',[])
     .service('eventService', ['$http', '$q', '$window', function eventService($http, $q, $window){
         
         var deferred = $q.defer();
+        var deferred2 = $q.defer();
+        var def = $q.defer();
+        var def2 = $q.defer();
+
         this.createEvent = function(event){
             // $http.post('http://localhost:3000/dashboard', {
             //     type: "event",
@@ -30,7 +34,7 @@ angular.module('eventService',[])
                     eventCategory: event.contactEmail,
                     location: data.data.insertId,
                     eventTypeId: event.isPublic ? 1 : 3,
-                    rsoID: 1,
+                    rsoID: event.rsoID,
                     adminID: event.userId
                 }).then( function(data){
                     console.log(data);
@@ -42,11 +46,16 @@ angular.module('eventService',[])
         };
 
         this.getOrgEvents = function(orgName){
-            var url = 'http://localhost:3000/organization/' + orgName.toString();
-            $http.post(url, {
-                type:'events',
-                orgName: orgName.toString()
+            console.log(orgName);
+            var url = 'http://localhost:3000/api/rso/getEvents/' + orgName.toString();
+            $http.get(url, {
+                orgId: orgName
             }).then( function(data){
+                console.log(data.data);
+                if(data.data == "no results"){
+                    deferred.resolve("No Events Currently");
+                    return;
+                }
                 deferred.resolve(data);
             })
 
@@ -65,12 +74,12 @@ angular.module('eventService',[])
             return deferred.promise;
         };
 
-        this.getEvent = function(eventName){
-            var url = 'http://localhost:3000/event/' + eventName.toString();
-            $http.post(url, {
-                type: 'getEvent',
-                eventName: eventName.toString()
+        this.getEvent = function(eventId){
+            var url = 'http://localhost:3000/api/event/' + eventId.toString();
+            $http.get(url, {
+                eventId: eventId
             }).then( function(data){
+                console.log(data);
                 deferred.resolve(data);
             })
 
@@ -88,22 +97,47 @@ angular.module('eventService',[])
             return deferred.promise;
         }
 
-        this.makeComment = function(event, comment){
+        this.makeComment = function(event, comment, user){
 
             //console.log(comment);
             //console.log(event);
-
-            var url = 'http://localhost:3000/event/' + event.name.toString();
+            //var user = userSerivce.getUserData();
+            console.log(user);
+            var url = 'http://localhost:3000/api/event/comments/' + event.id.toString();
             $http.post(url, {
-                type: 'comment',
-                eventName: event.name.toString(),
-                author: comment.author,
-                comment: comment.comment
+                //eventName: event.name.toString(),
+                eventId: event.id,
+                author: user.firstName + " " + user.lastName,
+                comment: comment.comment,
+                userId: user.userID
             }).then( function(data){
+                console.log(data);
                 deferred.resolve(data);
             })
 
             return deferred.promise;
         };
+
+        this.getComments = function(eventId){
+            var url = 'http://localhost:3000/api/event/comments/' + eventId.toString();
+            $http.get(url, {
+                eventId: eventId
+            }).then(function(data){
+                console.log("hello");
+                console.log(data.data);
+                def.resolve(data.data);
+            })
+            return def.promise;
+        }
+
+        this.getLocation = function(eventId){
+            var url = 'http://localhost:3000/api/location/' + eventId.toString();
+            $http.get(url, {eventId: eventId}).then(function(data){
+                console.log("Here");
+                console.log(data);
+                deferred2.resolve(data);
+            });
+            return deferred2.promise;
+        }
 
     }]);

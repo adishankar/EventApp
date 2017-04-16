@@ -6,7 +6,7 @@
     async defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
         <link rel="stylesheet" href="/css/bootstrap.min.css" >
-        <link rel="stylesheet" type="text/css" href="style.css" >
+        <!--<link rel="stylesheet" type="text/css" href="style.css" >-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
 	    <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>        
         <!--<script src="angular.js"></script>-->
@@ -60,11 +60,11 @@
         <nav class="navbar navbar-default">
             <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
                  <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
-                 <button style="float: right" type="button" class="btn btn-primary">CREATE</button>         
+                 <button style="float: right" type="button" class="btn btn-primary">CREATE EVENT</button>         
                  <ul class="nav nav-pills" style="float: right">
-                    <li><a  href="/dashboard">Home</a></li>
-                    <li><a  href="/search">Search</a></li>
-                    <li><a  href="#about">About</a></li>  
+                    <li><a  href="/dashboard" target="_self">Home</a></li>
+                    <li><a  href="/search" target="_self">Search</a></li>
+                    <li><a  href="#about" target="_self">About</a></li>  
                  </ul>          
             </div>
         </nav>
@@ -99,9 +99,9 @@
                     <label class="list-group-item">Name: <input type="text" ng-model="event.name" /></label>
                     <label class="list-group-item">Start Date/Time: <input id="datetimepicker" type="datetime" ng-model="event.datetime"/></label>
                     <label class="list-group-item">End Date/Time: <input id="datetimepicker2" type="datetime" ng-model="event.enddatetime"/></label>
-                    <label class="list-group-item">Location: <input type="text" ng-model="event.location" /></label>
-                    <label class="list-group-item">Description: <input type="text" ng-model="event.description" /></label>
-                    <label class="list-group-item">Contact Email: <input type="text" ng-model="event.contactEmail" /></label>
+                    <label class="list-group-item">Location: Set automatically from map above.<!--<input type="text" ng-model="event.location" />--></label>
+                    <label class="list-group-item">Description: <textarea type="text" ng-model="event.description" style="width:30%; height:10em" ></textarea></label>
+                    <!--<label class="list-group-item">Contact Email: <input type="text" ng-model="event.contactEmail" /></label>-->
                     <label class="list-group-item">This Event is Public (Anyone can see it) <input type="checkbox" ng-model="event.isPublic"/></label>
                     <div class="card-footer" style="text-align: center">
                         <input type="button" ng-click="resetEvent()" value="Reset" />
@@ -113,30 +113,34 @@
             <br>
             <br>
 
-            <div class="createUni">
+            <!--<div class="createUni">
                 <div class="card-header">Create a University Profile</div>
                 
                 <form>
                     <label class="list-group-item">Name: <input type="text" ng-model="uni.name" /></label>
-                    <label class="list-group-item">Location: Set automatically from map above.<!--<input type="text" ng-model="uni.location" />--></label>
-                    <label class="list-group-item">Description: <input type="text" ng-model="uni.description" /></label>     
+                    <label class="list-group-item">Location: Set automatically from map above.<input type="text" ng-model="uni.location" />--></label>
+                    <!--<label class="list-group-item">Description: <input type="text" ng-model="uni.description" /></label>     
                     <label class="list-group-item">Number of Students: <input type="text" ng-model="uni.numStudents" /></label>
                     <div class="card-footer" style="text-align: center">
                         <input type="button" ng-click="resetUni()" value="Reset" />
                         <input type="submit" ng-click="saveUni(uni)" value="Save" />
                     </div>
                 </form>
-            </div>         
+            </div>         -->
         </div>
         
         <br>
         <br>
-
+        <style>
+            #rso:hover{
+                color:blue;
+            }
+        </style>
         <div class="card" ng-controller="DashCtrl" ng-init="init()">
             <div class="card-header"><h2>Hi, {{name}}</h2></div> 
             <div class="list-group-item" ng-repeat="org in orgs">  
-                    <h4 class="card-title"><p ng-click="selectOrg(org)">{{org.name}}</p></h4>
-                    <div class="card-text"><p>{{org.description}}</p></div>   
+                    <h4 class="card-title" id="rso"><p style="color:darkblue" id="rso" ng-click="selectOrg(org)">{{org.name}}</p></h4>
+                    <!--<div class="card-text"><p>{{org.description}}</p></div>   -->
             </div>
         </div>
         <br>

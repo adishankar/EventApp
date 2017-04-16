@@ -4,6 +4,7 @@ var db = require('../config');
 
 let checkExistingLocation = `SELECT * FROM location WHERE locationName = ? AND locationLatitude LIKE ? AND locationLongitude LIKE ?;`;
 let createNewLocationQuery = `INSERT INTO location SET ?;`;
+let getLocationQuery = `SELECT * FROM location WHERE locationID = ?;`;
 
 function createLocation(req, res){
     console.log("starting event creation");
@@ -50,4 +51,29 @@ function createLocation(req, res){
     }
 }
 
+function getLocation(req, res){
+    if(req && req.body){
+        try
+        {
+            var sql = mysql.createConnection({
+                host: db.db.host,
+                user: db.db.user,
+                password: db.db.password,
+                database: db.db.database
+            });
+            var query = mysql.format(getLocationQuery, [req.params.id]);
+            console.log(query);
+            sql.query(query, function(error, results, fields){
+                if(error) throw error;
+                console.log(results);
+                res.send(results);
+                res.end();
+            });
+        }catch(ex){
+
+        }
+    }
+}
+
 exports.createLocation = createLocation;
+exports.getLocation = getLocation;

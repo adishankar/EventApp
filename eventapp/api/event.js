@@ -7,6 +7,13 @@ let getPublicQuery = `SELECT * FROM event WHERE eventTypeID = (
     SELECT eventTypeID FROM eventType
     WHERE eventTypeName LIKE 'public'    
 );`
+let getEventQuery = `SELECT * FROM event WHERE eventID = ?;`;
+let commentQuery = `INSERT INTO comments SET ?;`
+let getCommentsQuery = `SELECT c.comment, c.datePosted, concat(u.firstName,' ',u.lastName) as name
+    FROM comments c 
+    INNER JOIN user u ON c.userID = u.userID 
+    WHERE eventID = ? 
+    ORDER BY datePosted DESC;`;
 
 function createEvent(req,res){
     console.log('Starting create new event');
@@ -40,6 +47,9 @@ function createEvent(req,res){
             })
         }catch(ex){
 
+        }
+        finally{
+            //sql.destroy();
         }
     }
 }
@@ -79,7 +89,8 @@ function getPublicEvents(req, res){
                     title: i.eventName,
                     start: i.eventStartDate,
                     end: i.eventEndDate,
-                    allDay: false
+                    allDay: false,
+                    url: "http://localhost:3000/event/" + i.eventID + "/"
                 };
                 // temp.id = i.eventID;
                 // temp.title = i.eventName;
@@ -97,5 +108,174 @@ function getPublicEvents(req, res){
     }
 }
 
+function getEvent(req, res){
+    console.log(req.params);
+    console.log("Loading event: " + req.params.id);
+    try{
+        var sql = mysql.createConnection({
+            host: db.db.host,
+            user: db.db.user,
+            password: db.db.password,
+            database: db.db.database
+        });
+        // var event = {
+        //     eventName: req.body.eventName,
+        //     eventDate: req.body.eventDate,
+        //     eventDescription: req.body.eventDescription,
+        //     eventCategory: req.body.eventCategory,
+        //     locationID: req.body.location,
+        //     rsoID: req.body.rsoID,
+        //     adminID: req.body.adminID
+        // };
+        var query = mysql.format(getEventQuery, [req.params.id]);
+        console.log(query);
+        sql.query(query, function(error, results, fields){
+            //TODO: Format the results according to: https://fullcalendar.io/docs/event_data/Event_Object/ 
+            console.log(error);
+            if(error) throw error;
+            
+            console.log(results.length);
+            if(results.length == 0){
+                res.send("invalid");
+                res.end();
+                return;
+            }
+            console.log(results);
+            var result = results[0]
+            var ret = {
+                id: result.eventID,
+                title: result.eventName,
+                start: result.eventStartDate,
+                end: result.eventEndDate,
+                description: result.eventDescription,
+                locationId: result.locationID
+            };
+            console.log(ret);
+            // for(var i of results){
+            //     console.log(i);
+            //     if(i.eventStartDate == null || i.eventEndDate == null)
+            //         continue;
+            //     var temp = {
+            //         id: i.eventID,
+            //         title: i.eventName,
+            //         start: i.eventStartDate,
+            //         end: i.eventEndDate,
+            //         allDay: false
+            //     };
+            //     // temp.id = i.eventID;
+            //     // temp.title = i.eventName;
+            //     // temp.start = i.eventStartDate;
+            //     // temp.end = i.eventEndDate;
+            //     // temp.allDay = false;
+            //     console.log(temp);
+            //     ret.push(temp);
+            // }
+            res.send(ret);
+            res.end();
+        })
+    }catch(ex){
+
+    }
+}
+
+function createComment(req, res){
+    console.log('Starting comment creation');
+    if(req && req.body){
+        try{
+            var sql = mysql.createConnection({
+                host: db.db.host,
+                user: db.db.user,
+                password: db.db.password,
+                database: db.db.database
+            });
+            console.log(req.body)
+            var comment = {
+                comment: req.body.comment,
+                datePosted: new Date(),
+                eventID: req.body.eventId,
+                userID: req.body.userId
+            };
+            var query = mysql.format(commentQuery, comment);
+            console.log(query);
+            sql.query(query, function(error, results, fields){
+                if(error) throw error;
+                console.log(results);
+                res.send(results);
+                res.end();
+            })
+        }catch(ex){
+
+        }
+        finally{
+            //sql.destroy();
+        }
+    }
+}
+
+function getComments(req, res){
+    console.log(req.params);
+    console.log("Loading event: " + req.params.id);
+    try{
+        var sql = mysql.createConnection({
+            host: db.db.host,
+            user: db.db.user,
+            password: db.db.password,
+            database: db.db.database
+        });
+        // var event = {
+        //     eventName: req.body.eventName,
+        //     eventDate: req.body.eventDate,
+        //     eventDescription: req.body.eventDescription,
+        //     eventCategory: req.body.eventCategory,
+        //     locationID: req.body.location,
+        //     rsoID: req.body.rsoID,
+        //     adminID: req.body.adminID
+        // };
+        console.log(req.params);
+        var query = mysql.format(getCommentsQuery, [req.params.id]);
+        console.log(query);
+        sql.query(query, function(error, results, fields){
+            //TODO: Format the results according to: https://fullcalendar.io/docs/event_data/Event_Object/ 
+            console.log(error);
+            if(error) throw error;
+            
+            //console.log(results);
+            if(results.length == 0){
+                res.send("invalid");
+                res.end();
+                return;
+            }
+            console.log(results);
+            var ret = [];
+            for(var r of results){
+                console.log(r);
+                var temp = {
+                    comment: r.comment,
+                    datePosted: new Date(r.datePosted).toLocaleString(),
+                    name: r.name
+                }
+                ret.push(temp);
+            }
+            //var result = results[0]
+            // var ret = {
+            //     id: result.eventID,
+            //     title: result.eventName,
+            //     start: result.eventStartDate,
+            //     end: result.eventEndDate,
+            //     description: result.eventDescription,
+            //     locationId: result.locationID
+            // };
+            //console.log(results);
+            res.send(ret);
+            res.end();
+        })
+    }catch(ex){
+
+    }
+}
+
 exports.createEvent = createEvent;
 exports.getPublicEvents = getPublicEvents;
+exports.getEvent = getEvent;
+exports.createComment = createComment;
+exports.getComments = getComments;
