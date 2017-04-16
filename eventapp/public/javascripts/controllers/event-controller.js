@@ -17,6 +17,7 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
 
         $scope.eventname = "";
         var thisEvent;
+        // $scope.user;
 
         $scope.init = function(){
 
@@ -62,6 +63,8 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
                         $scope.eventdescription = thisEvent.description;
                         $scope.eventstart = new Date(thisEvent.start).toLocaleString();
                         $scope.eventend = new Date(thisEvent.end).toLocaleString();
+                        $scope.user = userService.getUserData();
+                        console.log($scope.user);
                         eventService.getComments(thisEvent.id)
                             .then(function(data2){
                                 console.log("hi1");
@@ -89,5 +92,10 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
                  $window.location.reload();
              });
         };
+
+        $scope.deleteComment = function(commentID){
+            console.log(commentID);
+            eventService.deleteComment(commentID).then(function(data){$window.location.reload()});
+        }
         
     }]);

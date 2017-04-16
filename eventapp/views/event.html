@@ -90,12 +90,15 @@
                         {{comment.name}}
                         <br>
                         {{comment.datePosted}}
+                        <div ng-if="comment.userID == user.userID" style="float:right">
+                            <button class="btn-primary" style="background-color:red" ng-click="deleteComment(comment.commentID)">DELETE COMMENT</button>
+                        </div>
                     </div>                     
                </div>
            </div>
             
         
-            <div style="margin-bottom: 0" class="list-group-item">
+            <div style="margin-bottom: 0" class="list-group-item" ng-if="user.userID > 0">
                 Make a comment:
                  <br>
                 <textarea ng-model="comment.comment" name="comment">Enter text here...</textarea> <br>

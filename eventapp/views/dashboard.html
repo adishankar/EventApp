@@ -2,8 +2,8 @@
 <html ng-app="app">
     <head>
         <title>Event App</title>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
-    async defer></script>
+	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
+        async defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
         <link rel="stylesheet" href="/css/bootstrap.min.css" >
         <!--<link rel="stylesheet" type="text/css" href="style.css" >-->
@@ -64,11 +64,19 @@
                  <ul class="nav nav-pills" style="float: right">
                     <li><a  href="/dashboard" target="_self">Home</a></li>
                     <li><a  href="/search" target="_self">Search</a></li>
-                    <li><a  href="#about" target="_self">About</a></li>  
+                    <li><a  href="#about" target="_self">About</a></li>
+                    <li><h4 type="button" class="btn" ng-click="logout()">Logout</h4> </li>
                  </ul>          
             </div>
         </nav>
         
+        <div class="card" ng-controller="DashCtrl" ng-init="init()">
+            <div class="card-header"><h2>Hi, {{name}}</h2></div> 
+            <div class="list-group-item" ng-repeat="org in orgs">  
+                    <h4 class="card-title" id="rso"><p style="color:darkblue" id="rso" ng-click="selectOrg(org)">{{org.name}}</p></h4>
+                    <!--<div class="card-text"><p>{{org.description}}</p></div>   -->
+            </div>
+        </div>
 
         <div ng-controller="CreateCtrl">
             <input type="text" g-places-autocomplete ng-model="place" /><button type="button" ng-click="updateMap()">Set Location</button>
@@ -136,13 +144,7 @@
                 color:blue;
             }
         </style>
-        <div class="card" ng-controller="DashCtrl" ng-init="init()">
-            <div class="card-header"><h2>Hi, {{name}}</h2></div> 
-            <div class="list-group-item" ng-repeat="org in orgs">  
-                    <h4 class="card-title" id="rso"><p style="color:darkblue" id="rso" ng-click="selectOrg(org)">{{org.name}}</p></h4>
-                    <!--<div class="card-text"><p>{{org.description}}</p></div>   -->
-            </div>
-        </div>
+        
         <br>
         <script type="text/javascript">
             $.datetimepicker.setLocale('en');

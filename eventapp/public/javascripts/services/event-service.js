@@ -140,4 +140,14 @@ angular.module('eventService',[])
             return deferred2.promise;
         }
 
+        this.deleteComment = function(commentID){
+            var url = 'http://localhost:3000/api/event/comments/' + commentID.toString();
+            $http.delete(url, {commentID:commentID})
+                .then(function(data){
+                    console.log(data);
+                    def2.resolve(data);
+                })
+            return def2.promise;
+        }
+
     }]);

@@ -28,7 +28,15 @@ angular.module('userService',[])
             $window.localStorage['user'] = JSON.stringify(user);
         };
 
+        this.clearUser = function(){
+            $window.localStorage.removeItem('user');
+        }
+
         this.getUserData = function(){
+            console.log($window.localStorage['user']);
+            if(typeof $window.localStorage['user'] == 'undefined'){
+                return "none";
+            }
             var ret = JSON.parse($window.localStorage['user']);
             console.log(ret);
             return ret;//JSON.parse($window.localStorage['user']);

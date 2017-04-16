@@ -9,11 +9,13 @@ let getPublicQuery = `SELECT * FROM event WHERE eventTypeID = (
 );`
 let getEventQuery = `SELECT * FROM event WHERE eventID = ?;`;
 let commentQuery = `INSERT INTO comments SET ?;`
-let getCommentsQuery = `SELECT c.comment, c.datePosted, concat(u.firstName,' ',u.lastName) as name
+let getCommentsQuery = `SELECT c.comment, c.datePosted, concat(u.firstName,' ',u.lastName) as name, u.userID, c.commentID
     FROM comments c 
     INNER JOIN user u ON c.userID = u.userID 
     WHERE eventID = ? 
     ORDER BY datePosted DESC;`;
+
+let deleteCommentQuery = `DELETE FROM comments WHERE commentID = ?;`;
 
 function createEvent(req,res){
     console.log('Starting create new event');
@@ -75,7 +77,6 @@ function getPublicEvents(req, res){
         var query = mysql.format(getPublicQuery);
         console.log(query);
         sql.query(query, function(error, results, fields){
-            //TODO: Format the results according to: https://fullcalendar.io/docs/event_data/Event_Object/ 
             if(error) throw error;
             var ret = [];
             console.log(results.length);
@@ -130,7 +131,6 @@ function getEvent(req, res){
         var query = mysql.format(getEventQuery, [req.params.id]);
         console.log(query);
         sql.query(query, function(error, results, fields){
-            //TODO: Format the results according to: https://fullcalendar.io/docs/event_data/Event_Object/ 
             console.log(error);
             if(error) throw error;
             
@@ -222,20 +222,10 @@ function getComments(req, res){
             password: db.db.password,
             database: db.db.database
         });
-        // var event = {
-        //     eventName: req.body.eventName,
-        //     eventDate: req.body.eventDate,
-        //     eventDescription: req.body.eventDescription,
-        //     eventCategory: req.body.eventCategory,
-        //     locationID: req.body.location,
-        //     rsoID: req.body.rsoID,
-        //     adminID: req.body.adminID
-        // };
         console.log(req.params);
         var query = mysql.format(getCommentsQuery, [req.params.id]);
         console.log(query);
         sql.query(query, function(error, results, fields){
-            //TODO: Format the results according to: https://fullcalendar.io/docs/event_data/Event_Object/ 
             console.log(error);
             if(error) throw error;
             
@@ -252,22 +242,37 @@ function getComments(req, res){
                 var temp = {
                     comment: r.comment,
                     datePosted: new Date(r.datePosted).toLocaleString(),
-                    name: r.name
+                    name: r.name,
+                    userID: r.userID,
+                    commentID: r.commentID
                 }
                 ret.push(temp);
             }
-            //var result = results[0]
-            // var ret = {
-            //     id: result.eventID,
-            //     title: result.eventName,
-            //     start: result.eventStartDate,
-            //     end: result.eventEndDate,
-            //     description: result.eventDescription,
-            //     locationId: result.locationID
-            // };
-            //console.log(results);
             res.send(ret);
             res.end();
+        })
+    }catch(ex){
+
+    }
+}
+
+deleteComment = function(req, res){
+    console.log(req.params);
+    console.log(req.body);
+    console.log("Loading event: " + req.params.id);
+    try{
+        var sql = mysql.createConnection({
+            host: db.db.host,
+            user: db.db.user,
+            password: db.db.password,
+            database: db.db.database
+        });
+        console.log(req.params);
+        var query = mysql.format(deleteCommentQuery, [req.params.id]);
+        console.log(query);
+        sql.query(query, function(error, results, fields){
+            console.log(results);
+            res.send(results);
         })
     }catch(ex){
 
@@ -279,3 +284,4 @@ exports.getPublicEvents = getPublicEvents;
 exports.getEvent = getEvent;
 exports.createComment = createComment;
 exports.getComments = getComments;
+exports.deleteComment = deleteComment;

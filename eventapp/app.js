@@ -198,6 +198,8 @@ app.post('/api/user/setUniversity', api.userApi.setUniversity);
 app.post('/api/event/comments/:id', api.eventApi.createComment);
 
 app.get('/api/event/comments/:id', api.eventApi.getComments);
+
+app.delete('/api/event/comments/:id', api.eventApi.deleteComment);
 // app.post('/signup', function(req, res){
 //   console.log(req.body);
 //   userCount++;

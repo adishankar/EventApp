@@ -10,7 +10,11 @@ angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
 
         $scope.init = function(){
                 var user = userService.getUserData();
-                console.log(JSON.stringify(user));
+                if(user == "none"){
+                    $window.location.href = "/";
+                    return;
+                }
+                console.log(user);
                 $scope.name = user.firstName + ' ' + user.lastName;
 // =======
 //                 //console.log(user);
@@ -26,4 +30,12 @@ angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
                     }
                 });
             };
+
+        $scope.logout = function(){
+            console.log("hey");
+            userService.clearUser();
+            var user = userService.getUserData();
+            console.log(user);
+            $window.location.href = "/";
+        };
     }]);

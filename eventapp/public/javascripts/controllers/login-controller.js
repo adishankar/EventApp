@@ -142,6 +142,7 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
             if($window.location.pathname != "/signup"){
                 $('#calendar').fullCalendar({
                     // put your options and callbacks here
+                    timezone: "local",
                     header: {
                         left: 'prev,next today',
                         center: 'title',
