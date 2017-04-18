@@ -1,4 +1,4 @@
-INSERT INTO userTypes (typeName) Values ('superAdmin'),('admin'),('student');
+#INSERT INTO userTypes (typeName) Values ('superAdmin'),('admin'),('student');
 #DELETE FROM userTypes WHERE typeID in (4,5,6);
 
 SELECT * FROM userTypes;
@@ -58,10 +58,10 @@ SELECT * FROM RSO;
 
 #anyone can view public events. logged in users can view public uni events (for there uni)
 #anyone that is a part of the hosting RSO can view private
-INSERT INTO eventType (eventTypeName)
-Values
-('public'),
-('university'),
-('private');
+#INSERT INTO eventType (eventTypeName)
+#Values
+#('public'),
+#('university'),
+#('private');
 
 SELECT * FROM eventType;

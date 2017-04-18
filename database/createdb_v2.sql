@@ -239,3 +239,7 @@ GRANT ALL ON `eventWebsiteDatabase`.* TO 'dbuser';
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+#Required for proper operation/permissions system;
+INSERT INTO userTypes (typeName) Values ('superAdmin'),('admin'),('student');
+INSERT INTO eventType (eventTypeName) Values ('public'), ('university'), ('private');
