@@ -6,7 +6,7 @@ var path = require('path');
 router.get('/:rsoid', function(req, res, next) {
 
   var orgname = req.params.orgname;
-  console.log(orgname);
+// console.log(orgname);
 
   res.sendFile(path.resolve(__dirname + '/../views/organization.html/'));
 });

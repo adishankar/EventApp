@@ -6,7 +6,7 @@ let setUniQuery = `UPDATE user SET universityID = ? WHERE userID = ?;`;
 
 function setUniversity(req, res){
     var uid = -1;
-    console.log("Starting login request");
+  // console.log("Starting login request");
     if(req && req.body){
         // var userObj = {
         //     emailAddress: req.body.emailAddress,
@@ -25,16 +25,13 @@ function setUniversity(req, res){
 
             sql.query(query, function(error, results, fields){
                 if(error) throw error;
-                console.log(results);
+              // console.log(results);
                 res.send(results);
                 res.end();
             });
 
         }catch(exception){
 
-        }
-        finally{
-            sql.destroy();
         }
     }
 }

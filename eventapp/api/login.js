@@ -6,7 +6,7 @@ let checkUserPass = `SELECT * FROM user WHERE emailAddress = ? AND password = ?;
 
 function login(req, res){
     var uid = -1;
-    console.log("Starting login request");
+  // console.log("Starting login request");
     if(req && req.body){
         // var userObj = {
         //     emailAddress: req.body.emailAddress,
@@ -21,17 +21,17 @@ function login(req, res){
             });
 
             var query = mysql.format(checkUserPass, [req.body.username,req.body.password]);
-            console.log(query);
+            // console.log(query);
 
             sql.query(query, function(error, results, fields){
                 if(error) throw error;
-                console.log(results);
+                // console.log(results);
                 if(results.length > 0){
                     //user exists, return user object.
-                    console.log(results[0]);
+                    // console.log(results[0]);
                     res.send(results[0]);
                 } else{
-                    console.log("hi");
+                    // console.log("hi");
                     res.send(null);
                 }
             });

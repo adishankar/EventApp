@@ -17,8 +17,13 @@ let getCommentsQuery = `SELECT c.comment, c.datePosted, concat(u.firstName,' ',u
 
 let deleteCommentQuery = `DELETE FROM comments WHERE commentID = ?;`;
 
+let searchEventsQuery = `SELECT eventID, eventDescription, eventName 
+    FROM event
+    INNER JOIN user ON user.userID = event.adminID
+    WHERE (eventName LIKE ?) OR ( eventDescription LIKE ?) AND (eventTypeID = 1 OR user.universityID = ?);`;
+
 function createEvent(req,res){
-    console.log('Starting create new event');
+  // console.log('Starting create new event');
     if(req && req.body){
         try{
             var sql = mysql.createConnection({
@@ -27,23 +32,23 @@ function createEvent(req,res){
                 password: db.db.password,
                 database: db.db.database
             });
-            console.log(req.body)
+          // console.log(req.body)
             var event = {
                 eventName: req.body.eventName,
                 eventStartDate: req.body.eventStartDate,
                 eventEndDate: req.body.eventEndDate,
                 eventDescription: req.body.eventDescription,
-                eventCategory: req.body.eventCategory,
                 locationID: req.body.location,
                 eventTypeID: req.body.eventTypeId,
                 rsoID: req.body.rsoID,
                 adminID: req.body.adminID
             };
+          // console.log(event);
             var query = mysql.format(createNewEventQuery, event);
-            console.log(query);
+          // console.log(query);
             sql.query(query, function(error, results, fields){
                 if(error) throw error;
-                console.log(results);
+              // console.log(results);
                 res.send(results);
                 res.end();
             })
@@ -57,7 +62,7 @@ function createEvent(req,res){
 }
 
 function getPublicEvents(req, res){
-    console.log("Loading public events");
+  // console.log("Loading public events");
     try{
         var sql = mysql.createConnection({
             host: db.db.host,
@@ -75,14 +80,14 @@ function getPublicEvents(req, res){
         //     adminID: req.body.adminID
         // };
         var query = mysql.format(getPublicQuery);
-        console.log(query);
+      // console.log(query);
         sql.query(query, function(error, results, fields){
             if(error) throw error;
             var ret = [];
-            console.log(results.length);
-            console.log(results);
+          // console.log(results.length);
+          // console.log(results);
             for(var i of results){
-                console.log(i);
+              // console.log(i);
                 if(i.eventStartDate == null || i.eventEndDate == null)
                     continue;
                 var temp = {
@@ -98,7 +103,7 @@ function getPublicEvents(req, res){
                 // temp.start = i.eventStartDate;
                 // temp.end = i.eventEndDate;
                 // temp.allDay = false;
-                console.log(temp);
+              // console.log(temp);
                 ret.push(temp);
             }
             res.send(ret);
@@ -110,8 +115,8 @@ function getPublicEvents(req, res){
 }
 
 function getEvent(req, res){
-    console.log(req.params);
-    console.log("Loading event: " + req.params.id);
+  // console.log(req.params);
+  // console.log("Loading event: " + req.params.id);
     try{
         var sql = mysql.createConnection({
             host: db.db.host,
@@ -131,16 +136,16 @@ function getEvent(req, res){
         var query = mysql.format(getEventQuery, [req.params.id]);
         console.log(query);
         sql.query(query, function(error, results, fields){
-            console.log(error);
+          // console.log(error);
             if(error) throw error;
             
-            console.log(results.length);
+          // console.log(results.length);
             if(results.length == 0){
                 res.send("invalid");
                 res.end();
                 return;
             }
-            console.log(results);
+          console.log(results);
             var result = results[0]
             var ret = {
                 id: result.eventID,
@@ -148,11 +153,13 @@ function getEvent(req, res){
                 start: result.eventStartDate,
                 end: result.eventEndDate,
                 description: result.eventDescription,
-                locationId: result.locationID
+                locationId: result.locationID,
+                allDay: false,
+                url: "http://localhost:3000/event/" + result.eventID + "/"
             };
-            console.log(ret);
+          // console.log(ret);
             // for(var i of results){
-            //     console.log(i);
+            //   // console.log(i);
             //     if(i.eventStartDate == null || i.eventEndDate == null)
             //         continue;
             //     var temp = {
@@ -167,7 +174,7 @@ function getEvent(req, res){
             //     // temp.start = i.eventStartDate;
             //     // temp.end = i.eventEndDate;
             //     // temp.allDay = false;
-            //     console.log(temp);
+            //   // console.log(temp);
             //     ret.push(temp);
             // }
             res.send(ret);
@@ -179,7 +186,7 @@ function getEvent(req, res){
 }
 
 function createComment(req, res){
-    console.log('Starting comment creation');
+  // console.log('Starting comment creation');
     if(req && req.body){
         try{
             var sql = mysql.createConnection({
@@ -188,7 +195,7 @@ function createComment(req, res){
                 password: db.db.password,
                 database: db.db.database
             });
-            console.log(req.body)
+          // console.log(req.body)
             var comment = {
                 comment: req.body.comment,
                 datePosted: new Date(),
@@ -196,10 +203,10 @@ function createComment(req, res){
                 userID: req.body.userId
             };
             var query = mysql.format(commentQuery, comment);
-            console.log(query);
+          // console.log(query);
             sql.query(query, function(error, results, fields){
                 if(error) throw error;
-                console.log(results);
+              // console.log(results);
                 res.send(results);
                 res.end();
             })
@@ -213,8 +220,8 @@ function createComment(req, res){
 }
 
 function getComments(req, res){
-    console.log(req.params);
-    console.log("Loading event: " + req.params.id);
+  // console.log(req.params);
+  // console.log("Loading event: " + req.params.id);
     try{
         var sql = mysql.createConnection({
             host: db.db.host,
@@ -222,11 +229,11 @@ function getComments(req, res){
             password: db.db.password,
             database: db.db.database
         });
-        console.log(req.params);
+      // console.log(req.params);
         var query = mysql.format(getCommentsQuery, [req.params.id]);
-        console.log(query);
+      // console.log(query);
         sql.query(query, function(error, results, fields){
-            console.log(error);
+          // console.log(error);
             if(error) throw error;
             
             //console.log(results);
@@ -235,10 +242,10 @@ function getComments(req, res){
                 res.end();
                 return;
             }
-            console.log(results);
+          // console.log(results);
             var ret = [];
             for(var r of results){
-                console.log(r);
+              // console.log(r);
                 var temp = {
                     comment: r.comment,
                     datePosted: new Date(r.datePosted).toLocaleString(),
@@ -257,9 +264,9 @@ function getComments(req, res){
 }
 
 deleteComment = function(req, res){
-    console.log(req.params);
-    console.log(req.body);
-    console.log("Loading event: " + req.params.id);
+  // console.log(req.params);
+  // console.log(req.body);
+  // console.log("Loading event: " + req.params.id);
     try{
         var sql = mysql.createConnection({
             host: db.db.host,
@@ -267,12 +274,56 @@ deleteComment = function(req, res){
             password: db.db.password,
             database: db.db.database
         });
-        console.log(req.params);
+      // console.log(req.params);
         var query = mysql.format(deleteCommentQuery, [req.params.id]);
-        console.log(query);
+      // console.log(query);
         sql.query(query, function(error, results, fields){
-            console.log(results);
+          // console.log(results);
             res.send(results);
+        })
+    }catch(ex){
+
+    }
+}
+
+searchEvents = function(req, res){
+
+    var modifiedInput = mysql.format('?', req.body.query);
+    modifiedInput = '%' + modifiedInput.substring(1,modifiedInput.length-1) + '%';
+  // console.log(modifiedInput);
+    //var querystring = searchEventsQuery.replace(/0/g, test);
+    //console.log(querystring);
+    //console.log(req.body);
+    try{
+        var sql = mysql.createConnection({
+            host: db.db.host,
+            user: db.db.user,
+            password: db.db.password,
+            database: db.db.database
+        });
+        var query = mysql.format(searchEventsQuery, [modifiedInput,modifiedInput, req.body.universityID]);
+      // console.log(query);
+        sql.query(query, function(error, results, fields){
+            //console.log(error);
+          // console.log(results);
+            //console.log(fields);
+            if(results.length==0){
+                res.send("none");
+                res.end();
+                return;
+            }
+            var rets = [];
+            for(var r of results){
+                var ret = {
+                    id:r.eventID,
+                    name:r.eventName,
+                    description:r.eventDescription
+                };
+                rets.push(ret);
+            }
+          // console.log(rets);
+            res.send(rets);
+            res.end();
         })
     }catch(ex){
 
@@ -285,3 +336,4 @@ exports.getEvent = getEvent;
 exports.createComment = createComment;
 exports.getComments = getComments;
 exports.deleteComment = deleteComment;
+exports.searchEvents = searchEvents;

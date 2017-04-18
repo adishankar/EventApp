@@ -7,7 +7,7 @@ let createNewLocationQuery = `INSERT INTO location SET ?;`;
 let getLocationQuery = `SELECT * FROM location WHERE locationID = ?;`;
 
 function createLocation(req, res){
-    console.log("starting event creation");
+  // console.log("starting event creation");
     if(req &&req.body){
         try{
             var sql = mysql.createConnection({
@@ -22,16 +22,16 @@ function createLocation(req, res){
                 locationLongitude: req.body.locationLongitude
             };
             var query = mysql.format(checkExistingLocation, [loc.locationName, loc.locationLatitude, loc.locationLongitude]);
-            console.log(query);
+            // console.log(query);
             sql.query(query, function(error, results, fields){
                 if(error) throw error;
-                console.log(results);
+                // console.log(results);
                 if(results){
                     query = mysql.format(createNewLocationQuery, loc);
-                    console.log(query);
+                    // console.log(query);
                     sql.query(query, function(error, results, fields){
                     if(error) throw error;
-                    console.log(results);
+                    // console.log(results);
                     res.send(results);
                     res.end();
             })
@@ -41,7 +41,7 @@ function createLocation(req, res){
             // console.log(query);
             // sql.query(query, function(error, results, fields){
             //     if(error) throw error;
-            //     console.log(results);
+            //   // console.log(results);
             //     res.send(results);
             //     res.end();
             // })
@@ -62,10 +62,10 @@ function getLocation(req, res){
                 database: db.db.database
             });
             var query = mysql.format(getLocationQuery, [req.params.id]);
-            console.log(query);
+            // console.log(query);
             sql.query(query, function(error, results, fields){
                 if(error) throw error;
-                console.log(results);
+                // console.log(results);
                 res.send(results);
                 res.end();
             });

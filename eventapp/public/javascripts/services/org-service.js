@@ -1,25 +1,63 @@
-angular.module('orgService',[])
-    .service('orgService', ['$http', '$q', '$window', function orgService($http, $q, $window){
+angular.module('orgService',['userService'])
+    .service('orgService', ['$http', '$q', '$window', 'userService', function orgService($http, $q, $window, userService){
         
         var deferred = $q.defer();
         var def2 = $q.defer();
         var deferred2 = $q.defer();
+        var def3 = $q.defer();
+        var def4 = $q.defer();
+        var def5 = $q.defer();
         //create an organization
         this.createOrg = function(rso){
-            $http.post('http://localhost:3000/dashboard', {
-                type: "org",
-                orgName: rso.name.toString(),
-                adminEmail: rso.adminEmail.toString(),
-                studentEmail1: rso.studentEmail1.toString(),
-                studentEmail2: rso.studentEmail2.toString(),
-                studentEmail3: rso.studentEmail3.toString(),
-                studentEmail4: rso.studentEmail4.toString(),
-                studentEmail5: rso.studentEmail5.toString(),
+            keepgoing = true;
+            if(rso.studentEmails){
+                var s = rso.studentEmails.split(';');
+              // console.log(s.length);
+                if(s.length <= 4){
+                    def4.resolve("");
+                    keepgoing = false;
+                }
+                else{
+                    for(var i = 0; i<s.length-1; i++){
+                      // console.log(s[i].split('@')[1] + " " + s[i+1].split('@')[1])
+                        if((s[i].split('@')[1] != s[i+1].split('@')[1]) && keepgoing == true) {
+                          // console.log("fuckno");
+                            keepgoing=false;      
+                          // console.log(keepgoing);                      
+                            def4.resolve("");
+                        }
+                    }
+                }
+                
+            }
+            if(!keepgoing){
+                return def4.promise;
+            }
+            var user = userService.getUserData();
+            rso.universityId = user.universityID;
+          console.log(rso);
+            $http.post('http://localhost:3000/api/rsos', {
+                rsoName: rso.name,
+                adminId: rso.userId,
+                rsoDesc: rso.description,
+                universityId: rso.universityId
             }).then( function(data){
-                deferred.resolve(data);
-            })
+                console.log(data);
+                if(data.data=="" || data.data == "missing details"){
+                    def4.resolve("");
+                }else{
+                  // console.log('hello');
+                    $http.post('http://localhost:3000/api/rso/join/' + data.data.insertId + '/' + rso.userId)
+                        .then(function(data2){
+                          // console.log(data2);
+                            def4.resolve(data);
+                        });
+                }
+                
+                //def4.resolve(data);
+            });
 
-            return deferred.promise;
+            return def4.promise;
         };
 
         //this needs to be fixed
@@ -41,29 +79,30 @@ angular.module('orgService',[])
             $http.get('http://localhost:3000/api/rso/'+rsoID,{
                 
             }).then(function(data){
-                console.log(data);
+              // console.log(data);
                 deferred2.resolve(data);
             })
             return deferred2.promise;
         }
         //search for all the organizations by name
-        this.searchOrgs = function(query){
-            var url = 'http://localhost:3000/search';
+        this.searchOrgs = function(query, user){
+            def3 = $q.defer();
+            var url = 'http://localhost:3000/api/rsos/search';
             $http.post(url, {
-                type: 'org',
-                query: query
+                query: query,
+                universityID: user.universityID
             }).then( function(data){
-                deferred.resolve(data);
+                def3.resolve(data);
             })
 
-            return deferred.promise;
+            return def3.promise;
         };
 
         //join an organization
         //takes the id of the organization
         this.joinOrg = function(user, org){
-            console.log(org);
-            var url = 'http://localhost:3000/api/rso/join/' + org.toString() + '/' + user.toString();
+          // console.log(org);
+            var url = 'http://localhost:3000/api/rso/join/' + org + '/' + user;
             $http.post(url, {
                 user: user,
                 org: org
@@ -75,7 +114,7 @@ angular.module('orgService',[])
         };
 
         this.isInRso = function(user, org){
-            var url = 'http://localhost:3000/api/rso/' + org.toString() + '/' + user.toString();
+            var url = 'http://localhost:3000/api/rso/' + org + '/' + user;
             $http.get(url,{
                 user:user,
                 org:org
@@ -83,6 +122,17 @@ angular.module('orgService',[])
                 def2.resolve(data);
             })
             return def2.promise;
+        }
+
+        this.deleteRso = function(org){
+            console.log(org);
+            var url = 'http://localhost:3000/api/rso/' + org;
+            $http.delete(url,{
+                rsoId: org
+            }).then(function(data){
+                def5.resolve(data);
+            })
+            return def5.promise;
         }
 
     }]);

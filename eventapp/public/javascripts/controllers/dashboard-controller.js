@@ -3,7 +3,7 @@ angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
         function DashCtrl($scope, $window, userService, orgService, eventService) {
         
         $scope.selectOrg = function(org){
-            console.log(org);
+          // console.log(org);
             var url = '../rso/' + org.id.toString();
             $window.location.href = url;
         };
@@ -14,7 +14,7 @@ angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
                     $window.location.href = "/";
                     return;
                 }
-                console.log(user);
+              // console.log(user);
                 $scope.name = user.firstName + ' ' + user.lastName;
 // =======
 //                 //console.log(user);
@@ -22,7 +22,7 @@ angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
 // >>>>>>> master
                 var promise = orgService.getJoinedOrgs(user.userID);
                 promise.then(function (data){
-                    console.log(data.data);
+                  // console.log(data.data);
                     if(data.data == "no results"){
                         $scope.error = "You have not joined any organizations!";
                     }else{
@@ -32,10 +32,12 @@ angular.module('DashCtrl', ['userService', 'orgService', 'eventService'])
             };
 
         $scope.logout = function(){
-            console.log("hey");
+          // console.log("hey");
             userService.clearUser();
             var user = userService.getUserData();
-            console.log(user);
+          // console.log(user);
             $window.location.href = "/";
         };
+
+        
     }]);

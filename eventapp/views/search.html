@@ -21,6 +21,12 @@
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
 	<script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
         <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
+        <style>
+            .result:hover{
+                color:blue;
+            }
+        </style>
+    </head>
     <body>
         <nav class="navbar navbar-default">
             <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
@@ -34,22 +40,25 @@
         </nav>
         <div ng-controller="SearchCtrl" class="search" ng-init="init()">
             <br>
+            <h2 style="text-align: center">Search</h2>
             <br>
-            <br>
-            <br>
-            <input style="margin-left: 275px; display: inline;" type="radio" name="type" ng-model="search.type" value="org"/>Organization
-            <input style="margin-left: 50px; display: inline;" type="radio" name="type" ng-model="search.type" value="event"/>Event
-            <label><input  style="width:500px; margin-left: 50px;" class="form-control" placeholder="Search" type="text" ng-model="search.query"/></label>
-            <button class="btn btn-primary" ng-click="querySearch(search)">Search</button>
+            <form>
+                <input style="margin-left: 275px; display: inline;" type="radio" name="type" ng-model="search.type" value="org" ng-checked="true"/>Organization
+                <input style="margin-left: 50px; display: inline;" type="radio" name="type" ng-model="search.type" value="event"/>Event
+                <label><input  style="width:500px; margin-left: 50px;" class="form-control" placeholder="Search" type="text" ng-model="search.query"/></label>
+                <button type="submit" class="btn btn-primary" ng-click="querySearch(search)">Search</button>
+            </form>
             <br><br>
-            <div ng-repeat="sr in searchResults">
-                <a ng-click="goTo(sr)">
+            <div ng-if="error" style="padding-left:14em; padding-right:14em;">
+                <h4 class="card-title" ><p>{{error}}</p></h4>
+            </div>
+            <div ng-if="!error" ng-repeat="sr in searchResults">
+                <div ng-click="goTo(sr)" class="result" style="padding-left:14em; padding-right:14em;cursor:pointer">
                     <div>
-                        {{sr.name}}
-                        <br>
-                        {{sr.description}}
+                        <h4 class="card-title"><p>{{sr.name}}</p></h4>
+                        <div class="card-text"><p>{{sr.description}}</p></div>
                     </div>   
-                </a>
+                </div>
             </div>
         </div>
         

@@ -5,7 +5,7 @@ SELECT * FROM userTypes;
  
 INSERT INTO location (locationName, locationLongitude, locationLatitude)
 Values 
-('Orlando, FL', 28.6024, 81.2001),
+('Orlando, FL', -81.2001, 28.6024),
 ('CENATOWN, USA',0.00000,0.00000);
 
 SELECT * FROM location;
@@ -23,8 +23,8 @@ INSERT INTO user (firstName, lastName, emailAddress, password, userTypeID, unive
 ('super','admin','sa','roottoor',1,1),#Superadmin
 ('student1','tester','student1','password',3,1),#student
 ('Adi','Shankar','adi.shankar@knights.ucf.edu','password',2,1),#admin
-('Danny','Ultra','dannyultra@knights.ucf.edu','password',3,2),#student
-('Nick', 'Ho Lung', 'nholung@knights.ucf.edu','password',3,1),#student
+('Danny','Ultra','dannyultra@knights.ucf.edu','password',2,2),#admin
+('Nick', 'Ho Lung', 'nholung@knights.ucf.edu','password',2,1),#student
 ('Testy', 'McTesterson','testy@knights.ucf.edu','password',3,1),#student
 ('Boaty','McBoatface','iloveboats@knights.ucf.edu','password',3,2),#student
 ('Parsy','McParseface','parsegoogle@knights.ucf.edu','password',3,2),#student
@@ -44,15 +44,15 @@ SELECT * FROM user;
 
 #SELECT * FROM admin;
 
-INSERT INTO RSO (RSOname, universityID)
+INSERT INTO RSO (RSOname, RSOdescription, universityID, adminID)
 Values 
-('Habitat for Humanity', 1),
-('HackUCF', 1),
-('Tech Knights', 1),
-('Student Government Association', 2),
-('How to be Cena',2),
-('Men\'s Football',1),
-('Women\'s Volleyball',2);
+('Habitat for Humanity', 'Habitat for Humanity', 1, 1),
+('HackUCF', 'Hack@UCF', 1,4),
+('Tech Knights', 'Tech Knights', 1, 1),
+('Student Government Association', 'SGA', 2, 5),
+('How to be Cena', 'How to become John Cena Fan Club',2, 5),
+('Men\'s Football', 'Men\'s Football Intramural',1,6),
+('Women\'s Volleyball', 'Women\'s Volleyball Intramural',2,5);
 
 SELECT * FROM RSO;
 

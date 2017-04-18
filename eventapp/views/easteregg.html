@@ -63,37 +63,10 @@
             <div class="topnav" id="myTopnav">
                  <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
                  <ul class="nav nav-pills" style="float: left">
-                    <li><a  href="/dashboard" target="_self">Back</a></li>
+                    <li><a  href="/" target="_self">Back</a></li>
                  </ul>          
             </div>
         </nav>
-        <div ng-controller="CreateCtrl">
-            <input type="text" g-places-autocomplete ng-model="place" style="width:80%" /><button type="button" ng-click="updateMap()">Set Location</button>
-            <div id="map"></div>
-            <div class="createEvent">
-                <div class="card-header">Create an Event</div>
-                <form>
-                    <label class="list-group-item">Name: <input type="text" ng-model="event.name" /></label>
-                    <label class="list-group-item">RSO hosting Event: <select ng-model="event.rsoID" ng-init="event.rsoID = selectedId" ng>
-                        <option ng-repeat="rso in RSOs" ng-value="rso.id">{{rso.name}}</option>
-                    </select></label>
-                    <label class="list-group-item">Start Date/Time: <input id="datetimepicker" type="datetime" ng-model="event.datetime"/></label>
-                    <label class="list-group-item">End Date/Time: <input id="datetimepicker2" type="datetime" ng-model="event.enddatetime"/></label>
-                    <label class="list-group-item">Location: Set automatically from map above.<!--<input type="text" ng-model="event.location" />--></label>
-                    <label class="list-group-item">Description: <textarea type="text" ng-model="event.description" style="width:30%; height:10em" ></textarea></label>
-                    <!--<label class="list-group-item">Contact Email: <input type="text" ng-model="event.contactEmail" /></label>-->
-                    <label class="list-group-item">This Event is Public (Anyone can see it) <input type="checkbox" ng-model="event.isPublic"/></label>
-                    <div class="card-footer" style="text-align: center">
-                        <input type="button" ng-click="resetEvent()" value="Reset" />
-                        <input type="submit" ng-click="saveEvent(event)" value="Save" />
-                   </div>
-                </form>
-            </div>     
-        </div>
-        <script type="text/javascript">
-            $.datetimepicker.setLocale('en');
-            jQuery('#datetimepicker').datetimepicker();
-            jQuery('#datetimepicker2').datetimepicker();
-        </script>
+        <img src="/images/test.png"></img>
     </body>
 </html>

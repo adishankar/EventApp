@@ -52,25 +52,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `eventWebsiteDatabase`.`RSO`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `eventWebsiteDatabase`.`RSO` ;
-
-CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`RSO` (
-  `RSOid` INT NOT NULL AUTO_INCREMENT,
-  `RSOname` VARCHAR(45) NULL,
-  `universityID` INT NULL,
-  PRIMARY KEY (`RSOid`),
-  INDEX `fk_rso_university_idx` (`universityID` ASC),
-  CONSTRAINT `fk_rso_university`
-    FOREIGN KEY (`universityID`)
-    REFERENCES `eventWebsiteDatabase`.`university` (`universityID`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `eventWebsiteDatabase`.`userTypes`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `eventWebsiteDatabase`.`userTypes` ;
@@ -113,6 +94,33 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `eventWebsiteDatabase`.`RSO`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `eventWebsiteDatabase`.`RSO` ;
+
+CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`RSO` (
+  `RSOid` INT NOT NULL AUTO_INCREMENT,
+  `RSOname` VARCHAR(45) NULL,
+  `RSOdescription` VARCHAR(255) NULL,
+  `universityID` INT NULL,
+  `adminID` INT NULL,
+  PRIMARY KEY (`RSOid`),
+  INDEX `fk_rso_university_idx` (`universityID` ASC),
+  INDEX `fk_rso_admin_idx` (`adminID` ASC),
+  CONSTRAINT `fk_rso_university`
+    FOREIGN KEY (`universityID`)
+    REFERENCES `eventWebsiteDatabase`.`university` (`universityID`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_rso_admin`
+    FOREIGN KEY (`adminID`)
+    REFERENCES `eventWebsiteDatabase`.`user` (`userID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `eventWebsiteDatabase`.`eventType`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `eventWebsiteDatabase`.`eventType` ;
@@ -134,7 +142,6 @@ CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`event` (
   `eventName` VARCHAR(45) NULL,
   `eventStartDate` DATETIME NULL,
   `eventEndDate` DATETIME NULL,
-  `eventCategory` VARCHAR(45) NULL,
   `eventDescription` VARCHAR(255) NULL,
   `rsoID` INT NULL,
   `adminID` INT NULL,
@@ -148,13 +155,13 @@ CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`event` (
   CONSTRAINT `fk_event_rso`
     FOREIGN KEY (`rsoID`)
     REFERENCES `eventWebsiteDatabase`.`RSO` (`RSOid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_event_admin`
     FOREIGN KEY (`adminID`)
     REFERENCES `eventWebsiteDatabase`.`user` (`userID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_event_location`
     FOREIGN KEY (`locationID`)
     REFERENCES `eventWebsiteDatabase`.`location` (`locationID`)
@@ -209,13 +216,13 @@ CREATE TABLE IF NOT EXISTS `eventWebsiteDatabase`.`RSO_has_user` (
   CONSTRAINT `fk_RSO_has_user_RSO1`
     FOREIGN KEY (`RSOid`)
     REFERENCES `eventWebsiteDatabase`.`RSO` (`RSOid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_RSO_has_user_user1`
     FOREIGN KEY (`userID`)
     REFERENCES `eventWebsiteDatabase`.`user` (`userID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SET SQL_MODE = '';

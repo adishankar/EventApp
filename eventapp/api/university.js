@@ -10,11 +10,15 @@ let selectAdminID = `SELECT userID FROM users WHERE universityID = ? AND userTyp
     FROM userTypes 
     WHERE typeName = 'superAdmin')`;
 let insertUni = `INSERT INTO university set ?;`;
+
+let selectLocationId = `SELECT l.locationLongitude, l.locationLatitude FROM university u
+    INNER JOIN location l ON u.locationID = l.locationID
+    WHERE universityID = ?;`;
 //Get Super Admin ID
 
 //GET /api/university
 function getAllUniversitiesId(req, res) {
-    console.log("test");
+  // console.log("test");
     try{
         var sql = mysql.createConnection({
             host: db.db.host,
@@ -25,26 +29,26 @@ function getAllUniversitiesId(req, res) {
 
         //let query = mysql.format(signupQuery, newUser);
         let query = mysql.format(selectIdAndName);
-        console.log(query);
+      // console.log(query);
         sql.connect(function(err) {
             if(err){
-            console.log('error connecting to db',err.stack);
+          // console.log('error connecting to db',err.stack);
             return;
             }
-            console.log('connected as id: ' + sql.threadId);
+          // console.log('connected as id: ' + sql.threadId);
         });
 
         sql.query(query, function(error, results, fields){
             //What to do here?
             //maybe nothing
-            console.log(error);
+          // console.log(error);
             var ret = [];
             for(var uni of results)
             {
                 ret.push(uni);
                 //console.log(JSON.stringify(uni));
             }
-            console.log(JSON.stringify(ret));
+          // console.log(JSON.stringify(ret));
             res.send(ret);
             if(res)
                 res.end("got universities. maybe?");
@@ -63,7 +67,7 @@ function getAllUniversitiesId(req, res) {
 
 function getUniversityAdmin(req, res){
     if(req && req.params)
-        console.log(req.params);
+      // console.log(req.params);
         
     try{
     
@@ -83,7 +87,7 @@ function getUniversityAdmin(req, res){
             // console.log(results);
             // console.log("fields:");
             // console.log(fields);
-            console.log(results[0]);
+          // console.log(results[0]);
             res.send(results[0]);
             if(res)
                 res.end();
@@ -97,16 +101,13 @@ function getUniversityAdmin(req, res){
 
     } catch(exception) {
 
-    }finally{
-        sql.destroy();
     }
 }
 
 function getUniversityLocation(req, res){
-    var deferred = $q.defer();
 
     if(req && req.params)
-        console.log(req.params);
+      console.log(req.params);
         
     var sql = mysql.createConnection({
         host: db.db.host,
@@ -126,14 +127,15 @@ function getUniversityLocation(req, res){
             // console.log("fields:");
             // console.log(fields);
             res.send(results[0]);
+
             if(res)
                 res.end();
+            return;            
+            //deferred.resolve(results[0]);
             
-            deferred.resolve(results[0]);
             //return(results[0]);
         })
 
-        return deferred.promise;
 
         //sql.destroy();
         //res.send()
@@ -141,8 +143,6 @@ function getUniversityLocation(req, res){
 
     } catch(exception) {
 
-    }finally{
-        sql.destroy();
     }
 }
 
@@ -169,21 +169,21 @@ function createUniversity(req, res){
             //check if user already exists,if so return a message and bring to login page.
             let query = mysql.format(insertUni, newUni);
 
-            console.log(query);
+          // console.log(query);
             sql.connect(function(err) {
                 if(err){
-                    console.log('error connecting to db',err.stack);
+                  // console.log('error connecting to db',err.stack);
                     return;
                 }
-                console.log('connected as id: ' + sql.threadId);
+              // console.log('connected as id: ' + sql.threadId);
             });
 
             sql.query(query, function(error, results, fields){
                 if(error) throw error;
-                console.log(error);
-                console.log(results);
+              // console.log(error);
+              // console.log(results);
                 //console.log(fields);
-                console.log(results.length);
+              // console.log(results.length);
                 res.send(results);
                 res.end();
             });

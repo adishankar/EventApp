@@ -24,26 +24,27 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
             var url = $location.url().toString();
                 var event = url.split('event/');
                 eventId = event[1];
-                console.log(eventId);
+              // console.log(eventId);
             
 
             var promise = eventService.getEvent(eventId);
             promise.then(function (data){
-                console.log(data);
+              // console.log(data);
                 //TODO: loadcomments using event service here:
                 thisEvent = data.data;
                 if(data.data == "invalid"){
                     $scope.eventname = "This event does not exist. ERROR";
                     return;
                 }
-                //console.log(thisEvent);
-                console.log(thisEvent.locationId);
+                console.log(thisEvent);
+              // console.log(thisEvent.locationId);
                 eventService.getLocation(thisEvent.locationId)
                     .then(function(more){
-                        console.log("got here");
+                      // console.log("got here");
+                      console.log(more.data);
                         $scope.location = more.data[0];
                         //console.log($scope.location);
-                        console.log(more.data[0]);
+                      // console.log(more.data[0]);
                         var LatLng={
                             lat: parseFloat($scope.location.locationLatitude),
                             lng: parseFloat($scope.location.locationLongitude)
@@ -54,8 +55,8 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
                             animation: google.maps.Animation.DROP
                         });
 
-                        console.log("event");
-                        console.log(thisEvent);
+                      // console.log("event");
+                      // console.log(thisEvent);
                         //$scope.currentMarker = marker;
                         //$scope.updateLocations;
                         $scope.map.setCenter(marker.getPosition());
@@ -64,11 +65,11 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
                         $scope.eventstart = new Date(thisEvent.start).toLocaleString();
                         $scope.eventend = new Date(thisEvent.end).toLocaleString();
                         $scope.user = userService.getUserData();
-                        console.log($scope.user);
+                      // console.log($scope.user);
                         eventService.getComments(thisEvent.id)
                             .then(function(data2){
-                                console.log("hi1");
-                                console.log(data2.data);
+                              // console.log("hi1");
+                              // console.log(data2.data);
                                 $scope.comments = data2;
                             });
                 });
@@ -79,14 +80,14 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
 
         $scope.makeComment = function(comment){
 
-            console.log(thisEvent);
+          // console.log(thisEvent);
 
             var user = userService.getUserData();
 
             comment.author = user.username;
             var promise2 = eventService.makeComment(thisEvent, comment, user);
             promise2.then(function (data2){
-                 console.log(data2.data);
+               // console.log(data2.data);
 
                  //$scope.comments = data2.data.comments;
                  $window.location.reload();
@@ -94,7 +95,7 @@ angular.module('EventCtrl', ['userService', 'orgService', 'eventService'])
         };
 
         $scope.deleteComment = function(commentID){
-            console.log(commentID);
+          // console.log(commentID);
             eventService.deleteComment(commentID).then(function(data){$window.location.reload()});
         }
         

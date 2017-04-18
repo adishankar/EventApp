@@ -53,6 +53,9 @@
             #target {
                 width: 345px;
             }
+            .orglisting{
+                cursor:pointer;
+            }
         </style>
     </head>
 
@@ -60,7 +63,7 @@
         <nav class="navbar navbar-default">
             <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
                  <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
-                 <button style="float: right" type="button" class="btn btn-primary">CREATE EVENT</button>         
+                 <button style="float: right" type="button" ng-click="createEvent()" class="btn btn-primary">CREATE EVENT</button>         
                  <ul class="nav nav-pills" style="float: right">
                     <li><a  href="/dashboard" target="_self">Home</a></li>
                     <li><a  href="/search" target="_self">Search</a></li>
@@ -73,25 +76,24 @@
         <div class="card" ng-controller="DashCtrl" ng-init="init()">
             <div class="card-header"><h2>Hi, {{name}}</h2></div> 
             <div class="list-group-item" ng-repeat="org in orgs">  
-                    <h4 class="card-title" id="rso"><p style="color:darkblue" id="rso" ng-click="selectOrg(org)">{{org.name}}</p></h4>
-                    <!--<div class="card-text"><p>{{org.description}}</p></div>   -->
+                <div ng-click="selectOrg(org)">
+                    <h4 class="card-title orglisting" id="rso"><p style="color:darkblue" id="rso" >{{org.name}}</p></h4>
+                    <div class="card-text"><p>{{org.description}}</p></div>   
+                </div>
             </div>
         </div>
 
         <div ng-controller="CreateCtrl">
-            <input type="text" g-places-autocomplete ng-model="place" /><button type="button" ng-click="updateMap()">Set Location</button>
+            <!--<input type="text" g-places-autocomplete ng-model="place" /><button type="button" ng-click="updateMap()">Set Location</button>-->
             <div id="map"></div>
             <div class="createOrg">
                 <div class="card-header">Create an Organization</div>
                
                 <form>
-                    <label style="padding-left: 80px;" class="list-group-item">Name: <input type="text" ng-model="rso.name" /></label>
-                    <label style="padding-left: 30px;" class="list-group-item">Admin Email: <input type="text" ng-model="rso.adminEmail" /></label>
-                    <label class="list-group-item">Student Email: <input type="text" ng-model="rso.studentEmail1" /></label>
-                    <label class="list-group-item">Student Email: <input type="text" ng-model="rso.studentEmail2" /></label>
-                    <label class="list-group-item">Student Email: <input type="text" ng-model="rso.studentEmail3" /></label>
-                    <label class="list-group-item">Student Email: <input type="text" ng-model="rso.studentEmail4" /></label>
-                    <label class="list-group-item">Student Email: <input type="text" ng-model="rso.studentEmail5" /></label>
+                    <label class="list-group-item">RSO Name: <input type="text" ng-model="rso.name" style="width:45%"/></label>
+                    <label class="list-group-item">Description of RSO: <textarea ng-model="rso.description" style="width:45%; height:4em"></textarea></label>
+                    <label class="list-group-item">Admin Email: <input type="text" id="adminemail" ng-model="rso.adminEmail" style="width:45%" /></label>
+                    <label class="list-group-item">Student Emails (separated by ';') (Minimum of 5 with same domain (ie knights.ucf.edu)): <textarea type="text" ng-model="rso.studentEmails" style="width:45%; height:4em;"></textarea></label>
                     <div class="card-footer" style="text-align: center">
                         <input type="button" ng-click="resetOrg()" value="Reset" />
                         <input type="submit" ng-click="saveOrg(rso)" value="Save" />
@@ -101,22 +103,22 @@
             <br>
             <br>
 
-            <div class="createEvent">
+            <!--<div class="createEvent">
                 <div class="card-header">Create an Event</div>
                 <form>
                     <label class="list-group-item">Name: <input type="text" ng-model="event.name" /></label>
                     <label class="list-group-item">Start Date/Time: <input id="datetimepicker" type="datetime" ng-model="event.datetime"/></label>
                     <label class="list-group-item">End Date/Time: <input id="datetimepicker2" type="datetime" ng-model="event.enddatetime"/></label>
-                    <label class="list-group-item">Location: Set automatically from map above.<!--<input type="text" ng-model="event.location" />--></label>
+                    <label class="list-group-item">Location: Set automatically from map above.</label>
                     <label class="list-group-item">Description: <textarea type="text" ng-model="event.description" style="width:30%; height:10em" ></textarea></label>
-                    <!--<label class="list-group-item">Contact Email: <input type="text" ng-model="event.contactEmail" /></label>-->
+                    <label class="list-group-item">Contact Email: <input type="text" ng-model="event.contactEmail" /></label>
                     <label class="list-group-item">This Event is Public (Anyone can see it) <input type="checkbox" ng-model="event.isPublic"/></label>
                     <div class="card-footer" style="text-align: center">
                         <input type="button" ng-click="resetEvent()" value="Reset" />
                         <input type="submit" ng-click="saveEvent(event)" value="Save" />
                    </div>
                 </form>
-            </div>
+            </div>-->
             
             <br>
             <br>

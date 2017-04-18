@@ -3,28 +3,28 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
          function LoginCtrl($scope, userService, uniService, eventService, $http, $window, $location) {
          
          $scope.init = function(){
-             console.log("init");
+           // console.log("init");
          }
 
          loginUser = $scope.login = function(user){
-             console.log("login beginning");
-            console.log(user);
+           // console.log("login beginning");
+          // console.log(user);
             if(user == "existing")
             {
                 return;
             }
-            console.log(user.username);
+          // console.log(user.username);
             //if(typeof user == 'undefined' || (((typeof user.emailAddress != 'undefined' || user.emailAddress.toString() == "") || (typeof user.username != 'undefined' || user.username.toString() == "")) || user.password.toString() == "")){
             if(typeof user == 'undefined'){
-                console.log("Hello");
+              // console.log("Hello");
                 $scope.errorMessage = 'Please input both an Email Address and Password';
                 return;
             }
             userService.login(user).then(function (data){
                  //console.log(data.data);
-                 console.log("promise came back");
-                console.log(data.data);
-                console.log(typeof data.data);
+               // console.log("promise came back");
+              // console.log(data.data);
+              // console.log(typeof data.data);
                 if(typeof data.data == 'string'){
                     $window.location.href = '';
                     //$scope.errorMessage = 'Username or Password is incorrect. NOTE: username and password are case sensitive';
@@ -39,8 +39,8 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
             //  var promise = userService.login(user);
             //  promise.then(function (data){
             //      //console.log(data.data);
-            //      console.log("promise came back");
-            //     console.log(data.data);
+            //    // console.log("promise came back");
+            //   // console.log(data.data);
             //     if(data.data == "none"){
             //         $scope.errorMessage = 'Username or Password is incorrect. NOTE: username and password are case sensitive';
             //         return;
@@ -55,7 +55,7 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
 
         //  setTimeout(function(){
         //      var user = userService.getUserData();
-        //      console.log(user);
+        //    // console.log(user);
         //  }, 100);
 
          $scope.createUser = function(user){
@@ -63,15 +63,15 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
                  alert("All fields are required!");
                  return;
              }
-            //  console.log(JSON.stringify(user));
+            //// console.log(JSON.stringify(user));
             //console.log(user.username.substring(user.username.length - 4, user.username.length));
              if(user.username.substring(user.username.length - 4, user.username.length).toUpperCase() != ".edu".toUpperCase()){
                 alert("You are required to use a .edu email address. Please try again!");
                 return;
              }
              user.type = 3;
-            //  console.log("HELLO\n");
-             console.log(JSON.stringify(user));
+            //// console.log("HELLO\n");
+           // console.log(JSON.stringify(user));
              var promise = userService.createUser(user);
              promise.then(function (data2){
                  //while(data2.data == "");
@@ -85,7 +85,7 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
                      //data2.data = "";
                      return;
                  }
-                 console.log(data2.data);
+               // console.log(data2.data);
 
                  loginUser(data2.data);
              });
@@ -107,15 +107,15 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
              //Get universities from db. format with universityID and universityName
              var promise = uniService.getAllUniIds();
              promise.then(function(data){
-                 console.log('mofo');
+               // console.log('mofo');
                  //console.log(data);
-                 console.log(data.data);
+               // console.log(data.data);
                  $scope.universities = data.data;
              })
          }
 
          /*this.universities = */
-         console.log($window.location.pathname)
+       // console.log($window.location.pathname)
          if($window.location.pathname == '/signup'){
              getUniversities();
          }
@@ -128,8 +128,8 @@ angular.module('LoginCtrl', ['userService','uniService', 'eventService'])
             //call event service getPublicEvents
             var res = eventService.getPublicEvents()
             .then(function(data){
-                console.log("data");
-                console.log(data);
+              // console.log("data");
+              // console.log(data);
                 cb(data);
                 
             });

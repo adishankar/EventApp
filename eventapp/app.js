@@ -13,6 +13,7 @@ var event = require('./routes/event');
 var seach = require('./routes/search');
 var createUni = require('./routes/createUni');
 var createEvent = require('./routes/createEvent');
+var easteregg = require('./routes/easteregg');
 
 var mysql = require('mysql');
 var db = require('./config');
@@ -41,70 +42,12 @@ app.use('/event', event);
 app.use('/search', seach);
 app.use('/createUni', createUni);
 app.use('/createEvent', createEvent);
-
-//var sqlLastId = 'SELECT LAST_INSERT_ID();';
-
-// var userCount = 0;
-// var userCount = 2;
-// var username = 'user';
-// var password = 'pass';
-// var users = [{username: "user",
-//             password: 'pass',
-//             userID: 0,
-//             level: 1,
-//             uni:'testUni',
-//             orgs:['org2', 'org3']}, 
-//             {username: "admin",
-//             password: 'pass',
-//             userID: 1,
-//             level: 2,
-//             uni:'testUni',
-//             orgs:['org2', 'org3']},
-//             {username: "superadmin",
-//             password: 'pass',
-//             userID: 2,
-//             level: 3,
-//             uni:'testUni',
-//             orgs:['org2', 'org3']}];
-
-// var orgs = [{name: "org1", description: "org1 description"}, {name: "org2", description: "org2 description"},
-//         {name: "org3", description: "org3 description"},{name: "org4", description: "org4 description"}];
-
-
-// var events = [{name: "event1", description: "event1 description", comments: [{author: "user1", comment:"user1 comment"}, {author: "user2", comment:"user2 comment"}]},
-//         {name: "event2", description: "event2 description", comments: []},
-//         {name: "event3", description: "event3 description", comments: []},
-//         {name: "event4", description: "event4 description", comments: []},
-//         {name: "event5", description: "event5 description", comments: []},
-//         {name: "event6", description: "event6 description", comments: []},
-//         {name: "event7", description: "event7 description", comments: []}
-//     ];
-
-// var universities = [
-//         {
-//           name:"testUni",
-//           location: "test",
-//           description: "test",
-//           numStudents: 1
-//         }
-//     ];
-
-
-//login POST
-// app.post('/', function(req, res){
-//   console.log(req.body);
-  
-//   var currentUser = verifyUser(req.body);
-//   console.log('current user');
-//   console.log(currentUser);
-
-//   res.send(currentUser);
-//   res.end('login response');
-// })
+app.use('/createEvent/:id', createEvent);
+app.use('/easteregg', easteregg);
 
 //create event or organization POST also using this to get joined orgs
 app.post('/dashboard', function(req, res){
-  console.log(req.body);
+// console.log(req.body);
 
   if (req.body.type == "orgRequest"){
     res.send(orgs);
@@ -116,50 +59,50 @@ app.post('/dashboard', function(req, res){
 })
 
 //get events for an organization
-app.post('/rso/:id', function(req, res){
+// app.post('/rso/:id', function(req, res){
 
-  //if (req.body.type == 'events')
-    res.send(events);
+//   //if (req.body.type == 'events')
+//     res.send(events);
 
-  // else if (req.body.type == 'joinOrg'){
-  //   for (var i=0; i<users.length; i++){
-  //     if (users[i].username == req.body.user.toString()){
-  //       console.log('adding ' + req.body.org + ' to user ' + users[i].username);
-  //       users[i].orgs.push(req.body.org);
-  //       res.send(users[i].orgs);
-  //       return;
-  //     }
-  //   }
-  // }
-});
+//   // else if (req.body.type == 'joinOrg'){
+//   //   for (var i=0; i<users.length; i++){
+//   //     if (users[i].username == req.body.user.toString()){
+//   //     // console.log('adding ' + req.body.org + ' to user ' + users[i].username);
+//   //       users[i].orgs.push(req.body.org);
+//   //       res.send(users[i].orgs);
+//   //       return;
+//   //     }
+//   //   }
+//   // }
+// });
 
-//get event details for singe event
-app.post('/event/:id', function(req, res){
+// //get event details for singe event
+// app.post('/event/:id', function(req, res){
 
-  // if (req.body.type == 'getEvent'){
-    var id = req.body.id;
-    console.log(id);
-    //console.log(events.event1);
-    var index = findEvent(id);
+//   // if (req.body.type == 'getEvent'){
+//     var id = req.body.id;
+//   // console.log(id);
+//     //console.log(events.event1);
+//     var index = findEvent(id);
 
-    res.send(events[index]);
-  // }
+//     res.send(events[index]);
+//   // }
 
-  // if (req.body.type == 'comment'){
-  //   console.log('commenting');
-  //   var index = findEvent(req.body);
-  //   events[index].comments.push({author:req.body.author, comment:req.body.comment});
+//   // if (req.body.type == 'comment'){
+//   // // console.log('commenting');
+//   //   var index = findEvent(req.body);
+//   //   events[index].comments.push({author:req.body.author, comment:req.body.comment});
 
-  //   res.send(events[index].comments);
-  // }
+//   //   res.send(events[index].comments);
+//   // }
 
-  // if (req.body.type == 'uni'){
-  //   console.log('creating university');
+//   // if (req.body.type == 'uni'){
+//   // // console.log('creating university');
 
-  //   res.send('creating university');
-  // }
+//   //   res.send('creating university');
+//   // }
   
-});
+// });
 
 //SQL Command to insert new user
 // let signupQuery = `INSERT INTO user (firstName, lastName, emailAddress, password, userTypeID) Values
@@ -170,6 +113,10 @@ app.post('/api/login', api.loginApi.login);
 app.post('/api/university', api.universityApi.createUniversity);
 //get university sa id (based on universityID)
 app.get('/api/university/admin/:id',api.universityApi.getUniversityAdmin);
+
+app.get('/api/university/location/:id', api.universityApi.getUniversityLocation);
+
+app.post('/api/rsos',api.rsoApi.createRso);
 //get joined RSOs by User ID
 app.get('/api/rsos/getJoined/:id', api.rsoApi.getRsos);
 
@@ -180,6 +127,8 @@ app.get('/api/rso/:rsoid/:uid', api.rsoApi.isInRso);
 app.get('/api/rso/:id', api.rsoApi.getRsoDetailts);
 
 app.post('/api/rso/join/:rsoid/:uid', api.rsoApi.joinRso);
+
+app.delete('/api/rso/:id', api.rsoApi.deleteRso);
 
 app.get('/api/event/:id', api.eventApi.getEvent);
 //create new event
@@ -201,7 +150,7 @@ app.get('/api/event/comments/:id', api.eventApi.getComments);
 
 app.delete('/api/event/comments/:id', api.eventApi.deleteComment);
 // app.post('/signup', function(req, res){
-//   console.log(req.body);
+// // console.log(req.body);
 //   userCount++;
 //   var newUser = {username: req.body.username,
 //               password: req.body.password,
@@ -216,10 +165,10 @@ app.delete('/api/event/comments/:id', api.eventApi.deleteComment);
 
 //   sql.connect(function(err) {
 //     if(err){
-//       console.log('error connecting to bd',err.stack);
+//     // console.log('error connecting to bd',err.stack);
 //       return;
 //     }
-//     console.log('connected as id: ' + sql.threadId);
+//   // console.log('connected as id: ' + sql.threadId);
 //   });
 
 //   sql.end();
@@ -228,17 +177,19 @@ app.delete('/api/event/comments/:id', api.eventApi.deleteComment);
   
 //   res.send(newUser);
 
-//   console.log("new user created");
-//   console.log(users);
+// // console.log("new user created");
+// // console.log(users);
 
 //   res.end('user creation response');
 // })
+app.post('/api/rsos/search', api.rsoApi.searchRsos);
+app.post('/api/events/search', api.eventApi.searchEvents);
 
 //search page POST
 app.post('/search', function(req, res){
   
   if (req.body.type == 'event'){
-    console.log('sending event search');
+  // console.log('sending event search');
     var results = searchEvent(req.body.query);
     if(results == null){
       res.send("No Results");
@@ -247,7 +198,7 @@ app.post('/search', function(req, res){
     }
   }
   if (req.body.type == 'org'){
-    console.log('sending org search');
+  // console.log('sending org search');
     var results = searchOrg(req.body.query);
     if(results == null){
       res.send("No Results");
@@ -281,11 +232,11 @@ app.use(function(err, req, res, next) {
 });
 
 // function verifyUser(user){
-//   console.log('verifying user');
+// // console.log('verifying user');
 //   for (var i=0; i<users.length; i++){
 //     if ((user.username == users[i].username) && (user.password == users[i].password)){
-//       console.log('logging in user:');
-//       console.log(users[i]);
+//     // console.log('logging in user:');
+//     // console.log(users[i]);
 //       return users[i];
 //     }
 //   }
@@ -297,7 +248,7 @@ function findEvent(event){
 
   // for (var i=0; i<events.length; i++){
   //   if (event.eventName == events[i].name){
-  //     console.log("found event");
+  //   // console.log("found event");
   //     return i;
   //   }
   // }
