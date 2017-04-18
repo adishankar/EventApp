@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html ng-app="app">
     <head>
-        <title>Organization Page</title>
+        <title>{{eventname}}</title>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
     async defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
          <link rel="stylesheet" href="/css/bootstrap.min.css" >
         <link rel="stylesheet" type="text/css" href="style.css" >
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!--<script src="angular.js"></script>-->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.3.1/fullcalendar.min.js"></script>
+        <link rel='stylesheet' href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.3.1/fullcalendar.min.css"></link>
+        <link rel='stylesheet' href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.3.1/fullcalendar.print.css" media="print"></link>
         <!--<script src="angular.js"></script>-->
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/login-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/nav-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/create-controller.js"></script>
@@ -25,7 +32,8 @@
 	<style>
             #map{
                 height:500px;
-                width: 100%;
+                width: 50%;
+                text-align: center;
             }
              #infowindow-content .title {
                 font-weight: bold;
@@ -56,35 +64,46 @@
             <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
                  <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
                  <ul class="nav nav-pills" style="float: right">
-                    <li><a  href="/dashboard">Home</a></li>
-                    <li><a  href="/search">Search</a></li>
-                    <li><a  href="#about">About</a></li>  
+                    <li><a  href="/dashboard/" target="_self">Home</a></li>
+                    <li><a  href="/search/" target="_self">Search</a></li>
+                    <li><a  href="#about" target="_self">About</a></li>  
                  </ul>          
             </div>
         </nav>
 
         <div class="card" ng-controller="EventCtrl" ng-init="init()">
 	    <div id="map"></div>
-            <div >
-                <h4 class="card-header">{{eventname}}</h4>
-                <div class="card-content">{{eventdescription}}</div>
+            <div style="margin-bottom: 0" class="card-header">
+                <h4>{{eventname}}</h4>
+                <div >{{eventdescription}}</div>
+                <div> Starts at: {{eventstart}}</div>
+                <div> Ends at: {{eventend}}</div>
             </div> 
             
            
-          
-            Comments:
-            <div ng-repeat="comment in comments">
-                <div>
-                    {{comment.author}}
-                    <br>
-                    {{comment.comment}}
-                </div>   
-                <br><br>
+           <div style="margin-bottom: 0" class="panel panel-primary">
+                <h5 style="margin-bottom: 0" class="panel-heading">Comments:</h5>
+                <div ng-repeat="comment in comments" >
+                    <div class="list-group-item">
+                        {{comment.comment}}
+                        <br>
+                        {{comment.name}}
+                        <br>
+                        {{comment.datePosted}}
+                        <div ng-if="comment.userID == user.userID" style="float:right">
+                            <button class="btn-primary" style="background-color:red" ng-click="deleteComment(comment.commentID)">DELETE COMMENT</button>
+                        </div>
+                    </div>                     
+               </div>
+           </div>
+            
+        
+            <div style="margin-bottom: 0" class="list-group-item" ng-if="user.userID > 0">
+                Make a comment:
+                 <br>
+                <textarea ng-model="comment.comment" name="comment">Enter text here...</textarea> <br>
+                <input type="submit" ng-click="makeComment(comment)">
             </div>
-            <br>
-            Make a comment <br>
-            <textarea ng-model="comment.comment" name="comment">Enter text here...</textarea> <br>
-            <input type="submit" ng-click="makeComment(comment)">
         </div>
     </body>
 </html>

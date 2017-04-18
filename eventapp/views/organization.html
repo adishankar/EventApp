@@ -4,11 +4,17 @@
         <title>Organization Page</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.3.1/fullcalendar.min.js"></script>
+        <link rel='stylesheet' href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.3.1/fullcalendar.min.css"></link>
+        <link rel='stylesheet' href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.3.1/fullcalendar.print.css" media="print"></link>
         <link rel="stylesheet" href="/css/bootstrap.min.css" >
         <link rel="stylesheet" type="text/css" href="style.css" >
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/nav-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/login-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/create-controller.js"></script>
@@ -18,32 +24,50 @@
         <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
-	<script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
+	    <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
         <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
     </head>
     <body>
+        <style>
+            #calendar {
+                max-width: 900px;
+                margin: 0 auto;
+            }
+
+        </style>
         <nav style="margin-bottom: 0; padding-bottom: 0;" class="navbar navbar-default">
             <div ng-controller="NavCtrl" class="topnav" id="myTopnav">
                  <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
                  <ul class="nav nav-pills" style="float: right">
-                    <li><a  href="/dashboard">Home</a></li>
-                    <li><a  href="/search">Search</a></li>
-                    <li><a  href="#about">About</a></li>  
+                    <li><a  href="/dashboard" target="_self">Home</a></li>
+                    <li><a  href="/search" target="_self">Search</a></li>
+                    <li><a  href="#about" target="_self">About</a></li>  
                  </ul>          
             </div>
         </nav>
         <br>
+        <!--TODO: add calendar to organization page as per login page-->
         <br>
         <div style="margin-top: 0; padding-top: 0;"  class="card" ng-controller="OrgCtrl">
             <div style="height: 60px" class="card-header" ng-init="init()">
                 <h4 style="display: inline" class="card-title">{{orgname}}</h4>
-                <button style="float:right" class="btn btn-primary" ng-click="joinOrg()">Join {{orgname}}</button>
+                
+                <button ng-if="org.adminID == user.userID" style="float:right; margin-left:1em;" class="btn btn-danger" ng-click="deleteOrg(org.RSOid)">Delete Organization</button>
+                <button ng-if="!joined" style="float:right" class="btn btn-primary" ng-click="joinOrg()">Join {{orgname}}</button>
+                <button ng-if="joined" style="float:right" class="btn btn-primary" ng-click="createEvent(org.RSOid)">Create event</button>
             </div>
-         
+
+            {{orgdescription}}
+            <div ng-if="error" style="padding:5em;">
+                <h4 class="card-title"><p>{{error}}</p></h4>
+            </div>
+
+            <div id='calendar' ></div>
+
             <div ng-repeat="event in events">
                 <div ng-click="selectEvent(event)">
-                    <div class="list-group-item">
-                        <h4 class="card-title"><p>{{event.name}}</p></h4>
+                    <div class="list-group-item" style="cursor:pointer">
+                        <h4 class="card-title"><p>{{event.title}}</p></h4>
                         <div class="card-text"><p>{{event.description}}</p></div>
                     </div>   
                 </div>

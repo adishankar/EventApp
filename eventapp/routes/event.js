@@ -3,10 +3,11 @@ var router = express.Router();
 var path = require('path');
 
 /* GET home page */
-router.get('/:eventname', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
 
-  var eventname = req.params.eventname;
-  console.log(eventname);
+// console.log(req);
+  var id = req.params.id;
+// console.log(id);
 
   res.sendFile(path.resolve(__dirname + '/../views/event.html/'));
 });

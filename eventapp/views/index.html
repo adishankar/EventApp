@@ -6,26 +6,51 @@
         <link rel="stylesheet" type="text/css" href="style.css" >
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <!--<script src="angular.js"></script>-->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.3.1/fullcalendar.min.js"></script>
+        <link rel='stylesheet' href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.3.1/fullcalendar.min.css"></link>
+        <link rel='stylesheet' href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.3.1/fullcalendar.print.css" media="print"></link>
         <script type="text/javascript" src="/javascripts/app.js"></script>
         <script type="text/javascript" src="/javascripts/controllers/login-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>    
+        <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>        
+        <script type="text/javascript" src="/javascripts/controllers/nav-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/create-controller.js"></script> 
+        <script type="text/javascript" src="/javascripts/controllers/event-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/search-controller.js"></script>      
+        <script type="text/javascript" src="/javascripts/services/org-service.js"></script>        
+        <script type="text/javascript" src="/javascripts/services/event-service.js"></script>        
+        <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
         <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
+   	    <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script>
+
     </head>
     <body>
+        <style>
+            #calendar {
+                max-width: 900px;
+                margin: 0 auto;
+            }
+
+        </style>
         <div class="panel panel-primary" ng-controller="LoginCtrl">
             <div class="panel-heading">Database Event Website</div>
-            <div class="list-group-item">
-                <br>
-                <label>Username: <input type="text" ng-model="user.username" /></label>
-                <br>
-                <label>Password: <input type="password" ng-model="user.password" /></label><br />
-            </div>
-           
-         
-            <div class="panel-footer" style="text-align: center">
-                <input type="button" ng-click="signUp()" value="Sign up" />
-                <input type="button" ng-click="login(user)" value="Log in" />
-            </div>
+            <form name="loginBox" target="#here" method="post">
+                <div style="text-align:center" class="list-group-item">
+                    <br>
+                    <label>Email: <input style="width: 400px" type="email" ng-model="user.username" /></label>
+                    <br>
+                    <label>Password: <input style="width: 400px" type="password" ng-model="user.password" /></label><br />
+                </div>       
+            
+                <div class="panel-footer" style="text-align: center">
+                    <input type="button" ng-click="signUp()" value="Sign up" />
+                    <input type="submit" ng-click="login(user)" value="Log in" />
+                </div>
+            </form>
+            <div id='calendar'></div>
         </div>
         
     </body>

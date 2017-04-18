@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <title>Event App</title>
+	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpynIiwgGhE3CGLN3ZxuFtJkhzgHMWJN0&libraries=places"
+        async defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+        <link rel="stylesheet" href="/css/bootstrap.min.css" >
+        <!--<link rel="stylesheet" type="text/css" href="style.css" >-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+        <!--<script src="angular.js"></script>-->
+        <script type="text/javascript" src="/javascripts/app.js"></script>
+        <!--<script src="ng-file-upload-shim.min.js"></script>
+        <script src="ng-file-upload.min.js"></script>-->
+	    <script type="text/javascript" src="/javascripts/directives/autocomplete.js"></script> 
+        <script type="text/javascript" src="/javascripts/controllers/login-controller.js"></script>       
+        <script type="text/javascript" src="/javascripts/controllers/create-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/dashboard-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/org-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/nav-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/event-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/controllers/search-controller.js"></script>
+        <script type="text/javascript" src="/javascripts/services/user-service.js"></script>
+        <script type="text/javascript" src="/javascripts/services/event-service.js"></script>
+        <script type="text/javascript" src="/javascripts/services/org-service.js"></script>
+        <script type="text/javascript" src="/javascripts/services/uni-service.js"></script>
+        <link rel="stylesheet" href="/javascripts/directives/autocomplete.css">
+        <link rel="stylesheet" type="text/css" href="/css/datetimepicker.css"/ >
+        <script src="/javascripts/misc/jquery.min.js"></script>
+        <script src="/javascripts/misc/datetimepicker.min.js"></script>
+        <style>
+            #map{
+                height:500px;
+                width: 35%;
+            }
+             #infowindow-content .title {
+                font-weight: bold;
+            }
+
+            #infowindow-content {
+                display: none;
+            }
+            
+            #map #infowindow-content {
+                display: inline;
+            }
+
+            #title {
+                color: #fff;
+                background-color: #4d90fe;
+                font-size: 25px;
+                font-weight: 500;
+                padding: 6px 12px;
+            }
+            #target {
+                width: 345px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav style="margin-bottom: 0; padding-bottom: 0;" class="navbar navbar-default">
+            <div class="topnav" id="myTopnav">
+                 <h4 style="float: left; padding-top: 10px;">Database Event Website</h4>
+                 <ul class="nav nav-pills" style="float: left">
+                    <li><a  href="/" target="_self">Back</a></li>
+                 </ul>          
+            </div>
+        </nav>
+        <img src="/images/test.png"></img>
+    </body>
+</html>
